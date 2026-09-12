@@ -162,6 +162,7 @@ function cajaReportToSummaryRows(report: CajaReport): CajaSummaryCsvRow[] {
     { metric: 'Cash Sales', value: report.summary.cashSales },
     { metric: 'Card Sales', value: report.summary.cardSales },
     { metric: 'Rappi Sales', value: report.summary.rappiSales },
+    { metric: 'Uber Eats Sales', value: report.summary.uberEatsSales },
     { metric: 'Order Count', value: report.summary.orderCount },
     { metric: 'Tab Count', value: report.summary.tabCount },
     { metric: 'Total Expenses', value: report.summary.totalExpenses },

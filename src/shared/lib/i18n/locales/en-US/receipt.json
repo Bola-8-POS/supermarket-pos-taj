@@ -16,6 +16,7 @@
       "cash": "Cash",
       "card": "Card (BBVA Terminal)",
       "rappi": "Rappi",
+      "uberEats": "Uber Eats",
       "bankTransfer": "Bank Transfer"
     },
     "category": {
@@ -46,6 +47,7 @@
       "cashSales": "Cash Sales",
       "cardSales": "Card Sales",
       "rappiSales": "Rappi Sales",
+      "uberEatsSales": "Uber Eats Sales",
       "bankTransferSales": "Bank Transfer Sales",
       "bankTransferPending": "Bank Transfer Pending",
       "orderCount": "Order Count",

@@ -150,14 +150,32 @@ describe('ProcessPaymentRequestSchema', () => {
     expect(r.success).toBe(true);
   });
 
-  it('accepts rappi with non-empty rappiOrderId', () => {
+  it('accepts rappi with a reference number', () => {
     const r = ProcessPaymentRequestSchema.safeParse({
       ...baseValidRequest(),
       method: 'rappi',
       tenderedAmount: undefined,
-      rappiOrderId: 'R-99',
+      referenceNumber: 'R-99',
     });
     expect(r.success).toBe(true);
+  });
+
+  it('accepts uber_eats without a reference number', () => {
+    const r = ProcessPaymentRequestSchema.safeParse({
+      ...baseValidRequest(),
+      method: 'uber_eats',
+      tenderedAmount: undefined,
+    });
+    expect(r.success).toBe(true);
+  });
+
+  it('rejects bank_transfer (handled by its own flow, not process-payment)', () => {
+    const r = ProcessPaymentRequestSchema.safeParse({
+      ...baseValidRequest(),
+      method: 'bank_transfer',
+      tenderedAmount: undefined,
+    });
+    expect(r.success).toBe(false);
   });
 
   it('rejects cash without tenderedAmount', () => {
@@ -176,26 +194,6 @@ describe('ProcessPaymentRequestSchema', () => {
       ...baseValidRequest(),
       method: 'card',
       tenderedAmount: 50,
-    });
-    expect(r.success).toBe(false);
-  });
-
-  it('rejects rappi with missing rappiOrderId', () => {
-    const r = ProcessPaymentRequestSchema.safeParse({
-      ...baseValidRequest(),
-      method: 'rappi',
-      tenderedAmount: undefined,
-      rappiOrderId: undefined,
-    });
-    expect(r.success).toBe(false);
-  });
-
-  it('rejects rappi with whitespace-only rappiOrderId', () => {
-    const r = ProcessPaymentRequestSchema.safeParse({
-      ...baseValidRequest(),
-      method: 'rappi',
-      tenderedAmount: undefined,
-      rappiOrderId: '   ',
     });
     expect(r.success).toBe(false);
   });

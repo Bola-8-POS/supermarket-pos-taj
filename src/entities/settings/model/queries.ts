@@ -63,8 +63,7 @@ const DEFAULT_GENERAL: GeneralSettings = {
 
 const DEFAULT_BILLING: BillingSettings = {
   taxRatePercent: 16,
-  paymentMethods: { cash: true, bbvaCard: true, rappi: true },
-  firstHourMode: 'prorated',
+  paymentMethods: { cash: true, card: true, bank_transfer: true, rappi: true, uber_eats: true },
   taxInclusive: true,
 };
 
@@ -74,8 +73,10 @@ const DEFAULT_EMAIL_RECEIPTS: EmailReceiptSettings = {
 
 const DEFAULT_PAYMENT_LABELS: PaymentMethodLabels = {
   cash: 'Efectivo',
-  card: 'Terminal BBVA',
+  card: 'Terminal',
+  bank_transfer: 'Transferencia',
   rappi: 'Rappi',
+  uber_eats: 'Uber Eats',
 };
 
 const DEFAULT_NEAR_EXPIRY: NearExpirySettings = { thresholdDays: 14, discountPercent: 15 };

@@ -80,6 +80,20 @@ describe('buildThermalReceiptText', () => {
     expect(text).toContain('Rappi');
   });
 
+  it('labels Uber Eats payment', () => {
+    const text = buildThermalReceiptText(
+      baseReceipt({
+        paymentMethod: 'uber_eats',
+        total: 90,
+        tenderedAmount: null,
+        changeAmount: null,
+      }),
+      'es-MX',
+      defaultReceiptSettings()
+    );
+    expect(text).toContain('Uber Eats');
+  });
+
   it('labels bank_transfer payment as "Transferencia bancaria", not Rappi', () => {
     const text = buildThermalReceiptText(
       baseReceipt({

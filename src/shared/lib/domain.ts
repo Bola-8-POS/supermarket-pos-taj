@@ -87,12 +87,15 @@ export const OrderStatus = {
   VOIDED: 'voided',
 } as const;
 
-export const PaymentMethodSchema = z.enum(['cash', 'card', 'rappi', 'bank_transfer']);
+export const PaymentMethodSchema = z.enum(['cash', 'card', 'bank_transfer', 'rappi', 'uber_eats']);
+export const PAYMENT_METHODS = PaymentMethodSchema.options;
+export type PaymentMethod = z.infer<typeof PaymentMethodSchema>;
 export const PaymentMethod = {
   CASH: 'cash',
   CARD: 'card',
-  RAPPI: 'rappi',
   BANK_TRANSFER: 'bank_transfer',
+  RAPPI: 'rappi',
+  UBER_EATS: 'uber_eats',
 } as const;
 
 export const InventoryAdjustReasonSchema = z.enum([
@@ -579,7 +582,6 @@ export const SplitPaymentLegSchema = z.object({
   amount: MoneySchema,
   tenderedAmount: MoneySchema.nullable().optional(),
   referenceNumber: z.string().max(64).nullable().optional(),
-  rappiOrderId: z.string().max(128).nullable().optional(),
 });
 
 // ============================================================================
@@ -868,16 +870,34 @@ export const GeneralSettingsSchema = z.object({
 
 export type GeneralSettings = z.infer<typeof GeneralSettingsSchema>;
 
-export const BillingPaymentMethodsSchema = z.object({
-  cash: z.boolean().default(true),
-  bbvaCard: z.boolean().default(true),
-  rappi: z.boolean().default(true),
-});
+// Legacy stored key from before the configurable-payment-methods migration —
+// customers' `settings.billing.paymentMethods` may still have `bbvaCard`
+// instead of `card`. Map it forward so existing rows keep working.
+export const BillingPaymentMethodsSchema = z.preprocess(
+  raw => {
+    if (raw !== null && typeof raw === 'object' && 'bbvaCard' in raw && !('card' in raw)) {
+      const { bbvaCard, ...rest } = raw as Record<string, unknown>;
+      return { ...rest, card: bbvaCard };
+    }
+    return raw;
+  },
+  z.object({
+    cash: z.boolean().default(true),
+    card: z.boolean().default(true),
+    bank_transfer: z.boolean().default(true),
+    rappi: z.boolean().default(true),
+    uber_eats: z.boolean().default(true),
+  })
+);
+
+export type BillingPaymentMethods = z.infer<typeof BillingPaymentMethodsSchema>;
 
 export const PaymentMethodLabelsSchema = z.object({
   cash: z.string().min(1).max(40).default('Efectivo'),
-  card: z.string().min(1).max(40).default('Terminal BBVA'),
+  card: z.string().min(1).max(40).default('Terminal'),
+  bank_transfer: z.string().min(1).max(40).default('Transferencia'),
   rappi: z.string().min(1).max(40).default('Rappi'),
+  uber_eats: z.string().min(1).max(40).default('Uber Eats'),
 });
 
 export type PaymentMethodLabels = z.infer<typeof PaymentMethodLabelsSchema>;
@@ -886,10 +906,11 @@ export const BillingSettingsSchema = z.object({
   taxRatePercent: z.number().min(0).max(100).default(16),
   paymentMethods: BillingPaymentMethodsSchema.default({
     cash: true,
-    bbvaCard: true,
+    card: true,
+    bank_transfer: true,
     rappi: true,
+    uber_eats: true,
   }),
-  firstHourMode: z.enum(['full', 'prorated']).default('prorated'),
   // D-01: defaults ON — store's shelf prices already include tax.
   taxInclusive: z.boolean().default(true),
 });
@@ -1019,6 +1040,7 @@ export const CajaReportSummarySchema = z.object({
   cashSales: MoneySchema,
   cardSales: MoneySchema,
   rappiSales: MoneySchema,
+  uberEatsSales: MoneySchema,
   // Phase 23-05 (D-15/BTP-10): bank-transfer revenue breakout — Pending is a
   // subset of Sales (the still-unconfirmed portion), not an additional total.
   bankTransferSales: MoneySchema,

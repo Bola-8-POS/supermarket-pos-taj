@@ -60,18 +60,14 @@ function mockProcessorsFor(tab: Tab): PaymentProcessors {
         },
       });
     },
-    processRappiPayment: async (_tabId, amount, rappiOrderId) => {
-      logger.info('storybook.payment.mock', {
-        method: 'rappi',
-        amount,
-        rappiOrderIdLen: rappiOrderId.length,
-      });
+    processPlatformPayment: async (_tabId, amount, method) => {
+      logger.info('storybook.payment.mock', { method, amount });
       await new Promise(r => setTimeout(r, 400));
       return ok({
         paymentId: '00000000-0000-4000-8000-000000000003',
         receiptData: {
           ...receipt,
-          paymentMethod: 'rappi',
+          paymentMethod: method,
           subtotal: amount,
           total: amount,
         },
@@ -123,7 +119,7 @@ export const CardPayment: Story = {
   },
   play: async () => {
     const root = within(document.body);
-    const cardButton = await root.findByRole('button', { name: 'Terminal BBVA' });
+    const cardButton = await root.findByRole('button', { name: 'Terminal' });
     await userEvent.setup().click(cardButton);
   },
 };

@@ -2219,6 +2219,7 @@ export type Database = {
         | "tab_transfer"
         | "rappi"
         | "bank_transfer"
+        | "uber_eats"
       tab_status: "open" | "closed" | "paid" | "voided" | "split"
       user_role: "cashier" | "manager" | "admin" | "kitchen"
     }
@@ -2359,6 +2360,7 @@ export const Constants = {
         "tab_transfer",
         "rappi",
         "bank_transfer",
+        "uber_eats",
       ],
       tab_status: ["open", "closed", "paid", "voided", "split"],
       user_role: ["cashier", "manager", "admin", "kitchen"],

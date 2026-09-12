@@ -49,7 +49,7 @@ vi.mock('@entities/settings', () => {
     billing: {
       taxRatePercent: 0,
       taxInclusive: true,
-      paymentMethods: { cash: true, bbvaCard: true, rappi: true },
+      paymentMethods: { cash: true, card: true, bank_transfer: true, rappi: true, uber_eats: true },
     },
     general: { timezone: 'America/Mexico_City' },
   };
@@ -187,7 +187,7 @@ function defaultProcessorMocks(receipt: ReceiptData): PaymentProcessors {
         ok({ paymentId: 'pay-1', changeAmount: receipt.changeAmount ?? 0, receiptData: receipt })
       ),
     processCardPayment: vi.fn().mockResolvedValue(ok({ paymentId: 'pay-2', receiptData: receipt })),
-    processRappiPayment: vi
+    processPlatformPayment: vi
       .fn()
       .mockResolvedValue(ok({ paymentId: 'pay-3', receiptData: receipt })),
     processSplitPayment: vi
@@ -291,8 +291,8 @@ describe('PaymentModal', () => {
     expect(card.className).toContain('border-border');
   });
 
-  it('shows Rappi method when tab has rappiOrderId', () => {
-    renderModal(tabRappi);
+  it('shows Rappi method on a plain tab when paymentMethods.rappi is enabled', () => {
+    renderModal(tabNoPool);
     const dialog = screen.getByRole('dialog');
     expect(within(dialog).getByRole('button', { name: 'Rappi' })).toBeInTheDocument();
   });
@@ -306,7 +306,7 @@ describe('PaymentModal', () => {
         .fn()
         .mockResolvedValue(ok({ paymentId: 'p1', changeAmount: 4.7, receiptData: receipt })),
       processCardPayment: vi.fn(),
-      processRappiPayment: vi.fn(),
+      processPlatformPayment: vi.fn(),
       processSplitPayment: vi.fn(),
     };
     renderModal(tabNoPool, { processors, onPaymentSuccess });
@@ -348,7 +348,7 @@ describe('PaymentModal', () => {
     const processors: PaymentProcessors = {
       processCashPayment: vi.fn(),
       processCardPayment: vi.fn().mockResolvedValue(ok({ paymentId: 'p2', receiptData: receipt })),
-      processRappiPayment: vi.fn(),
+      processPlatformPayment: vi.fn(),
       processSplitPayment: vi.fn(),
     };
     renderModal(tabNoPool, { processors });
@@ -370,7 +370,7 @@ describe('PaymentModal', () => {
         .fn()
         .mockResolvedValue(err({ code: 'VALIDATION_ERROR', message: 'Insufficient tender' })),
       processCardPayment: vi.fn(),
-      processRappiPayment: vi.fn(),
+      processPlatformPayment: vi.fn(),
       processSplitPayment: vi.fn(),
     };
     const onClose = vi.fn();
@@ -450,7 +450,7 @@ describe('PaymentModal', () => {
     const processors: PaymentProcessors = {
       processCashPayment: vi.fn(),
       processCardPayment: vi.fn(),
-      processRappiPayment: vi
+      processPlatformPayment: vi
         .fn()
         .mockResolvedValue(ok({ paymentId: 'pay-r', receiptData: receipt })),
       processSplitPayment: vi.fn(),
@@ -458,19 +458,24 @@ describe('PaymentModal', () => {
     renderModal(tabRappi, { processors });
 
     const dialog = screen.getByRole('dialog');
+    // Rappi is no longer auto-selected from tab.rappiOrderId (D-16: platform
+    // tenders are selectable on any tab, not gated by delivery origin).
+    await user.click(within(dialog).getByRole('button', { name: 'Rappi' }));
     expect(within(dialog).getByRole('button', { name: 'Rappi' })).toHaveClass(/bg-primary/);
 
-    await user.click(screen.getByRole('button', { name: 'Confirm & close tab' }));
+    await user.click(screen.getByRole('button', { name: 'Confirm card payment' }));
 
     await waitFor(() => {
       expect(screen.getByRole('heading', { name: 'Receipt' })).toBeInTheDocument();
     });
-    expect(processors.processRappiPayment).toHaveBeenCalledWith(
+    expect(processors.processPlatformPayment).toHaveBeenCalledWith(
       tabRappi.id,
       22,
-      'RAPPI-999',
+      'rappi',
       undefined,
-      undefined
+      undefined,
+      undefined,
+      expect.stringMatching(/^payment_rappi_/)
     );
     expect(openCashDrawer).not.toHaveBeenCalled();
     expect(printReceipt).toHaveBeenCalled();
@@ -482,7 +487,7 @@ describe('PaymentModal', () => {
     const processors: PaymentProcessors = {
       processCashPayment: vi.fn(),
       processCardPayment: vi.fn().mockResolvedValue(ok({ paymentId: 'p2', receiptData: receipt })),
-      processRappiPayment: vi.fn(),
+      processPlatformPayment: vi.fn(),
       processSplitPayment: vi.fn(),
     };
     renderModal(tabNoPool, { processors });
@@ -517,7 +522,7 @@ describe('PaymentModal', () => {
         .fn()
         .mockResolvedValue(ok({ paymentId: 'p1', changeAmount: 4.7, receiptData: receipt })),
       processCardPayment: vi.fn(),
-      processRappiPayment: vi.fn(),
+      processPlatformPayment: vi.fn(),
       processSplitPayment: vi.fn(),
     };
     vi.mocked(openCashDrawer).mockResolvedValue(
@@ -547,13 +552,11 @@ describe('PaymentModal', () => {
       expect(within(dialog).getByTestId('discount-section')).toBeInTheDocument();
     });
 
-    it('discount section is NOT visible when method is rappi', async () => {
+    it('discount section stays visible when method is rappi (D-16: rappi allows discounts, like card)', async () => {
       const user = userEvent.setup();
       renderModal(tabRappi);
-      // Rappi tabs default to rappi method — discount section should not be rendered
       const dialog = screen.getByRole('dialog');
-      expect(within(dialog).queryByTestId('discount-section')).not.toBeInTheDocument();
-      await user.click(within(dialog).getByTestId('payment-btn-cash'));
+      await user.click(within(dialog).getByRole('button', { name: 'Rappi' }));
       expect(within(dialog).getByTestId('discount-section')).toBeInTheDocument();
     });
 

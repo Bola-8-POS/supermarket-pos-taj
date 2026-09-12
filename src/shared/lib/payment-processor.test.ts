@@ -3,7 +3,7 @@ import * as contracts from './edge-function-contracts';
 import {
   processCardPayment,
   processCashPayment,
-  processRappiPayment,
+  processPlatformPayment,
   processSplitPayment,
 } from './payment-processor';
 import { err, ok } from './result';
@@ -71,7 +71,7 @@ describe('payment-processor', () => {
     expect(cardTuple[0].referenceNumber).toBeUndefined();
   });
 
-  it('processRappiPayment sends trimmed rappi order id', async () => {
+  it('processPlatformPayment sends trimmed reference number for rappi', async () => {
     const spy = vi
       .spyOn(contracts, 'callProcessPayment')
       .mockResolvedValue(
@@ -82,16 +82,37 @@ describe('payment-processor', () => {
         })
       );
 
-    await processRappiPayment('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 10, '  R-1  ');
+    await processPlatformPayment('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 10, 'rappi', '  R-1  ');
     const rappiTuple = spy.mock.calls[0];
     if (rappiTuple === undefined) throw new Error('expected call');
     expect(rappiTuple[0]).toMatchObject({
       method: 'rappi',
-      rappiOrderId: 'R-1',
+      referenceNumber: 'R-1',
     });
   });
 
-  it('processRappiPayment forwards managerOverride/managerPin (CR-02 regression, Phase 27 code review — a discounted Rappi payment used to drop these fields on the floor, bypassing manager-PIN authorization)', async () => {
+  it('processPlatformPayment sends uber_eats method', async () => {
+    const spy = vi
+      .spyOn(contracts, 'callProcessPayment')
+      .mockResolvedValue(
+        ok({
+          paymentId: 'p4',
+          receiptData: { ...receipt, paymentMethod: 'uber_eats' },
+          idempotent: false,
+        })
+      );
+
+    await processPlatformPayment('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 10, 'uber_eats', 'U-1');
+    const tuple = spy.mock.calls[0];
+    if (tuple === undefined) throw new Error('expected call');
+    expect(tuple[0]).toMatchObject({
+      method: 'uber_eats',
+      referenceNumber: 'U-1',
+    });
+    expect(tuple[0].idempotencyKey.startsWith('payment_uber_eats_')).toBe(true);
+  });
+
+  it('processPlatformPayment forwards managerOverride/managerPin (CR-02 regression, Phase 27 code review — a discounted platform payment used to drop these fields on the floor, bypassing manager-PIN authorization)', async () => {
     const spy = vi.spyOn(contracts, 'callProcessPayment').mockResolvedValue(
       ok({
         paymentId: 'p3',
@@ -100,7 +121,7 @@ describe('payment-processor', () => {
       })
     );
 
-    await processRappiPayment('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 9, 'R-2', {
+    await processPlatformPayment('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 9, 'rappi', 'R-2', {
       scope: 'all',
       type: 'percent',
       value: 10,
@@ -225,12 +246,17 @@ describe('payment-processor', () => {
     }
   });
 
-  it('processRappiPayment propagates failure', async () => {
+  it('processPlatformPayment propagates failure', async () => {
     vi.spyOn(contracts, 'callProcessPayment').mockResolvedValue(
       err({ code: 'VALIDATION_ERROR', message: 'Rappi mismatch' })
     );
 
-    const r = await processRappiPayment('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 10, 'ORD');
+    const r = await processPlatformPayment(
+      'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+      10,
+      'rappi',
+      'ORD'
+    );
     expect(r.ok).toBe(false);
     if (!r.ok) {
       expect(r.error.message).toBe('Rappi mismatch');

@@ -16,6 +16,7 @@ import { useSettings } from '@entities/settings';
 import { useStaffStore } from '@entities/staff/model/store';
 import { tabKeys, useTab, useTabs } from '@entities/tab/model/queries';
 import type { Tab } from '@entities/tab/model/types';
+import type { PaymentMethod } from '@shared/lib/domain';
 import { cn } from '@shared/lib/utils';
 import { POSButton } from '@shared/ui';
 import { MoneyDisplay } from '@shared/ui/MoneyDisplay';
@@ -133,6 +134,16 @@ function EditItemsButton({ payment, onEditItems }: EditItemsButtonProps) {
 
 type MethodFilter = 'all' | 'cash' | 'card' | 'bank_transfer' | 'refunds';
 
+// wPanels namespace keys for each method's fallback label — used only when
+// the store hasn't customized paymentLabels for that method.
+const DEFAULT_PAYMENT_LABEL_KEY: Record<PaymentMethod, string> = {
+  cash: 'paymentForm.defaultLabelCash',
+  card: 'paymentForm.defaultLabelCard',
+  bank_transfer: 'paymentForm.defaultLabelBankTransfer',
+  rappi: 'paymentForm.defaultLabelRappi',
+  uber_eats: 'paymentForm.defaultLabelUberEats',
+};
+
 function dayKey(d: Date): string {
   return `${String(d.getFullYear())}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
@@ -149,7 +160,6 @@ function PaymentHistoryList({
   onEditItems: (tabId: string) => void;
 }) {
   const { t, i18n } = useTranslation('wPanels');
-  const { t: tOrders } = useTranslation('featOrders');
   const { data: payments, isLoading } = usePayments();
   const { data: appSettings } = useSettings();
   const [searchParams] = useSearchParams();
@@ -167,13 +177,8 @@ function PaymentHistoryList({
     setFilterValue(idParam.trim());
   }
 
-  const methodLabel = (method: Payment['method']): string => {
-    const labels = appSettings?.paymentLabels;
-    if (method === 'cash') return labels?.cash ?? t('paymentForm.defaultLabelCash');
-    if (method === 'card') return labels?.card ?? t('paymentForm.defaultLabelCard');
-    if (method === 'rappi') return labels?.rappi ?? t('paymentForm.defaultLabelRappi');
-    return tOrders('checkoutSale.bankTransferMethodLabel');
-  };
+  const methodLabel = (method: Payment['method']): string =>
+    appSettings?.paymentLabels[method] ?? t(DEFAULT_PAYMENT_LABEL_KEY[method]);
   const { time: timeFmt, day: dayFmt } = useMemo(
     () => ({
       time: new Intl.DateTimeFormat(i18n.language, { hour: 'numeric', minute: '2-digit' }),

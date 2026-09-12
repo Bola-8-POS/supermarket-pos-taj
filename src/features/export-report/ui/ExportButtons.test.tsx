@@ -47,6 +47,7 @@ const CAJA_REPORT: CajaReport = {
     cashSales: 600,
     cardSales: 400,
     rappiSales: 0,
+    uberEatsSales: 0,
     bankTransferSales: 0,
     bankTransferPending: 0,
     orderCount: 10,

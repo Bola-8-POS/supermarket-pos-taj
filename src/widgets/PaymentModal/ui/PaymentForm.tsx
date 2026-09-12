@@ -14,7 +14,12 @@ import { useReceiptSettings, useSettings } from '@entities/settings';
 import { useStaffStore } from '@entities/staff/model/store';
 import { calcWeightedLineTotal } from '@entities/tab/model/cartStore';
 import type { Tab } from '@entities/tab/model/types';
-import { ReceiptSettingsSchema, type DiscountType } from '@shared/lib/domain';
+import {
+  PAYMENT_METHODS,
+  ReceiptSettingsSchema,
+  type DiscountType,
+  type PaymentMethod,
+} from '@shared/lib/domain';
 import {
   getDiscountBase,
   calculateDiscountAmount,
@@ -27,7 +32,7 @@ import { logger } from '@shared/lib/logger-instance';
 import {
   processCardPayment,
   processCashPayment,
-  processRappiPayment,
+  processPlatformPayment,
   processSplitPayment,
   type DiscountInfo,
   type SplitPaymentLegInput,
@@ -47,7 +52,7 @@ import { Input } from '@shared/ui/input';
 import { Label } from '@shared/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shared/ui/select';
 
-type PayMethod = 'cash' | 'card' | 'rappi' | 'bank_transfer';
+type PayMethod = PaymentMethod;
 
 // bank_transfer is checkout-time single-method only (no split-leg support
 // this phase, see PLAN 23-02) — split rows keep the pre-existing method set.
@@ -109,11 +114,18 @@ function splitRowsReducer(state: SplitRow[], action: SplitRowAction): SplitRow[]
   }
 }
 
-const DEFAULT_ENABLED_METHODS = {
+const DEFAULT_ENABLED_METHODS: Record<PaymentMethod, boolean> = {
   cash: true,
-  bbvaCard: true,
+  card: true,
+  bank_transfer: true,
   rappi: true,
-} as const;
+  uber_eats: true,
+};
+
+/** Methods that never appear as split-payment legs (D-16/PLAN 23-02). */
+const SPLIT_ELIGIBLE_METHODS = PAYMENT_METHODS.filter(
+  (m): m is SplitPayMethod => m !== 'bank_transfer'
+);
 const DEFAULT_TAX_RATE_PERCENT = 16;
 // Phase 28 (D-06): mirrors process_direct_sale_atomic's own
 // COALESCE(..., 'America/Mexico_City') fallback when settings.general is
@@ -126,7 +138,7 @@ const QUICK_TENDER_AMOUNTS = [100, 200, 500, 1000] as const;
 export type PaymentProcessors = {
   processCashPayment: typeof processCashPayment;
   processCardPayment: typeof processCardPayment;
-  processRappiPayment: typeof processRappiPayment;
+  processPlatformPayment: typeof processPlatformPayment;
   processSplitPayment: typeof processSplitPayment;
   /**
    * Only ever supplied by CheckoutPanel (via useCheckoutSale) — absent from
@@ -149,7 +161,7 @@ export type PaymentProcessors = {
 const defaultProcessors: PaymentProcessors = {
   processCashPayment,
   processCardPayment,
-  processRappiPayment,
+  processPlatformPayment,
   processSplitPayment,
 };
 
@@ -197,9 +209,10 @@ export function PaymentForm({
   const paymentLabels = appSettings?.paymentLabels ?? {
     cash: t('paymentForm.defaultLabelCash'),
     card: t('paymentForm.defaultLabelCard'),
+    bank_transfer: t('paymentForm.defaultLabelBankTransfer'),
     rappi: t('paymentForm.defaultLabelRappi'),
+    uber_eats: t('paymentForm.defaultLabelUberEats'),
   };
-  const isRappiTab = Boolean(tab.rappiOrderId);
 
   const [step, setStep] = useState<'pay' | 'receipt'>('pay');
   const [method, setMethod] = useState<PayMethod>('cash');
@@ -237,21 +250,37 @@ export function PaymentForm({
   const [splitRows, dispatchSplitRows] = useReducer(splitRowsReducer, []);
   const idempotencyKeyRef = useRef<string | null>(null);
 
-  /* Reset state when the tab being viewed changes */
+  // Single-method methods offered right now: enabled in settings, and (for
+  // bank_transfer only) gated by processors.processBankTransferPayment being
+  // supplied at all — the checkout-time-only scope (D-16).
+  const availableMethods = useMemo(
+    () =>
+      PAYMENT_METHODS.filter(
+        m =>
+          enabledMethods[m] && (m !== 'bank_transfer' || Boolean(processors.processBankTransferPayment))
+      ),
+    [enabledMethods, processors.processBankTransferPayment]
+  );
+  // Split-payment legs never include bank_transfer (D-16/PLAN 23-02).
+  const availableSplitMethods = useMemo(
+    () => SPLIT_ELIGIBLE_METHODS.filter(m => enabledMethods[m]),
+    [enabledMethods]
+  );
+  // Primitive deps for the reset effects below: `availableMethods` /
+  // `availableSplitMethods` get a fresh array identity whenever the settings
+  // query object or `processors` re-materialise (an offline/online observer
+  // notification is enough), and keying a full form reset on that identity
+  // wiped the tendered amount mid-checkout. Only the default method matters.
+  const defaultMethod: PaymentMethod = availableMethods[0] ?? 'cash';
+  const defaultSplitMethod: SplitPayMethod = availableSplitMethods[0] ?? 'cash';
+
+  /* Reset state when the tab being viewed (or the default method) changes */
   useEffect(() => {
     /* eslint-disable react-hooks/set-state-in-effect */
     setStep('pay');
     setErrorMessage(null);
     setReceiptData(null);
-    if (isRappiTab && enabledMethods.rappi) {
-      setMethod('rappi');
-    } else if (enabledMethods.cash) {
-      setMethod('cash');
-    } else if (enabledMethods.bbvaCard) {
-      setMethod('card');
-    } else {
-      setMethod('cash');
-    }
+    setMethod(defaultMethod);
     setTenderedAmount(0);
     setCardReference('');
     setCardChargeOverride(null);
@@ -268,40 +297,27 @@ export function PaymentForm({
     setIsSplitMode(false);
     idempotencyKeyRef.current = null;
     /* eslint-enable react-hooks/set-state-in-effect */
-  }, [tab.id, isRappiTab, enabledMethods.cash, enabledMethods.bbvaCard, enabledMethods.rappi]);
+  }, [tab.id, defaultMethod]);
 
   /* Split-mode rows: seed 2 default rows on toggle-ON, clear on toggle-OFF */
   useEffect(() => {
     if (isSplitMode) {
-      const defaultMethod: SplitPayMethod = enabledMethods.cash
-        ? 'cash'
-        : enabledMethods.bbvaCard
-          ? 'card'
-          : 'rappi';
       dispatchSplitRows({
         type: 'RESET_ROWS',
-        rows: [makeDefaultSplitRow(defaultMethod), makeDefaultSplitRow(defaultMethod)],
+        rows: [makeDefaultSplitRow(defaultSplitMethod), makeDefaultSplitRow(defaultSplitMethod)],
       });
     } else {
       dispatchSplitRows({ type: 'RESET_ROWS', rows: [] });
     }
-  }, [isSplitMode, enabledMethods.cash, enabledMethods.bbvaCard]);
+  }, [isSplitMode, defaultSplitMethod]);
 
   useEffect(() => {
     /* eslint-disable react-hooks/set-state-in-effect */
-    if (method === 'cash' && !enabledMethods.cash) {
-      setMethod(enabledMethods.bbvaCard ? 'card' : enabledMethods.rappi ? 'rappi' : 'cash');
-      return;
-    }
-    if (method === 'card' && !enabledMethods.bbvaCard) {
-      setMethod(enabledMethods.cash ? 'cash' : enabledMethods.rappi ? 'rappi' : 'card');
-      return;
-    }
-    if (method === 'rappi' && !enabledMethods.rappi) {
-      setMethod(enabledMethods.cash ? 'cash' : enabledMethods.bbvaCard ? 'card' : 'rappi');
+    if (!availableMethods.includes(method)) {
+      setMethod(availableMethods[0] ?? 'cash');
     }
     /* eslint-enable react-hooks/set-state-in-effect */
-  }, [enabledMethods.bbvaCard, enabledMethods.cash, enabledMethods.rappi, method]);
+  }, [availableMethods, method]);
 
   // Phase 27 (PROMO-05): promotions currently within their active date range
   // — same inclusive-boundary contract as the RPC's `now() BETWEEN starts_at
@@ -365,7 +381,6 @@ export function PaymentForm({
   );
   const afterDiscount = Math.round((baseSubtotal - discountAmount) * 100) / 100;
   const taxAmount = useMemo(() => {
-    if (method === 'rappi') return 0;
     if (taxInclusive) {
       // Inclusive mode (TAX-02): afterDiscount already IS the total — decompose
       // subtotal by division first, then derive tax by subtraction (never
@@ -376,7 +391,7 @@ export function PaymentForm({
     }
     // Exclusive mode (TAX-03): unchanged additive math.
     return Math.round(afterDiscount * (taxRatePercent / 100) * 100) / 100;
-  }, [afterDiscount, method, taxRatePercent, taxInclusive]);
+  }, [afterDiscount, taxRatePercent, taxInclusive]);
   const subtotalWithTax = taxInclusive
     ? afterDiscount
     : Math.round((afterDiscount + taxAmount) * 100) / 100;
@@ -384,13 +399,17 @@ export function PaymentForm({
   const changeDue = Math.max(0, Math.round((tenderedAmount - runningTotal) * 100) / 100);
   const effectiveCardAmount = cardChargeOverride ?? runningTotal;
 
+  // card, rappi and uber_eats all charge a (possibly overridden) referenced
+  // amount with no tendered/change concept (D-16: platform tenders behave
+  // exactly like card).
+  const isReferencedMethod = method === 'card' || method === 'rappi' || method === 'uber_eats';
   const canSubmitCash = tenderedAmount >= runningTotal && runningTotal > 0;
   const canSubmitCard = effectiveCardAmount > 0;
   const canSubmitBankTransfer = customerPhone.trim().length > 0;
   const canSubmit =
     staffId.length > 0 &&
     (method !== 'cash' || canSubmitCash) &&
-    (method !== 'card' || canSubmitCard) &&
+    (!isReferencedMethod || canSubmitCard) &&
     (method !== 'bank_transfer' || canSubmitBankTransfer);
 
   const splitRowsSum = useMemo(
@@ -479,19 +498,30 @@ export function PaymentForm({
       return { ok: true, data: { receiptData: r.data.receiptData } };
     }
 
-    if (method === 'card') {
+    if (method === 'card' || method === 'rappi' || method === 'uber_eats') {
       // eslint-disable-next-line i18next/no-literal-string -- idempotency-key prefix, not UI copy
-      idempotencyKeyRef.current ??= generateIdempotencyKey('payment_card');
+      idempotencyKeyRef.current ??= generateIdempotencyKey(`payment_${method}`);
       const ref = cardReference.trim();
       const chargeAmount = cardChargeOverride ?? subtotalWithTax;
-      const r = await processors.processCardPayment(
-        tab.id,
-        chargeAmount,
-        ref.length > 0 ? ref : undefined,
-        discountInfoArg,
-        tab.version,
-        idempotencyKeyRef.current
-      );
+      const r =
+        method === 'card'
+          ? await processors.processCardPayment(
+              tab.id,
+              chargeAmount,
+              ref.length > 0 ? ref : undefined,
+              discountInfoArg,
+              tab.version,
+              idempotencyKeyRef.current
+            )
+          : await processors.processPlatformPayment(
+              tab.id,
+              chargeAmount,
+              method,
+              ref.length > 0 ? ref : undefined,
+              discountInfoArg,
+              tab.version,
+              idempotencyKeyRef.current
+            );
       if (!r.ok)
         return {
           ok: false,
@@ -500,45 +530,31 @@ export function PaymentForm({
       return { ok: true, data: { receiptData: r.data.receiptData } };
     }
 
-    if (method === 'bank_transfer') {
-      if (!processors.processBankTransferPayment) {
-        return {
-          ok: false,
-          error: { message: t('featOrders:checkoutSale.bankTransferUnavailable') },
-        };
-      }
-      // eslint-disable-next-line i18next/no-literal-string -- idempotency-key prefix, not UI copy
-      idempotencyKeyRef.current ??= generateIdempotencyKey('payment_bank_transfer');
-      const name = customerName.trim() || t('featOrders:checkoutSale.defaultCustomerName');
-      const r = await processors.processBankTransferPayment(
-        tab.id,
-        subtotalWithTax,
-        name,
-        customerPhone.trim(),
-        discountInfoArg,
-        tab.version,
-        idempotencyKeyRef.current
-      );
-      if (!r.ok)
-        return {
-          ok: false,
-          error: { message: r.error.message, code: r.error.code as AppErrorCode },
-        };
-      return { ok: true, data: { receiptData: r.data.receiptData } };
+    // Exhaustive: cash / (card | rappi | uber_eats) / bank_transfer cover every
+    // PaymentMethod — `method` is narrowed to exactly 'bank_transfer' here.
+    if (!processors.processBankTransferPayment) {
+      return {
+        ok: false,
+        error: { message: t('featOrders:checkoutSale.bankTransferUnavailable') },
+      };
     }
-
-    if (!tab.rappiOrderId) {
-      return { ok: false, error: { message: t('paymentForm.missingRappiOrderId') } };
-    }
-    const r = await processors.processRappiPayment(
+    // eslint-disable-next-line i18next/no-literal-string -- idempotency-key prefix, not UI copy
+    idempotencyKeyRef.current ??= generateIdempotencyKey('payment_bank_transfer');
+    const name = customerName.trim() || t('featOrders:checkoutSale.defaultCustomerName');
+    const r = await processors.processBankTransferPayment(
       tab.id,
-      afterDiscount,
-      tab.rappiOrderId,
+      subtotalWithTax,
+      name,
+      customerPhone.trim(),
       discountInfoArg,
-      tab.version
+      tab.version,
+      idempotencyKeyRef.current
     );
     if (!r.ok)
-      return { ok: false, error: { message: r.error.message, code: r.error.code as AppErrorCode } };
+      return {
+        ok: false,
+        error: { message: r.error.message, code: r.error.code as AppErrorCode },
+      };
     return { ok: true, data: { receiptData: r.data.receiptData } };
   };
 
@@ -626,10 +642,9 @@ export function PaymentForm({
       method: row.method,
       amount: row.amount,
       ...(row.method === 'cash' ? { tenderedAmount: row.tenderedAmount } : {}),
-      ...(row.method === 'card' && row.cardReference.trim().length > 0
+      ...(row.method !== 'cash' && row.cardReference.trim().length > 0
         ? { referenceNumber: row.cardReference.trim() }
         : {}),
-      ...(row.method === 'rappi' && tab.rappiOrderId ? { rappiOrderId: tab.rappiOrderId } : {}),
     }));
 
     // eslint-disable-next-line i18next/no-literal-string -- idempotency-key prefix, not UI copy
@@ -702,11 +717,9 @@ export function PaymentForm({
 
   const primaryLabel = isSplitMode
     ? t('paymentForm.processSplitPayment')
-    : method === 'card'
+    : isReferencedMethod
       ? t('paymentForm.confirmCardPayment')
-      : method === 'rappi'
-        ? t('paymentForm.confirmAndCloseTab')
-        : t('paymentForm.processPayment');
+      : t('paymentForm.processPayment');
 
   const handleReceiptDone = () => {
     (onDone ?? onClose)?.();
@@ -806,9 +819,7 @@ export function PaymentForm({
               </div>
             </section>
 
-            {method !== 'rappi' &&
-              processors.processBankTransferPayment &&
-              activePromotionOptions.length > 0 && (
+            {processors.processBankTransferPayment && activePromotionOptions.length > 0 && (
                 <section
                   className="space-y-2 rounded-xl border border-border bg-card p-4 shadow-xs"
                   data-testid="apply-promotion-section"
@@ -840,11 +851,10 @@ export function PaymentForm({
                 </section>
               )}
 
-            {method !== 'rappi' && (
-              <section
-                className="space-y-2 rounded-xl border border-border bg-card p-4 shadow-xs"
-                data-testid="discount-section"
-              >
+            <section
+              className="space-y-2 rounded-xl border border-border bg-card p-4 shadow-xs"
+              data-testid="discount-section"
+            >
                 <div className="flex items-center justify-between gap-2">
                   <div>
                     <Label htmlFor="discount-toggle" className="text-sm font-semibold">
@@ -939,13 +949,6 @@ export function PaymentForm({
                   </div>
                 </div>
               </section>
-            )}
-
-            {method === 'rappi' && (
-              <section className="rounded-xl border border-dashed border-border-strong bg-muted/30 p-4 text-sm text-muted-foreground">
-                {t('paymentForm.rappiCollectedNotice')}
-              </section>
-            )}
 
             <section className="space-y-2 rounded-xl border border-border bg-muted/40 p-4">
               <div className="flex items-center justify-between text-sm text-muted-foreground">
@@ -976,15 +979,13 @@ export function PaymentForm({
                   </div>
                 </>
               )}
-              {method !== 'rappi' && (
-                <div
-                  className="flex items-center justify-between text-sm text-muted-foreground"
-                  data-testid="tax-row"
-                >
-                  <span>{t('paymentForm.taxLabel', { rate: taxRatePercent })}</span>
-                  <MoneyDisplay amount={taxAmount} size="sm" />
-                </div>
-              )}
+              <div
+                className="flex items-center justify-between text-sm text-muted-foreground"
+                data-testid="tax-row"
+              >
+                <span>{t('paymentForm.taxLabel', { rate: taxRatePercent })}</span>
+                <MoneyDisplay amount={taxAmount} size="sm" />
+              </div>
               <div
                 className="flex items-center justify-between border-t border-border pt-3 text-lg font-semibold"
                 data-testid="total-row"
@@ -1047,57 +1048,25 @@ export function PaymentForm({
                       </div>
 
                       <div className="grid gap-2 sm:grid-cols-3">
-                        {enabledMethods.cash && (
+                        {availableSplitMethods.map(m => (
                           <POSButton
+                            key={m}
                             type="button"
                             touchSize="large"
-                            variant={row.method === 'cash' ? 'default' : 'outline'}
+                            variant={row.method === m ? 'default' : 'outline'}
                             disabled={isProcessing}
+                            data-testid={`split-payment-btn-${m.replace('_', '-')}`}
                             onClick={() => {
                               dispatchSplitRows({
                                 type: 'SET_METHOD',
                                 rowId: row.id,
-                                method: 'cash',
+                                method: m,
                               });
                             }}
                           >
-                            {paymentLabels.cash}
+                            {paymentLabels[m]}
                           </POSButton>
-                        )}
-                        {enabledMethods.bbvaCard && (
-                          <POSButton
-                            type="button"
-                            touchSize="large"
-                            variant={row.method === 'card' ? 'default' : 'outline'}
-                            disabled={isProcessing}
-                            onClick={() => {
-                              dispatchSplitRows({
-                                type: 'SET_METHOD',
-                                rowId: row.id,
-                                method: 'card',
-                              });
-                            }}
-                          >
-                            {paymentLabels.card}
-                          </POSButton>
-                        )}
-                        {isRappiTab && enabledMethods.rappi && (
-                          <POSButton
-                            type="button"
-                            touchSize="large"
-                            variant={row.method === 'rappi' ? 'default' : 'outline'}
-                            disabled={isProcessing}
-                            onClick={() => {
-                              dispatchSplitRows({
-                                type: 'SET_METHOD',
-                                rowId: row.id,
-                                method: 'rappi',
-                              });
-                            }}
-                          >
-                            {paymentLabels.rappi}
-                          </POSButton>
-                        )}
+                        ))}
                       </div>
 
                       <MoneyInput
@@ -1132,7 +1101,7 @@ export function PaymentForm({
                         </>
                       )}
 
-                      {row.method === 'card' && (
+                      {row.method !== 'cash' && (
                         <div className="space-y-2">
                           <Label htmlFor={`split-card-ref-${row.id}`}>
                             {t('paymentForm.referenceOptional')}
@@ -1168,12 +1137,10 @@ export function PaymentForm({
                     variant="outline"
                     disabled={isProcessing || splitRows.length >= 4}
                     onClick={() => {
-                      const defaultMethod: SplitPayMethod = enabledMethods.cash
-                        ? 'cash'
-                        : enabledMethods.bbvaCard
-                          ? 'card'
-                          : 'rappi';
-                      dispatchSplitRows({ type: 'ADD_ROW', defaultMethod });
+                      dispatchSplitRows({
+                        type: 'ADD_ROW',
+                        defaultMethod: availableSplitMethods[0] ?? 'cash',
+                      });
                     }}
                   >
                     {t('paymentForm.addPaymentMethod')}
@@ -1202,62 +1169,21 @@ export function PaymentForm({
                 </div>
               ) : (
                 <div className="grid gap-2 sm:grid-cols-3">
-                  {enabledMethods.cash && (
+                  {availableMethods.map(m => (
                     <POSButton
+                      key={m}
                       type="button"
                       touchSize="xl"
-                      variant={method === 'cash' ? 'default' : 'outline'}
+                      variant={method === m ? 'default' : 'outline'}
                       disabled={isProcessing}
-                      data-testid="payment-btn-cash"
+                      data-testid={`payment-btn-${m.replace('_', '-')}`}
                       onClick={() => {
-                        setMethod('cash');
+                        setMethod(m);
                       }}
                     >
-                      {paymentLabels.cash}
+                      {paymentLabels[m]}
                     </POSButton>
-                  )}
-                  {enabledMethods.bbvaCard && (
-                    <POSButton
-                      type="button"
-                      touchSize="xl"
-                      variant={method === 'card' ? 'default' : 'outline'}
-                      disabled={isProcessing}
-                      data-testid="payment-btn-card"
-                      onClick={() => {
-                        setMethod('card');
-                      }}
-                    >
-                      {paymentLabels.card}
-                    </POSButton>
-                  )}
-                  {isRappiTab && enabledMethods.rappi && (
-                    <POSButton
-                      type="button"
-                      touchSize="xl"
-                      variant={method === 'rappi' ? 'default' : 'outline'}
-                      disabled={isProcessing}
-                      data-testid="payment-btn-rappi"
-                      onClick={() => {
-                        setMethod('rappi');
-                      }}
-                    >
-                      {paymentLabels.rappi}
-                    </POSButton>
-                  )}
-                  {processors.processBankTransferPayment && (
-                    <POSButton
-                      type="button"
-                      touchSize="xl"
-                      variant={method === 'bank_transfer' ? 'default' : 'outline'}
-                      disabled={isProcessing}
-                      data-testid="payment-btn-bank-transfer"
-                      onClick={() => {
-                        setMethod('bank_transfer');
-                      }}
-                    >
-                      {t('featOrders:checkoutSale.bankTransferMethodLabel')}
-                    </POSButton>
-                  )}
+                  ))}
                 </div>
               )}
             </section>
@@ -1311,7 +1237,7 @@ export function PaymentForm({
               </section>
             )}
 
-            {!isSplitMode && method === 'card' && (
+            {!isSplitMode && isReferencedMethod && (
               <section className="space-y-3 rounded-xl border border-border bg-card p-4 shadow-xs">
                 <p className="text-sm font-medium">{t('paymentForm.processOnBbvaTerminal')}</p>
                 <MoneyInput

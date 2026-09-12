@@ -108,7 +108,7 @@ export const selectPaymentByTabId = (tabId: string) => {
 
 /**
  * Selector: Get all payments by method
- * @param method - Payment method ('cash', 'card', 'rappi')
+ * @param method - Payment method ('cash', 'card', 'bank_transfer', 'rappi', 'uber_eats')
  */
 export const selectPaymentsByMethod = (method: Payment['method']) => {
   const payments = usePaymentStore.getState().payments;

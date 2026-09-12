@@ -16,6 +16,7 @@
       "cash": "Efectivo",
       "card": "Tarjeta (Terminal BBVA)",
       "rappi": "Rappi",
+      "uberEats": "Uber Eats",
       "bankTransfer": "Transferencia bancaria"
     },
     "category": {
@@ -46,6 +47,7 @@
       "cashSales": "Ventas en efectivo",
       "cardSales": "Ventas con tarjeta",
       "rappiSales": "Ventas Rappi",
+      "uberEatsSales": "Ventas Uber Eats",
       "bankTransferSales": "Ventas por transferencia",
       "bankTransferPending": "Transferencias pendientes",
       "orderCount": "Número de pedidos",

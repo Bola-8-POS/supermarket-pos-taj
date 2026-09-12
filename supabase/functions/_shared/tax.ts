@@ -33,23 +33,3 @@ export function decomposeTax(
   const subtotal = Math.round((chargedAmount - taxAmount) * 100) / 100;
   return { subtotal, taxAmount, total: chargedAmount };
 }
-
-/**
- * decomposeTax with the Rappi zero-tax carve-out (WR-01): Rappi tax is
- * collected/remitted externally, not by this POS, and PaymentForm.tsx's
- * `taxAmount` memo already shows $0.00 tax for `rappi` on the payment
- * screen — the receipt must match what the cashier saw, not fabricate a
- * non-zero tax line by decomposing the plain amount as if it were a
- * tax-inclusive total.
- */
-export function decomposeTaxForMethod(
-  method: string,
-  chargedAmount: number,
-  taxRatePercent: number,
-  taxInclusive: boolean
-): { subtotal: number; taxAmount: number; total: number } {
-  if (method === 'rappi') {
-    return { subtotal: chargedAmount, taxAmount: 0, total: chargedAmount };
-  }
-  return decomposeTax(chargedAmount, taxRatePercent, taxInclusive);
-}

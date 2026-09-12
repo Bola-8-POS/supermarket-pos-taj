@@ -180,7 +180,7 @@ test.describe('Split Payment', () => {
     // Row 2 → card FIRST — both rows default to cash, so switching row 2 away from
     // cash before touching row 1's "Amount tendered" keeps that label unambiguous
     // (only row 1 remains cash at that point, avoiding a strict-mode locator clash).
-    await modal.getByRole('button', { name: 'Terminal BBVA' }).nth(1).click();
+    await modal.getByTestId('split-payment-btn-card').nth(1).click();
 
     // Row 1 stays cash (default) — Amount + Amount tendered (exact, no change due)
     const amountInputs = modal.getByLabel('Amount', { exact: true });
@@ -280,7 +280,7 @@ test.describe('Split Payment', () => {
     await expect(modal.getByText('Payment 2')).toBeVisible();
 
     // Switch both rows to card to avoid the cash tendered-amount requirement
-    const cardButtons = modal.getByRole('button', { name: 'Terminal BBVA' });
+    const cardButtons = modal.getByTestId('split-payment-btn-card');
     await cardButtons.nth(0).click();
     await cardButtons.nth(1).click();
 

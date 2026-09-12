@@ -12,11 +12,12 @@ import {
   useCajaEntries,
   useMutationDeleteCajaEntry,
 } from '@entities/caja';
-import { useReceiptSettings } from '@entities/settings';
+import { useReceiptSettings, useSettings } from '@entities/settings';
 import { usePermissions } from '@entities/staff';
 import { useStaffStore } from '@entities/staff/model/store';
 import { useOpenTabsPendingTotal } from '@entities/tab';
 
+import { PAYMENT_METHODS, type PaymentMethod } from '@shared/lib/domain';
 import { formatMoney } from '@shared/lib/format';
 import { printJobErrorCopyKey, printRawText } from '@shared/lib/pos-printer';
 import { LoadingSpinner, MoneyDisplay } from '@shared/ui';
@@ -27,6 +28,17 @@ import { Badge } from '@shared/ui/badge';
 import { Button } from '@shared/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@shared/ui/dialog';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@shared/ui/tooltip';
+
+// wPanels namespace keys for each method's fallback label — mirrors
+// PaymentPane's DEFAULT_PAYMENT_LABEL_KEY (paymentForm.* keys are shared
+// across every payment-method-label surface, not just the payment form).
+const DEFAULT_PAYMENT_LABEL_KEY: Record<PaymentMethod, string> = {
+  cash: 'paymentForm.defaultLabelCash',
+  card: 'paymentForm.defaultLabelCard',
+  bank_transfer: 'paymentForm.defaultLabelBankTransfer',
+  rappi: 'paymentForm.defaultLabelRappi',
+  uber_eats: 'paymentForm.defaultLabelUberEats',
+};
 
 function formatDateTime(d: Date) {
   return d.toLocaleString(undefined, {
@@ -66,6 +78,7 @@ export function CajaDashboard() {
   const { can } = usePermissions();
   const currentStaff = useStaffStore(s => s.currentStaff);
   const receiptSettings = useReceiptSettings();
+  const { data: appSettings } = useSettings();
   const isCajaOpen = useCajaStore(s => s.isCajaOpen);
   const currentCaja = useCajaStore(s => s.currentCaja);
 
@@ -86,9 +99,17 @@ export function CajaDashboard() {
   const isSummaryLoading = summaryQuery.isLoading;
   const isPendingLoading = pendingQuery.isLoading;
 
-  const cash = summaryData?.cash ?? 0;
-  const card = summaryData?.card ?? 0;
-  const rappi = summaryData?.rappi ?? 0;
+  const isMethodEnabled = (method: PaymentMethod): boolean =>
+    appSettings?.billing.paymentMethods[method] ?? true;
+  const methodAmount = (method: PaymentMethod): number => summaryData?.[method] ?? 0;
+  const methodLabel = (method: PaymentMethod): string =>
+    appSettings?.paymentLabels[method] ?? t(DEFAULT_PAYMENT_LABEL_KEY[method]);
+  // A method is shown when enabled OR it collected money this session even
+  // if since disabled (an admin can toggle methods off mid-day; historical
+  // collections must not silently disappear from the summary).
+  const visibleMethods = PAYMENT_METHODS.filter(
+    m => isMethodEnabled(m) || methodAmount(m) > 0
+  );
 
   // Caja entries
   const entriesResult = useCajaEntries(currentCaja?.id ?? null);
@@ -101,7 +122,8 @@ export function CajaDashboard() {
     .filter(e => e.type === 'income')
     .reduce((sum, e) => sum + e.amount, 0);
 
-  const net = cash + card + rappi + totalIncome - totalExpenses;
+  const net =
+    PAYMENT_METHODS.reduce((sum, m) => sum + methodAmount(m), 0) + totalIncome - totalExpenses;
 
   // Entry dialog state
   const [entryDialogOpen, setEntryDialogOpen] = useState(false);
@@ -177,9 +199,12 @@ export function CajaDashboard() {
         ? t('cajaDashboard.printBy', { name: currentCaja.openedByName })
         : '',
       t('cajaDashboard.printThinDivider'),
-      t('cajaDashboard.printCash', { amount: formatMoney(cash) }),
-      t('cajaDashboard.printCard', { amount: formatMoney(card) }),
-      t('cajaDashboard.printRappi', { amount: formatMoney(rappi) }),
+      ...visibleMethods.map(m =>
+        t('cajaDashboard.printMethod', {
+          label: methodLabel(m),
+          amount: formatMoney(methodAmount(m)),
+        })
+      ),
       t('cajaDashboard.printThinDivider'),
       t('cajaDashboard.printNetTotal', { amount: formatMoney(net) }),
       t('cajaDashboard.printOpenTabs', { amount: formatMoney(pendingTotal) }),
@@ -245,21 +270,14 @@ export function CajaDashboard() {
       {isCajaOpen && currentCaja !== null && (
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
-            <SummaryCard
-              label={t('cajaDashboard.cash')}
-              amount={cash}
-              isLoading={isSummaryLoading}
-            />
-            <SummaryCard
-              label={t('cajaDashboard.card')}
-              amount={card}
-              isLoading={isSummaryLoading}
-            />
-            <SummaryCard
-              label={t('cajaDashboard.rappi')}
-              amount={rappi}
-              isLoading={isSummaryLoading}
-            />
+            {visibleMethods.map(m => (
+              <SummaryCard
+                key={m}
+                label={methodLabel(m)}
+                amount={methodAmount(m)}
+                isLoading={isSummaryLoading}
+              />
+            ))}
             <SummaryCard
               label={t('cajaDashboard.pendingOpenTabs')}
               amount={pendingTotal}

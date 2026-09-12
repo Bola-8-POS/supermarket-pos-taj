@@ -183,6 +183,29 @@ describe('useCheckoutSale', () => {
     }
   });
 
+  it('processPlatformPayment returns ok with paymentId/receiptData on success and forwards method to the direct-sale request', async () => {
+    mockCallProcessDirectSale.mockResolvedValue({
+      ok: true,
+      data: { paymentId: 'p1', receiptData: { paymentMethod: 'rappi' } },
+    });
+    const { result } = renderHook(() => useCheckoutSale());
+
+    const res = await result.current.processors.processPlatformPayment(
+      'tab-1',
+      10,
+      'rappi',
+      'RAPPI-ORDER-1'
+    );
+
+    expect(res.ok).toBe(true);
+    if (res.ok) {
+      expect(res.data).toEqual({ paymentId: 'p1', receiptData: { paymentMethod: 'rappi' } });
+    }
+    expect(mockCallProcessDirectSale).toHaveBeenCalledWith(
+      expect.objectContaining({ method: 'rappi', amount: 10, referenceNumber: 'RAPPI-ORDER-1' })
+    );
+  });
+
   it('processSplitPayment wraps the single sale-level receiptData in a one-element receipts array', async () => {
     mockCallProcessDirectSale.mockResolvedValue({
       ok: true,

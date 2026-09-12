@@ -10,7 +10,7 @@
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 
-import { decomposeTax, decomposeTaxForMethod } from '../../../../supabase/functions/_shared/tax.ts';
+import { decomposeTax } from '../../../../supabase/functions/_shared/tax.ts';
 
 describe('decomposeTax', () => {
   it('inclusive mode: decomposes an already-inclusive total (TAX-02)', () => {
@@ -40,25 +40,5 @@ describe('decomposeTax', () => {
         }
       )
     );
-  });
-});
-
-describe('decomposeTaxForMethod (WR-01)', () => {
-  it('rappi: always zero tax, subtotal === total === chargedAmount, regardless of rate/mode', () => {
-    expect(decomposeTaxForMethod('rappi', 100, 16, true)).toEqual({
-      subtotal: 100,
-      taxAmount: 0,
-      total: 100,
-    });
-    expect(decomposeTaxForMethod('rappi', 100, 16, false)).toEqual({
-      subtotal: 100,
-      taxAmount: 0,
-      total: 100,
-    });
-  });
-
-  it('cash/card: delegates to decomposeTax unchanged', () => {
-    expect(decomposeTaxForMethod('cash', 116, 16, true)).toEqual(decomposeTax(116, 16, true));
-    expect(decomposeTaxForMethod('card', 116, 16, false)).toEqual(decomposeTax(116, 16, false));
   });
 });

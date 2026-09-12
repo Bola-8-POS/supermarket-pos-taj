@@ -5,11 +5,11 @@
 // then assembles one ReceiptData per leg (D-09).
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.49.1';
 import { z } from 'https://deno.land/x/zod@v3.23.8/mod.ts';
-import { decomposeTaxForMethod } from '../_shared/tax.ts';
+import { decomposeTax } from '../_shared/tax.ts';
 
 const legSchema = z
   .object({
-    method: z.enum(['cash', 'card', 'rappi']),
+    method: z.enum(['cash', 'card', 'rappi', 'uber_eats']),
     amount: z.number().nonnegative().multipleOf(0.01),
     tenderedAmount: z.number().nonnegative().multipleOf(0.01).nullable().optional(),
     referenceNumber: z.string().max(64).nullable().optional(),
@@ -28,13 +28,6 @@ const legSchema = z
         code: z.ZodIssueCode.custom,
         message: 'tenderedAmount is only valid for cash',
         path: ['tenderedAmount'],
-      });
-    }
-    if (data.method === 'rappi' && (data.rappiOrderId == null || data.rappiOrderId.trim() === '')) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'rappiOrderId is required for rappi',
-        path: ['rappiOrderId'],
       });
     }
   });
@@ -103,7 +96,6 @@ function statusForCode(code: string | undefined): number {
     case 'TENDERED_REQUIRED':
     case 'INSUFFICIENT_TENDER':
     case 'TENDERED_NOT_ALLOWED':
-    case 'RAPPI_ORDER_MISMATCH':
     case 'INVALID_METHOD':
     case 'SPLIT_TOTAL_MISMATCH':
     case 'TOO_MANY_LEGS':
@@ -367,8 +359,7 @@ Deno.serve(async (req: Request) => {
   const taxInclusive = billing?.taxInclusive ?? true;
 
   const receipts = (paymentRows as PaymentLegRow[]).map(legRow => {
-    const { subtotal, taxAmount, total } = decomposeTaxForMethod(
-      legRow.method,
+    const { subtotal, taxAmount, total } = decomposeTax(
       Number(legRow.amount),
       taxRatePercent,
       taxInclusive

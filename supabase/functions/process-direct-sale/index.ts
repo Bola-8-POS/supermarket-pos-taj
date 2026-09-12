@@ -13,7 +13,7 @@ const itemSchema = z.object({
   notes: z.string().max(200).nullable().optional(),
 });
 const legSchema = z.object({
-  method: z.enum(['cash', 'card']),
+  method: z.enum(['cash', 'card', 'rappi', 'uber_eats']),
   amount: z.number().nonnegative().multipleOf(0.01),
   tenderedAmount: z.number().nonnegative().multipleOf(0.01).nullable().optional(),
   referenceNumber: z.string().max(64).nullable().optional(),
@@ -24,7 +24,7 @@ const BodySchema = z
     shiftId: z.string().uuid(),
     cajaSessionId: z.string().uuid(),
     idempotencyKey: z.string().min(1).max(255),
-    method: z.enum(['cash', 'card', 'bank_transfer']).optional(),
+    method: z.enum(['cash', 'card', 'bank_transfer', 'rappi', 'uber_eats']).optional(),
     amount: z.number().nonnegative().multipleOf(0.01).optional(),
     tenderedAmount: z.number().nonnegative().multipleOf(0.01).nullable().optional(),
     referenceNumber: z.string().max(64).nullable().optional(),
@@ -91,7 +91,7 @@ function jsonResponse(body: unknown, status = 200): Response {
 
 type SaleReceiptPayment = {
   amount: number;
-  method: 'cash' | 'card' | 'bank_transfer';
+  method: 'cash' | 'card' | 'bank_transfer' | 'rappi' | 'uber_eats';
   processed_at: string;
   tendered_amount: number | null;
   reference_number: string | null;

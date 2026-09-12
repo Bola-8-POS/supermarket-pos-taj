@@ -113,13 +113,19 @@ const { mockSettings, DEFAULT_MOCK_BILLING } = vi.hoisted(() => {
   const DEFAULT_MOCK_BILLING = {
     taxRatePercent: 0,
     taxInclusive: true,
-    paymentMethods: { cash: true, bbvaCard: true, rappi: true },
+    paymentMethods: { cash: true, card: true, bank_transfer: true, rappi: true, uber_eats: true },
   };
   return {
     DEFAULT_MOCK_BILLING,
     mockSettings: {
       billing: { ...DEFAULT_MOCK_BILLING },
-      paymentLabels: { cash: 'Efectivo', card: 'Terminal BBVA', rappi: 'Rappi' },
+      paymentLabels: {
+        cash: 'Efectivo',
+        card: 'Terminal BBVA',
+        bank_transfer: 'Transferencia',
+        rappi: 'Rappi',
+        uber_eats: 'Uber Eats',
+      },
       // Phase 28 (D-06): evaluateBestPromotion's new timezone argument reads
       // appSettings.general.timezone — the "Apply Promotion" selector tests
       // below need this populated or PaymentForm.tsx's `?? DEFAULT_TIMEZONE`
@@ -275,7 +281,7 @@ function makeProcessors(overrides: Partial<PaymentProcessors> = {}): PaymentProc
     processCardPayment: vi
       .fn()
       .mockResolvedValue(ok({ paymentId: 'p-card', receiptData: receipt })),
-    processRappiPayment: vi
+    processPlatformPayment: vi
       .fn()
       .mockResolvedValue(ok({ paymentId: 'p-rappi', receiptData: receipt })),
     processSplitPayment: vi
@@ -412,22 +418,11 @@ describe('PaymentForm — discount section', () => {
     );
   });
 
-  it('discount section not shown for Rappi payment', () => {
-    const rappiTab: Tab = {
-      ...testTab,
-      id: 'dddddddd-dddd-dddd-dddd-dddddddddddd',
-      rappiOrderId: 'RAPPI-ORDER-123',
-    };
-    renderWithProviders(
-      <PaymentForm
-        tab={rappiTab}
-        staffId={staffId}
-        onPaymentSuccess={vi.fn()}
-        processors={makeProcessors()}
-      />
-    );
-    // rappi tab auto-selects rappi method → discount hidden
-    expect(screen.queryByTestId('discount-section')).not.toBeInTheDocument();
+  it('discount section stays visible for Rappi payment (D-16: rappi allows discounts, like card)', async () => {
+    const user = userEvent.setup();
+    renderForm();
+    await user.click(screen.getByTestId('payment-btn-rappi'));
+    expect(screen.getByTestId('discount-section')).toBeInTheDocument();
   });
 
   it('10% all-items discount shows discount row in totals', async () => {
@@ -506,6 +501,39 @@ describe('PaymentForm — discount section', () => {
     renderForm();
     // Default discountValue = 0
     expect(screen.queryByTestId('discount-row')).not.toBeInTheDocument();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Configurable payment methods — rappi/uber_eats behave exactly like card
+// (D-16): no isRappiTab gating, taxed normally, discounts allowed.
+// ---------------------------------------------------------------------------
+
+describe('PaymentForm — platform payment methods (rappi/uber_eats)', () => {
+  it('rappi button is shown on a plain (non-delivery) tab when paymentMethods.rappi is enabled, and completes via processPlatformPayment', async () => {
+    const user = userEvent.setup();
+    const processors = makeProcessors();
+    renderForm(processors);
+
+    const rappiButton = screen.getByTestId('payment-btn-rappi');
+    expect(rappiButton).toBeInTheDocument();
+    await user.click(rappiButton);
+
+    await user.click(screen.getByRole('button', { name: /confirm card payment/i }));
+
+    await waitFor(() => {
+      expect(processors.processPlatformPayment).toHaveBeenCalled();
+    });
+    const call = vi.mocked(processors.processPlatformPayment).mock.calls[0];
+    if (call === undefined) throw new Error('expected call');
+    expect(call[0]).toBe(testTab.id);
+    expect(call[2]).toBe('rappi');
+  });
+
+  it('uber_eats button is hidden when paymentMethods.uber_eats is disabled', () => {
+    mockSettings.billing = { ...DEFAULT_MOCK_BILLING, paymentMethods: { ...DEFAULT_MOCK_BILLING.paymentMethods, uber_eats: false } };
+    renderForm();
+    expect(screen.queryByTestId('payment-btn-uber-eats')).not.toBeInTheDocument();
   });
 });
 

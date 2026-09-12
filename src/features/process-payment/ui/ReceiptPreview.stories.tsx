@@ -65,13 +65,23 @@ export const Rappi: Story = {
     receipt: {
       ...base,
       paymentMethod: 'rappi',
-      // Rappi orders are zero-tax (PaymentForm.tsx: method === 'rappi' short-
-      // circuits to taxAmount 0), so subtotal === total here, unlike base.
-      subtotal: 210,
-      total: 210,
-      taxAmount: 0,
+      // Configurable payment methods: rappi behaves exactly like card —
+      // taxed normally, referenced tender, no tendered/change.
       tenderedAmount: undefined,
       changeAmount: undefined,
+      terminalReference: 'RAPPI-ORDER-123',
+    },
+  },
+};
+
+export const UberEats: Story = {
+  args: {
+    receipt: {
+      ...base,
+      paymentMethod: 'uber_eats',
+      tenderedAmount: undefined,
+      changeAmount: undefined,
+      terminalReference: 'UE-ORDER-456',
     },
   },
 };

@@ -113,7 +113,7 @@ test.describe('Direct-sale checkout', () => {
       .click();
     await page.getByLabel(/split payment/i).click();
 
-    const cardButtons = page.getByRole('button', { name: /terminal bbva/i });
+    const cardButtons = page.getByTestId('split-payment-btn-card');
     await cardButtons.last().click();
     const amountInputs = page.getByLabel(/amount$/i);
     await amountInputs.nth(0).fill(cashAmount.toFixed(2));
@@ -643,7 +643,7 @@ test.describe('Direct-sale checkout', () => {
       .click();
     await page.getByLabel(/split payment/i).click();
 
-    const cardButtons = page.getByRole('button', { name: /terminal bbva/i });
+    const cardButtons = page.getByTestId('split-payment-btn-card');
     await cardButtons.last().click();
     const amountInputs = page.getByLabel(/amount$/i);
     await amountInputs.nth(0).fill(cashAmount.toFixed(2));

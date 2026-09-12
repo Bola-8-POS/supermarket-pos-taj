@@ -348,7 +348,7 @@ test.describe.serial('Full-day soak', () => {
     const splitCash = Math.round((bulkAmount / 2) * 100) / 100;
     const splitCard = Math.round((bulkAmount - splitCash) * 100) / 100;
     await page
-      .getByRole('button', { name: /terminal bbva/i })
+      .getByTestId('split-payment-btn-card')
       .last()
       .click();
     const amountInputs = page.getByLabel(/amount$/i);

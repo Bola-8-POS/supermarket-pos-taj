@@ -87,12 +87,17 @@ function receiptT(locale: Locale) {
   return i18n.getFixedT(locale, 'receipt');
 }
 
+const PAYMENT_METHOD_LABEL_KEY = {
+  cash: 'receipt.method.cash',
+  card: 'receipt.method.card',
+  bank_transfer: 'receipt.method.bankTransfer',
+  rappi: 'receipt.method.rappi',
+  uber_eats: 'receipt.method.uberEats',
+} as const;
+
 function paymentMethodLabel(method: ReceiptData['paymentMethod'], locale: Locale): string {
   const tr = receiptT(locale);
-  if (method === 'cash') return tr('receipt.method.cash');
-  if (method === 'card') return tr('receipt.method.card');
-  if (method === 'bank_transfer') return tr('receipt.method.bankTransfer');
-  return tr('receipt.method.rappi');
+  return tr(PAYMENT_METHOD_LABEL_KEY[method]);
 }
 
 // ============================================================================

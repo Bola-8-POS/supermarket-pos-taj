@@ -103,6 +103,37 @@ vi.mock('sonner', () => ({
 }));
 
 // ---------------------------------------------------------------------------
+// Mock @entities/settings — only cash/card/rappi enabled by default so the
+// pre-existing "5 summary cards" tests keep their exact card count; a
+// dedicated describe block below exercises bank_transfer/uber_eats directly.
+// ---------------------------------------------------------------------------
+
+const { mockAppSettings } = vi.hoisted(() => ({
+  mockAppSettings: {
+    value: {
+      billing: {
+        paymentMethods: { cash: true, card: true, bank_transfer: false, rappi: true, uber_eats: false },
+      },
+      paymentLabels: {
+        cash: 'Cash',
+        card: 'Card',
+        bank_transfer: 'Bank Transfer',
+        rappi: 'Rappi',
+        uber_eats: 'Uber Eats',
+      },
+    },
+  },
+}));
+
+vi.mock('@entities/settings', async importOriginal => {
+  const actual = await importOriginal<Record<string, unknown>>();
+  return {
+    ...actual,
+    useSettings: () => ({ data: mockAppSettings.value }),
+  };
+});
+
+// ---------------------------------------------------------------------------
 // Fixtures
 // ---------------------------------------------------------------------------
 
@@ -378,6 +409,36 @@ describe('CajaDashboard', () => {
     expect(
       screen.queryByRole('button', { name: /register expense \/ income/i })
     ).not.toBeInTheDocument();
+  });
+
+  // ---------------------------------------------------------------------------
+  // Configurable payment methods (bank_transfer / uber_eats)
+  // ---------------------------------------------------------------------------
+
+  describe('configurable payment methods', () => {
+    it('hides a disabled method with zero collections (bank_transfer, uber_eats)', () => {
+      renderDashboard();
+      expect(screen.queryByText('Bank Transfer')).not.toBeInTheDocument();
+      expect(screen.queryByText('Uber Eats')).not.toBeInTheDocument();
+    });
+
+    it('still shows a disabled method that collected money this session (toggled off mid-day)', () => {
+      mockUseCajaPaymentSummary.mockReturnValue({
+        data: {
+          ok: true,
+          data: { cash: 500, card: 300, bank_transfer: 0, rappi: 100, uber_eats: 40 },
+        },
+        isLoading: false,
+      });
+      renderDashboard();
+      expect(screen.getByText('Uber Eats')).toBeInTheDocument();
+      expect(screen.queryByText('Bank Transfer')).not.toBeInTheDocument();
+    });
+
+    it('uses the store paymentLabels for the enabled-method cards', () => {
+      renderDashboard();
+      expect(screen.getByText('Rappi')).toBeInTheDocument();
+    });
   });
 
   it('renders entries list when entries are present', () => {

@@ -4,8 +4,14 @@
 // resolve excluded callees across a multi-line method chain — 21-08 quirk).
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import type { CajaEntry, CajaEntryCreate, CajaReport, CajaSession } from '@shared/lib/domain';
-import { CajaEntrySchema, CajaReportSchema, CajaSessionSchema } from '@shared/lib/domain';
+import type { CajaEntry, CajaEntryCreate, CajaReport, CajaSession, PaymentMethod } from '@shared/lib/domain';
+import {
+  CajaEntrySchema,
+  CajaReportSchema,
+  CajaSessionSchema,
+  PAYMENT_METHODS,
+  PaymentMethodSchema,
+} from '@shared/lib/domain';
 import i18n from '@shared/lib/i18n';
 import { logger } from '@shared/lib/logger-instance';
 import {
@@ -288,11 +294,7 @@ export function useMutationCloseCaja() {
 // CAJA PAYMENT SUMMARY
 // ============================================================================
 
-export type CajaPaymentSummary = {
-  cash: number;
-  card: number;
-  rappi: number;
-};
+export type CajaPaymentSummary = Record<PaymentMethod, number>;
 
 /**
  * Queries payments for the current caja session, grouped by method.
@@ -324,13 +326,14 @@ export function useCajaPaymentSummary(cajaSession: { id: string; openedAt: Date 
       }
 
       const rows = res.data as Array<{ amount: number; method: string }>;
-      const summary: CajaPaymentSummary = { cash: 0, card: 0, rappi: 0 };
+      const summary = Object.fromEntries(
+        PAYMENT_METHODS.map(method => [method, 0])
+      ) as CajaPaymentSummary;
 
       for (const row of rows) {
         const amount = typeof row.amount === 'number' ? row.amount : 0;
-        if (row.method === 'cash') summary.cash += amount;
-        else if (row.method === 'card') summary.card += amount;
-        else if (row.method === 'rappi') summary.rappi += amount;
+        const parsed = PaymentMethodSchema.safeParse(row.method);
+        if (parsed.success) summary[parsed.data] += amount;
       }
 
       return ok(summary);

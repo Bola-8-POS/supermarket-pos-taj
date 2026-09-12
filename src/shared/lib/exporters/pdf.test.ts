@@ -63,6 +63,7 @@ function makeCajaReport(): CajaReport {
       cashSales: 700,
       cardSales: 400,
       rappiSales: 100,
+      uberEatsSales: 0,
       bankTransferSales: 0,
       bankTransferPending: 0,
       orderCount: 20,

@@ -18,8 +18,6 @@
   "checkoutSale": {
     "defaultCustomerName": "Cliente de mostrador",
     "paymentIncomplete": "No se pudo completar el pago.",
-    "rappiUnavailable": "Aún no disponible",
-    "rappiNotSupported": "Rappi no está disponible para ventas directas",
     "bankTransferMethodLabel": "Transferencia bancaria",
     "bankTransferUnavailable": "La transferencia bancaria no está disponible aquí",
     "customerNameLabel": "Nombre del cliente (opcional)",

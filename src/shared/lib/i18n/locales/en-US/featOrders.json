@@ -18,8 +18,6 @@
   "checkoutSale": {
     "defaultCustomerName": "Walk-in",
     "paymentIncomplete": "Payment could not be completed.",
-    "rappiUnavailable": "Not yet available",
-    "rappiNotSupported": "Rappi is not available for direct sales",
     "bankTransferMethodLabel": "Bank Transfer",
     "bankTransferUnavailable": "Bank transfer is not available here",
     "customerNameLabel": "Customer Name (optional)",

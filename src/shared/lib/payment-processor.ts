@@ -3,7 +3,7 @@
  * with idempotency keys (secrets stay server-side).
  */
 
-import type { DiscountScope, DiscountType } from '@shared/lib/domain';
+import type { DiscountScope, DiscountType, PaymentMethod } from '@shared/lib/domain';
 import { generateIdempotencyKey } from '@shared/lib/domain-helpers';
 import {
   callProcessPayment,
@@ -41,7 +41,7 @@ export type CardPaymentResult = {
   receiptData: ProcessPaymentSuccess['receiptData'];
 };
 
-export type RappiPaymentResult = {
+export type PlatformPaymentResult = {
   paymentId: string;
   receiptData: ProcessPaymentSuccess['receiptData'];
 };
@@ -82,7 +82,13 @@ export async function processCashPayment(
   });
 }
 
-export async function processCardPayment(
+/**
+ * Shared body for any payment method that carries an optional free-text
+ * reference and no tendered amount — card, and the delivery-platform tenders
+ * (rappi/uber_eats) which behave identically to card at the payment layer.
+ */
+async function processReferencedPayment(
+  method: Exclude<PaymentMethod, 'cash' | 'bank_transfer'>,
   tabId: string,
   amount: number,
   referenceNumber?: string,
@@ -90,12 +96,12 @@ export async function processCardPayment(
   expectedVersion?: number,
   idempotencyKeyOverride?: string
 ): Promise<Result<CardPaymentResult, AppError>> {
-  const idempotencyKey = idempotencyKeyOverride ?? generateIdempotencyKey('payment_card');
+  const idempotencyKey = idempotencyKeyOverride ?? generateIdempotencyKey(`payment_${method}`);
   const trimmed = referenceNumber?.trim();
   const result = await callProcessPayment({
     tabId,
     amount,
-    method: 'card',
+    method,
     idempotencyKey,
     referenceNumber: trimmed && trimmed.length > 0 ? trimmed : undefined,
     discountScope: discountInfo?.scope,
@@ -117,12 +123,50 @@ export async function processCardPayment(
   });
 }
 
+export async function processCardPayment(
+  tabId: string,
+  amount: number,
+  referenceNumber?: string,
+  discountInfo?: DiscountInfo,
+  expectedVersion?: number,
+  idempotencyKeyOverride?: string
+): Promise<Result<CardPaymentResult, AppError>> {
+  return processReferencedPayment(
+    'card',
+    tabId,
+    amount,
+    referenceNumber,
+    discountInfo,
+    expectedVersion,
+    idempotencyKeyOverride
+  );
+}
+
+export async function processPlatformPayment(
+  tabId: string,
+  amount: number,
+  method: 'rappi' | 'uber_eats',
+  referenceNumber?: string,
+  discountInfo?: DiscountInfo,
+  expectedVersion?: number,
+  idempotencyKeyOverride?: string
+): Promise<Result<PlatformPaymentResult, AppError>> {
+  return processReferencedPayment(
+    method,
+    tabId,
+    amount,
+    referenceNumber,
+    discountInfo,
+    expectedVersion,
+    idempotencyKeyOverride
+  );
+}
+
 export type SplitPaymentLegInput = {
-  method: 'cash' | 'card' | 'rappi';
+  method: Exclude<PaymentMethod, 'bank_transfer'>;
   amount: number;
   tenderedAmount?: number;
   referenceNumber?: string;
-  rappiOrderId?: string;
 };
 
 export type SplitPaymentResult = {
@@ -163,35 +207,3 @@ export async function processSplitPayment(
   });
 }
 
-export async function processRappiPayment(
-  tabId: string,
-  amount: number,
-  rappiOrderId: string,
-  discountInfo?: DiscountInfo,
-  expectedVersion?: number
-): Promise<Result<RappiPaymentResult, AppError>> {
-  const idempotencyKey = generateIdempotencyKey('payment_rappi');
-  const result = await callProcessPayment({
-    tabId,
-    amount,
-    method: 'rappi',
-    idempotencyKey,
-    rappiOrderId: rappiOrderId.trim(),
-    discountScope: discountInfo?.scope,
-    discountType: discountInfo?.type,
-    discountValue: discountInfo?.value,
-    discountAmount: discountInfo?.amount,
-    managerOverride: discountInfo?.managerOverride,
-    managerPin: discountInfo?.managerPin,
-    expectedVersion,
-  });
-
-  if (!result.ok) {
-    return result;
-  }
-
-  return ok({
-    paymentId: result.data.paymentId,
-    receiptData: result.data.receiptData,
-  });
-}

@@ -3,7 +3,7 @@ import { useCajaStore } from '@entities/caja';
 import { useStaffStore } from '@entities/staff';
 import { calcWeightedLineTotal, useCartStore } from '@entities/tab/model/cartStore';
 import { isOnline } from '@shared/lib/connectivity';
-import type { CartItem, Tab } from '@shared/lib/domain';
+import type { CartItem, PaymentMethod, Tab } from '@shared/lib/domain';
 import { generateIdempotencyKey } from '@shared/lib/domain-helpers';
 import { callProcessDirectSale } from '@shared/lib/edge-function-contracts';
 import i18n from '@shared/lib/i18n';
@@ -94,12 +94,12 @@ export function useCheckoutSale() {
   );
 
   const submit = async (payment: {
-    method?: 'cash' | 'card' | 'bank_transfer';
+    method?: PaymentMethod;
     amount?: number;
     tenderedAmount?: number;
     referenceNumber?: string;
     legs?: {
-      method: 'cash' | 'card';
+      method: Exclude<PaymentMethod, 'bank_transfer'>;
       amount: number;
       tenderedAmount?: number;
       referenceNumber?: string;
@@ -230,13 +230,31 @@ export function useCheckoutSale() {
           receiptData: result.data.receiptData,
         });
       },
-      processRappiPayment: () =>
-        Promise.resolve(
-          err({
-            code: 'UNKNOWN_ERROR',
-            message: i18n.t('featOrders:checkoutSale.rappiUnavailable'),
-          })
-        ),
+      processPlatformPayment: async (
+        _tabId: string,
+        amount: number,
+        method: 'rappi' | 'uber_eats',
+        referenceNumber?: string,
+        discountInfo?: DiscountInfo,
+        _expectedVersion?: number,
+        idempotencyKeyOverride?: string
+      ) => {
+        const result = await submit({
+          method,
+          amount,
+          ...(referenceNumber ? { referenceNumber } : {}),
+          ...(discountInfo ? { discountInfo } : {}),
+          ...(idempotencyKeyOverride ? { idempotencyKeyOverride } : {}),
+        });
+        if (!result.ok || !result.data.paymentId || !result.data.receiptData)
+          return result.ok
+            ? err({
+                code: 'UNKNOWN_ERROR',
+                message: i18n.t('featOrders:checkoutSale.paymentIncomplete'),
+              })
+            : result;
+        return ok({ paymentId: result.data.paymentId, receiptData: result.data.receiptData });
+      },
       processSplitPayment: async (
         _tabId: string,
         legs: SplitPaymentLegInput[],
@@ -244,17 +262,8 @@ export function useCheckoutSale() {
         discountInfo?: DiscountInfo,
         idempotencyKeyOverride?: string
       ) => {
-        const directSaleLegs = legs.filter(
-          (leg): leg is SplitPaymentLegInput & { method: 'cash' | 'card' } => leg.method !== 'rappi'
-        );
-        if (directSaleLegs.length !== legs.length) {
-          return err({
-            code: 'UNKNOWN_ERROR',
-            message: i18n.t('featOrders:checkoutSale.rappiNotSupported'),
-          });
-        }
         const result = await submit({
-          legs: directSaleLegs,
+          legs,
           expectedTotal,
           ...(discountInfo ? { discountInfo } : {}),
           ...(idempotencyKeyOverride ? { idempotencyKeyOverride } : {}),

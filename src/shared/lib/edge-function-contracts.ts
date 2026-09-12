@@ -110,11 +110,10 @@ export const ProcessPaymentRequestSchema = z
   .object({
     tabId: UuidSchema,
     amount: MoneySchema,
-    method: PaymentMethodSchema,
+    method: PaymentMethodSchema.exclude(['bank_transfer']),
     idempotencyKey: z.string().min(1).max(255),
     tenderedAmount: MoneySchema.nullable().optional(),
     referenceNumber: z.string().max(64).nullable().optional(),
-    rappiOrderId: z.string().max(128).nullable().optional(),
     discountScope: DiscountScopeSchema.optional(),
     discountType: DiscountTypeSchema.optional(),
     discountValue: z.number().nonnegative().optional(),
@@ -139,13 +138,6 @@ export const ProcessPaymentRequestSchema = z
         code: 'custom',
         message: 'tenderedAmount is only valid for cash',
         path: ['tenderedAmount'],
-      });
-    }
-    if (data.method === 'rappi' && (data.rappiOrderId == null || data.rappiOrderId.trim() === '')) {
-      ctx.addIssue({
-        code: 'custom',
-        message: 'rappiOrderId is required for rappi',
-        path: ['rappiOrderId'],
       });
     }
   });
@@ -642,14 +634,14 @@ export const ProcessDirectSaleRequestSchema = z
     shiftId: UuidSchema,
     cajaSessionId: UuidSchema,
     idempotencyKey: z.string().min(1).max(255),
-    method: z.enum(['cash', 'card', 'bank_transfer']).optional(),
+    method: PaymentMethodSchema.optional(),
     amount: MoneySchema.optional(),
     tenderedAmount: MoneySchema.nullable().optional(),
     referenceNumber: z.string().max(64).nullable().optional(),
     legs: z
       .array(
         z.object({
-          method: z.enum(['cash', 'card']),
+          method: PaymentMethodSchema.exclude(['bank_transfer']),
           amount: MoneySchema,
           tenderedAmount: MoneySchema.nullable().optional(),
           referenceNumber: z.string().max(64).nullable().optional(),
@@ -862,11 +854,10 @@ export async function callReceiveShipment(
  */
 export const SplitPaymentLegRequestSchema = z
   .object({
-    method: PaymentMethodSchema,
+    method: PaymentMethodSchema.exclude(['bank_transfer']),
     amount: MoneySchema,
     tenderedAmount: MoneySchema.nullable().optional(),
     referenceNumber: z.string().max(64).nullable().optional(),
-    rappiOrderId: z.string().max(128).nullable().optional(),
   })
   .superRefine((data, ctx) => {
     if (data.method === 'cash' && data.tenderedAmount == null) {
@@ -881,13 +872,6 @@ export const SplitPaymentLegRequestSchema = z
         code: 'custom',
         message: 'tenderedAmount is only valid for cash',
         path: ['tenderedAmount'],
-      });
-    }
-    if (data.method === 'rappi' && (data.rappiOrderId == null || data.rappiOrderId.trim() === '')) {
-      ctx.addIssue({
-        code: 'custom',
-        message: 'rappiOrderId is required for rappi',
-        path: ['rappiOrderId'],
       });
     }
   });

@@ -70,7 +70,13 @@ describe('useCajaPaymentSummary', () => {
     });
 
     const summary = result.current.data?.ok ? result.current.data.data : null;
-    expect(summary).toEqual({ cash: 0, card: 0, rappi: 0 });
+    expect(summary).toEqual({
+      cash: 0,
+      card: 0,
+      bank_transfer: 0,
+      rappi: 0,
+      uber_eats: 0,
+    });
   });
 
   it('correctly sums payments grouped by method', async () => {
@@ -79,6 +85,8 @@ describe('useCajaPaymentSummary', () => {
       { amount: 50, method: 'cash' },
       { amount: 200, method: 'card' },
       { amount: 75, method: 'rappi' },
+      { amount: 30, method: 'uber_eats' },
+      { amount: 20, method: 'bank_transfer' },
     ];
 
     mockedFrom.mockImplementation(
@@ -100,7 +108,13 @@ describe('useCajaPaymentSummary', () => {
     });
 
     const summary = result.current.data?.ok ? result.current.data.data : null;
-    expect(summary).toEqual({ cash: 150, card: 200, rappi: 75 });
+    expect(summary).toEqual({
+      cash: 150,
+      card: 200,
+      bank_transfer: 20,
+      rappi: 75,
+      uber_eats: 30,
+    });
   });
 
   it('returns error Result when Supabase returns an error', async () => {
@@ -308,7 +322,7 @@ describe('useCajaPaymentSummary – property-based', () => {
       fc.asyncProperty(
         fc.array(
           fc.record({
-            method: fc.constantFrom('cash', 'card', 'rappi'),
+            method: fc.constantFrom('cash', 'card', 'bank_transfer', 'rappi', 'uber_eats'),
             amount: fc.float({ min: 0, max: 9999, noNaN: true }),
           }),
           { minLength: 0, maxLength: 20 }
@@ -338,8 +352,8 @@ describe('useCajaPaymentSummary – property-based', () => {
           expect(r?.ok).toBe(true);
           if (!r?.ok) return;
 
-          const { cash, card, rappi } = r.data;
-          const netCollected = cash + card + rappi;
+          const { cash, card, bank_transfer, rappi, uber_eats } = r.data;
+          const netCollected = cash + card + bank_transfer + rappi + uber_eats;
 
           const expectedTotal = payments.reduce(
             (acc, p) => acc + (typeof p.amount === 'number' ? p.amount : 0),

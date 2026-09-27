@@ -1,0 +1,109 @@
+{
+  "common": {
+    "logoAlt": "Logo de Supermarket POS"
+  },
+  "audit": {
+    "title": "Registro de auditoría",
+    "tabs": {
+      "auditLog": "Registro de Auditoría",
+      "printJobs": "Trabajos de Impresión"
+    }
+  },
+  "editHistory": {
+    "title": "Historial de ediciones"
+  },
+  "home": {},
+  "pos": {
+    "title": "Cobro"
+  },
+  "inventory": {
+    "title": "Inventario",
+    "physicalCount": "Conteo físico",
+    "lowStockToast": "Existencia baja: {{productName}} — quedan {{currentStock}} (umbral: {{threshold}})",
+    "nearExpiryToast": "Próxima caducidad: {{productName}} — quedan {{days}} días"
+  },
+  "payments": {
+    "title": "Pagos",
+    "tabs": {
+      "payments": "Pagos",
+      "refunds": "Reembolsos",
+      "bankTransfers": "Transferencias bancarias"
+    },
+    "descriptions": {
+      "payments": "Cobra tickets en espera y revisa cada pago completado",
+      "refunds": "Todos los reembolsos procesados en esta terminal",
+      "bankTransfers": "Confirma o disputa transferencias bancarias pendientes"
+    }
+  },
+  "rbac": {
+    "title": "Roles y permisos"
+  },
+  "reports": {
+    "title": "Reportes",
+    "navLabel": "Secciones de reportes",
+    "groups": {
+      "sales": "Ventas",
+      "inventoryAnalytics": "Análisis de inventario",
+      "staffTips": "Personal",
+      "operations": "Operaciones"
+    },
+    "tabs": {
+      "session": "Vista de sesión",
+      "products": "Ventas de productos",
+      "hourly": "Desglose por hora",
+      "inventoryAnalytics": "Análisis de inventario",
+      "voids": "Anulaciones y reembolsos",
+      "deletionsPre": "Eliminaciones",
+      "deletionsPost": "Correcciones",
+      "categories": "Ingresos por categoría",
+      "staff": "Desempeño del personal",
+      "paymentMethods": "Métodos de pago",
+      "refundsReg": "Registro de reembolsos"
+    },
+    "descriptions": {
+      "session": "Conciliación de efectivo, totales y productos top de una sesión de caja",
+      "products": "Unidades, ingresos y margen por producto",
+      "hourly": "Volumen de ventas por hora del día",
+      "categories": "Ingresos por categoría",
+      "paymentMethods": "Totales en efectivo, tarjeta y transferencia",
+      "inventoryAnalytics": "Valuación, mermas, pérdida por caducidad y rotación",
+      "staff": "Ventas y transacciones por persona",
+      "voids": "Ventas reembolsadas y anuladas",
+      "deletionsPre": "Partidas eliminadas del carrito antes de pagar",
+      "deletionsPost": "Ediciones a tickets ya pagados",
+      "refundsReg": "Cada reembolso con motivo y quién lo autorizó"
+    }
+  },
+  "settings": {
+    "title": "Configuración"
+  },
+  "suppliers": {
+    "title": "Proveedores",
+    "receive": "Recibir envío"
+  },
+  "staff": {
+    "title": "Personal"
+  },
+  "purchaseOrders": {
+    "title": "Órdenes de compra"
+  },
+  "promotions": {
+    "title": "Promociones",
+    "newPromotion": "Nueva promoción"
+  },
+  "login": {
+    "brand": "Supermarket POS",
+    "terminal": "Terminal {{id}}",
+    "tagline": "Ingresa tu PIN para abrir la caja. Cada venta, reembolso y movimiento de inventario queda registrado a tu nombre.",
+    "logoAlt": "Logotipo de {{name}}",
+    "demoHint": {
+      "title": "Cuentas de prueba",
+      "pin": "PIN {{pin}}",
+      "role": {
+        "admin": "Administrador",
+        "manager": "Gerente",
+        "cashier": "Cajero"
+      }
+    }
+  }
+}

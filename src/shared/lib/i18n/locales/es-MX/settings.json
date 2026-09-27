@@ -1,0 +1,103 @@
+{
+  "tabs": {
+    "language": "Idioma",
+    "general": "General",
+    "hardware": "Hardware",
+    "email": "Recibos por correo",
+    "backup": "Respaldo",
+    "billing": "Facturación",
+    "nearExpiry": "Próxima caducidad",
+    "lockTimeout": "Bloqueo automático",
+    "license": "Licencia"
+  },
+  "noPermission": "No tienes permiso para ver la configuración.",
+  "navLabel": "Secciones de configuración",
+  "groups": {
+    "personal": "Personal",
+    "store": "Tienda",
+    "receipts": "Recibos y hardware",
+    "stock": "Reglas de inventario",
+    "security": "Seguridad y datos"
+  },
+  "descriptions": {
+    "language": "Qué idioma usa tu cuenta",
+    "general": "Nombre, dirección, zona horaria y moneda",
+    "billing": "Impuestos, métodos de pago y etiquetas",
+    "hardware": "Impresora de recibos, ancho de papel y cajón",
+    "email": "Remitente y correos de prueba",
+    "nearExpiry": "Ventana de alerta y descuento automático",
+    "lockTimeout": "Tiempo inactivo antes de bloquear la pantalla",
+    "backup": "Respaldos manuales y restauración",
+    "license": "Plan, vigencia y terminal"
+  },
+  "language": {
+    "heading": "Idioma",
+    "fieldLabel": "Idioma de la interfaz",
+    "option": {
+      "esMX": "Español (México)",
+      "enUS": "Inglés (EE. UU.)"
+    },
+    "helper": "Aplica solo a tu cuenta y persiste entre dispositivos.",
+    "save": "Guardar idioma",
+    "saving": "Guardando…",
+    "saveSuccess": "Idioma actualizado.",
+    "saveError": "No se pudo actualizar el idioma. Intenta de nuevo."
+  },
+  "license": {
+    "heading": "Licencia",
+    "status": {
+      "active": "Activa",
+      "warning": "Por vencer",
+      "grace": "En periodo de gracia",
+      "locked": "Bloqueada",
+      "disabled": "Sin control de licencia (modo desarrollo)"
+    },
+    "tenant": "Tienda",
+    "plan": "Plan",
+    "planName": {
+      "monthly": "Mensual",
+      "yearly": "Anual",
+      "lifetime": "De por vida",
+      "demo": "Demo (14 días)"
+    },
+    "getFull": "Obtener la versión completa",
+    "demoEnds": "La demo termina",
+    "periodEnd": "Vigencia hasta",
+    "lifetimeNoExpiry": "Sin vencimiento",
+    "updatesUntil": "Actualizaciones hasta",
+    "updatesExpired": "Las actualizaciones regulares terminaron — contacta a tu proveedor para renovarlas.",
+    "leaseUntil": "Renovar antes de",
+    "leaseHint": "El equipo renueva su licencia automáticamente al conectarse a internet. Sin conexión, se bloquea en la fecha “Renovar antes de”.",
+    "lastHeartbeat": "Última verificación",
+    "never": "Nunca",
+    "terminalId": "ID de terminal",
+    "maxTerminals": "Terminales permitidas",
+    "refresh": "Verificar ahora",
+    "refreshing": "Verificando…",
+    "refreshed": "Licencia verificada",
+    "refreshFailed": "No se pudo verificar la licencia",
+    "changeKey": "Cambiar clave / importar token",
+    "checkUpdates": "Buscar actualizaciones",
+    "checkingUpdates": "Buscando actualizaciones…",
+    "upToDate": "Ya tienes la versión más reciente",
+    "updateCheckFailed": "No se pudieron buscar actualizaciones. Intenta más tarde.",
+    "unlicensed": "Este equipo no tiene licencia."
+  },
+  "hardware": {
+    "terminal": {
+      "title": "Terminal",
+      "label": "ID de terminal",
+      "help": "Identifica esta estación de cobro. Se usa para la caja de esta terminal y la bitácora de auditoría. Solo letras, dígitos, - y _.",
+      "save": "Guardar",
+      "saved": "ID de terminal guardado",
+      "invalid": "Usa de 1 a 32 caracteres: letras, dígitos, - o _"
+    }
+  },
+  "unsavedChanges": {
+    "title": "¿Guardar cambios?",
+    "description": "Tienes cambios sin guardar en esta pestaña. ¿Guardarlos antes de salir?",
+    "save": "Guardar",
+    "discard": "Descartar",
+    "cancel": "Cancelar"
+  }
+}

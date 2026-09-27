@@ -1,0 +1,20 @@
+{
+  "threshold": 0,
+  "minLines": 5,
+  "minTokens": 50,
+  "reporters": ["json"],
+  "gitignore": true,
+  "ignore": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/src-tauri/**",
+    "**/graphify-out/**",
+    "**/src/graphify-out/**",
+    "**/storybook-static/**",
+    "**/coverage/**",
+    "**/src/shared/lib/supabase.types.ts",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.stories.tsx"
+  ]
+}

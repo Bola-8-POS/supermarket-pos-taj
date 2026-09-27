@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-open-cash-drawer"
+description = "Enables the open_cash_drawer command without any pre-configured scope."
+commands.allow = ["open_cash_drawer"]
+
+[[permission]]
+identifier = "deny-open-cash-drawer"
+description = "Denies the open_cash_drawer command without any pre-configured scope."
+commands.deny = ["open_cash_drawer"]

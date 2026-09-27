@@ -1,0 +1,66 @@
+{
+  "table": {
+    "name": "Name",
+    "role": "Role",
+    "locale": "Language",
+    "clockIn": "Clock in",
+    "duration": "Shift duration"
+  },
+  "actions": {
+    "clockIn": "Clock In",
+    "clockOut": "Clock Out",
+    "forcePinChange": "Force PIN Change",
+    "resetPin": "Reset PIN",
+    "deactivate": "Deactivate"
+  },
+  "section": {
+    "title": "Staff",
+    "description": "Active team members and open shifts."
+  },
+  "search": {
+    "placeholder": "Search staff…"
+  },
+  "locale": {
+    "editTrigger": "Change language",
+    "updateSuccess": "{{name}}'s language updated to {{locale}}.",
+    "updateError": "Couldn't update {{name}}'s language."
+  },
+  "addStaff": {
+    "trigger": "Add Staff",
+    "dialogTitle": "Add Staff",
+    "dialogDescription": "Create a new staff account with a temporary PIN.",
+    "nameLabel": "Name",
+    "pinLabel": "PIN",
+    "confirmPinLabel": "Confirm PIN",
+    "roleLabel": "Role",
+    "localeLabel": "Language",
+    "pinMismatch": "PINs do not match",
+    "create": "Create Staff",
+    "creating": "Creating…",
+    "successToast": "{{name}} added — they'll be asked to set a new PIN on first login",
+    "genericFailure": "Something went wrong. Please try again or ask a manager for help."
+  },
+  "resetPin": {
+    "dialogTitle": "Reset PIN for {{name}}",
+    "dialogDescription": "Set a new 6-digit PIN for this staff member. They'll be required to change it on their next login.",
+    "newPinLabel": "New PIN",
+    "confirmPinLabel": "Confirm New PIN",
+    "submit": "Reset PIN",
+    "submitting": "Resetting…",
+    "pinMismatch": "PINs don't match — re-enter both fields.",
+    "collisionWarning": "This PIN is already in use by {{name}}. You can still continue, but consider choosing a different PIN.",
+    "successToast": "PIN reset for {{name}}. They'll be asked to set a new PIN at next login.",
+    "genericFailure": "Couldn't reset the PIN. Try again.",
+    "partialFailureToast": "PIN reset partially failed — the credential changed but the staff record didn't sync. Contact support before this staff member tries to log in."
+  },
+  "deactivate": {
+    "dialogTitle": "Deactivate {{name}}?",
+    "dialogDescription": "{{name}} will no longer be able to sign in or approve anything, and will disappear from the staff list. Their past shifts and sales are kept.",
+    "confirm": "Deactivate",
+    "confirming": "Deactivating…",
+    "successToast": "{{name}} has been deactivated.",
+    "genericFailure": "Couldn't deactivate this staff member. Try again.",
+    "lastAdmin": "This is the only active admin. Add another admin before deactivating this one.",
+    "partialFailureToast": "Deactivation partially failed — the staff record changed but sign-in didn't sync. Try again, and contact support if it happens again."
+  }
+}

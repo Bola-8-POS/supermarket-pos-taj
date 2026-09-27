@@ -1,0 +1,124 @@
+{
+  "receipt": {
+    "date": "Date",
+    "cashier": "Cashier",
+    "customer": "Customer",
+    "subtotal": "Subtotal",
+    "promotion": "Promotion",
+    "discount": "Discount",
+    "tax": "Tax",
+    "total": "Total",
+    "payment": "Payment",
+    "tendered": "Tendered",
+    "change": "Change",
+    "ref": "Ref",
+    "demoWatermark": "*** DEMO — NOT A VALID RECEIPT ***",
+    "method": {
+      "cash": "Cash",
+      "card": "Card (BBVA Terminal)",
+      "rappi": "Rappi",
+      "uberEats": "Uber Eats",
+      "bankTransfer": "Bank Transfer"
+    },
+    "category": {
+      "other": "Other"
+    }
+  },
+  "precheque": {
+    "title": "PENDING ACCOUNT",
+    "subtitle": "PRE-CHEQUE",
+    "date": "Date",
+    "cashier": "Cashier",
+    "customer": "Customer",
+    "table": "Table",
+    "happyHour": "★ HAPPY HOUR ACTIVE ★",
+    "subtotal": "SUBTOTAL",
+    "pending": "** PENDING PAYMENT **",
+    "pool": "Pool",
+    "note": "Note"
+  },
+  "pdf": {
+    "appTitle": "Supermarket POS",
+    "caja": {
+      "title": "Daily Caja Report",
+      "summary": "Summary",
+      "metric": "Metric",
+      "value": "Value",
+      "totalRevenue": "Total Revenue",
+      "cashSales": "Cash Sales",
+      "cardSales": "Card Sales",
+      "rappiSales": "Rappi Sales",
+      "uberEatsSales": "Uber Eats Sales",
+      "bankTransferSales": "Bank Transfer Sales",
+      "bankTransferPending": "Bank Transfer Pending",
+      "orderCount": "Order Count",
+      "tabCount": "Tab Count",
+      "cashReconciliation": "Cash Reconciliation",
+      "item": "Item",
+      "amount": "Amount",
+      "openingCash": "Opening Cash",
+      "cashIn": "Paid In",
+      "cashOut": "Paid Out",
+      "expectedCash": "Expected Cash",
+      "closingCash": "Closing Cash",
+      "variance": "Variance",
+      "topProducts": "Top Products",
+      "product": "Product",
+      "qty": "Qty",
+      "revenue": "Revenue",
+      "staffPerformance": "Staff Performance",
+      "staff": "Staff",
+      "orders": "Orders",
+      "salesTotal": "Sales Total",
+      "categoryOther": "Other"
+    },
+    "productSales": {
+      "title": "Product Sales Report",
+      "product": "Product",
+      "category": "Category",
+      "units": "Units",
+      "revenue": "Revenue",
+      "margin": "Margin"
+    },
+    "hourlySales": {
+      "title": "Hourly Sales Report",
+      "hour": "Hour",
+      "dayOfWeek": "Day of Week",
+      "orders": "Orders",
+      "revenue": "Revenue",
+      "busiest": "Busiest",
+      "busiestMarker": "Yes"
+    },
+    "voidRefund": {
+      "title": "Voids & Refunds Report",
+      "timestamp": "Timestamp",
+      "staff": "Staff",
+      "amount": "Amount",
+      "reason": "Reason"
+    },
+    "categoryRevenue": {
+      "title": "Revenue by Category",
+      "category": "Category",
+      "units": "Units",
+      "orders": "Orders",
+      "revenue": "Revenue",
+      "pctTotal": "% of Total"
+    },
+    "staffMetrics": {
+      "title": "Staff Performance Report",
+      "staffMember": "Staff Member",
+      "revenue": "Revenue",
+      "transactions": "Transactions",
+      "avgCheck": "Avg Check",
+      "voids": "Voids"
+    },
+    "refundsRegister": {
+      "title": "Refunds Register",
+      "date": "Date",
+      "operator": "Operator",
+      "amount": "Amount",
+      "reason": "Reason",
+      "restock": "Restock"
+    }
+  }
+}

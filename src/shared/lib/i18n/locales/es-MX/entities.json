@@ -1,0 +1,73 @@
+{
+  "common": {
+    "unknownError": "Error desconocido",
+    "unknownProduct": "Desconocido",
+    "unknownStaff": "Desconocido"
+  },
+  "caja": {
+    "closeFailed": "No se pudo cerrar la caja.",
+    "alreadyOpenOnTerminal": "La terminal {{terminal}} ya tiene una caja abierta"
+  },
+  "reports": {
+    "uncategorized": "Sin categoría",
+    "unknownProduct": "Producto desconocido",
+    "dateRangeExceeded": "El rango de fechas excede 365 días. Selecciona un rango más corto."
+  },
+  "staff": {
+    "unsupportedLocale": "Idioma no compatible"
+  },
+  "tab": {
+    "cajaNotOpen": "No hay caja abierta. Pide a un gerente que abra la caja primero.",
+    "alreadyExistsInStore": "La cuenta ya existe en el store.",
+    "notFoundInStore": "Cuenta no encontrada."
+  },
+  "cartItem": {
+    "weight": "Peso: {{weight}} kg",
+    "editWeight": "Editar",
+    "remove": "Quitar {{name}}",
+    "promotionApplied": "Promoción aplicada",
+    "discountBadge": "{{percent}}% de descuento",
+    "notesPlaceholder": "Nota (ej. sin apio)",
+    "notesFor": "Nota para {{name}}"
+    ,"nearExpiry": "Caduca en {{days}} días"
+    ,"priceConflict": "Precio cambió — toca para revisar"
+    ,"comboApplied": "Combo: {{name}}"
+  },
+  "categoryTabs": {
+    "showAll": "Mostrar todas las categorías",
+    "all": "Todas",
+    "filterBy": "Filtrar por {{category}}"
+  },
+  "inventoryRow": {
+    "low": "Bajo",
+    "columns": {
+      "product": "Producto",
+      "category": "Categoría",
+      "price": "Precio",
+      "status": "Estado",
+      "onHand": "Existencia",
+      "unit": "Unidad",
+      "threshold": "Umbral"
+    }
+  },
+  "lowStockBadge": {
+    "count": "{{count}} con existencia baja"
+  },
+  "nearExpiryBadge": {
+    "count": "{{count}} próximos a caducar"
+  },
+  "productCard": {
+    "selectRegularPrice": "Seleccionar {{name}}, precio regular",
+    "outOfStock": "Agotado",
+    "barcodeLabel": "Código de barras: {{code}}"
+  },
+  "productRiskConfirm": {
+    "zeroPriceTitle": "{{name}} tiene un precio de $0",
+    "zeroPriceBody": "¿Agregarlo al carrito a $0?",
+    "lowStockTitle_one": "Solo queda 1 de {{name}}",
+    "lowStockTitle_other": "Solo quedan {{count}} de {{name}}",
+    "lowStockBody": "¿Agregarlo al carrito de todas formas?",
+    "confirm": "Agregar de todas formas",
+    "cancel": "Cancelar"
+  }
+}

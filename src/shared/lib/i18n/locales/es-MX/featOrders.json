@@ -1,0 +1,224 @@
+{
+  "shared": {
+    "addToOrder": "Agregar al pedido"
+  },
+  "addItem": {
+    "customize": "Personalizar {{name}}",
+    "sheetDescription": "Selecciona los modificadores para este artículo",
+    "itemTotal": "Total del artículo",
+    "noModifiers": "No hay modificadores disponibles para este producto",
+    "free": "Gratis"
+  },
+  "closeTab": {
+    "success": "Cuenta cerrada con éxito."
+  },
+  "scanBarcodeToCart": {
+    "productNotFound": "Producto no encontrado"
+  },
+  "checkoutSale": {
+    "defaultCustomerName": "Cliente de mostrador",
+    "paymentIncomplete": "No se pudo completar el pago.",
+    "bankTransferMethodLabel": "Transferencia bancaria",
+    "bankTransferUnavailable": "La transferencia bancaria no está disponible aquí",
+    "customerNameLabel": "Nombre del cliente (opcional)",
+    "customerPhoneLabel": "Teléfono del cliente",
+    "customerPhonePlaceholder": "Número a 10 dígitos",
+    "referenceCodeHeading": "Código de referencia",
+    "referenceCodeInstructions": "Pide al cliente que ingrese este código en el campo de referencia numérica de su transferencia bancaria. Si su banco no ofrece ese campo, puede ingresarlo en el campo de concepto — solo dígitos, nunca una frase.",
+    "copyCode": "Copiar código",
+    "codeCopied": "Código copiado"
+  },
+  "weightEntry": {
+    "title": "Ingresar peso",
+    "fieldLabel": "Peso (kg)",
+    "kilograms": "kg",
+    "helperText": "Peso × precio = {{total}}",
+    "confirm": "Agregar al carrito",
+    "edit": "Guardar peso"
+  },
+  "processPayment": {
+    "invalidEmail": "Correo inválido",
+    "receiptSent": "Recibo enviado.",
+    "emailReceiptTitle": "Enviar recibo por correo",
+    "emailReceiptDescription": "Envía una copia al correo del cliente.",
+    "emailLabel": "Correo",
+    "emailPlaceholder": "nombre@ejemplo.com",
+    "sending": "Enviando…",
+    "sendReceipt": "Enviar recibo",
+    "receiptTitle": "Recibo",
+    "printing": "Imprimiendo…",
+    "printReceipt": "Imprimir recibo",
+    "emailReceiptButton": "Enviar recibo por correo",
+    "done": "Listo",
+    "downloadPdfButton": "Descargar PDF",
+    "generatingPdf": "Generando…",
+    "pdfGenerationFailed": "No se pudo generar el PDF — intenta de nuevo.",
+    "receiptSentNoPdf": "Recibo enviado (sin PDF adjunto)"
+  },
+  "processRefund": {
+    "invalidPayload": "No se puede enviar este reembolso — revisa los artículos y montos seleccionados.",
+    "exceedsOriginal": "El monto del reembolso excede el saldo reembolsable restante.",
+    "itemNotInOriginalOrder": "Uno o más artículos no formaban parte del pedido original.",
+    "authForbidden": "Se requiere aprobación de un gerente para procesar un reembolso.",
+    "cajaNotOpen": "La caja para este reembolso está cerrada. Abre una caja e intenta de nuevo.",
+    "genericError": "No se pudo procesar el reembolso. Revisa tu conexión e intenta de nuevo.",
+    "refundProcessed": "Reembolso de {{amount}} procesado.",
+    "title": "Procesar reembolso",
+    "description": "Selecciona los artículos a reembolsar, define las cantidades y solicita la aprobación del gerente.",
+    "loadingItems": "Cargando artículos...",
+    "noRefundableItems": "No se encontraron artículos reembolsables.",
+    "fullyRefunded": "Reembolsado por completo",
+    "selectForRefund": "Seleccionar {{name}} para reembolso",
+    "qty": "Cant.:",
+    "restockAria": "Reponer {{name}}",
+    "restock": "Reponer",
+    "reason": "Motivo",
+    "reasonLabels": {
+      "wrong_order": "Pedido equivocado",
+      "quality_issue": "Problema de calidad",
+      "customer_complaint": "Queja del cliente",
+      "billing_error": "Error de facturación",
+      "other": "Otro"
+    },
+    "selectReasonPlaceholder": "Selecciona un motivo...",
+    "refundTotal": "Total del reembolso",
+    "closeRefund": "Cerrar reembolso",
+    "requestApproval": "Solicitar aprobación"
+  },
+  "removeTabItem": {
+    "unknownItem": "Artículo desconocido",
+    "removedFromOrder": "{{name}} eliminado del pedido.",
+    "title": "¿Eliminar artículo?",
+    "description": "Este artículo se eliminará del pedido de forma permanente. Esta acción no se puede deshacer.",
+    "confirmLabel": "Eliminar artículo",
+    "reasonLabel": "Motivo",
+    "reasonPlaceholder": "Ej. Pedido incorrecto, cliente cambió de opinión…",
+    "reasonRequired": "El motivo es obligatorio",
+    "genericError": "No se pudo quitar el artículo. Verifica tu conexión e inténtalo de nuevo."
+  },
+  "editReopenedItems": {
+    "title": "Editar artículos del ticket reabierto",
+    "description": "Agrega o quita artículos de esta venta reabierta. Cada cambio requiere aprobación de un gerente.",
+    "addItem": "Agregar artículo",
+    "saveChanges": "Guardar cambios",
+    "cancel": "Cancelar",
+    "qty": "Cant.:",
+    "unitPriceLabel": "Precio unitario",
+    "itemAdded": "Artículo agregado al ticket.",
+    "addItemError": "No se pudo agregar el artículo. Verifica tu conexión e intenta de nuevo.",
+    "removeItem": "Quitar"
+  },
+  "editPaidTab": {
+    "title": "Editar ticket pagado",
+    "description": "Corrige artículos, cantidades o notas de esta cuenta pagada. Los cambios quedan registrados con tu motivo.",
+    "reason": "Motivo",
+    "reasonPlaceholder": "Describe la corrección...",
+    "saveCorrection": "Guardar corrección",
+    "cancel": "Cancelar",
+    "loadingItems": "Cargando artículos...",
+    "noItems": "No se encontraron artículos en esta cuenta.",
+    "unknownItem": "Artículo desconocido",
+    "editedBadge": "Editado",
+    "addItem": "Agregar artículo",
+    "removeItem": "Quitar",
+    "removeItemConfirmTitle": "¿Quitar artículo?",
+    "removeItemConfirmDescription": "Este artículo se quitará de la corrección. Esto no afecta el registro original pagado hasta que guardes.",
+    "removeItemConfirmLabel": "Quitar artículo",
+    "ticketNotesLabel": "Notas del ticket",
+    "qty": "Cant.:",
+    "unitPriceLabel": "Precio unitario",
+    "itemNotesLabel": "Notas",
+    "newTotal": "Nuevo total",
+    "totalDeltaHint": "El total cambia por {{amount}} — se registra como un ajuste de caja.",
+    "noOpenCaja": "No hay una sesión de caja abierta — las correcciones de solo notas pueden continuar, pero los cambios de precio o cantidad requieren una caja abierta.",
+    "genericError": "No se pudo guardar la corrección. Verifica tu conexión e intenta de nuevo.",
+    "editSaved": "Corrección del ticket guardada.",
+    "authForbidden": "Se requiere la aprobación de un gerente para editar un ticket pagado.",
+    "notEditable": "Esta cuenta ya no se puede editar."
+  },
+  "managerPinGate": {
+    "incorrectPin": "PIN incorrecto. Pide a un gerente que ingrese su PIN.",
+    "title": "Se requiere acceso de gerente",
+    "description": "Se requiere un PIN de gerente o administrador para acceder a esta sección.",
+    "pinLabel": "Ingresa el PIN de gerente",
+    "lockedOut": "Demasiados intentos. Intenta de nuevo en {{seconds}} s.",
+    "needsConnection": "No se puede verificar el PIN sin conexión. Intenta de nuevo."
+  },
+  "applyPromotion": {
+    "label": "Aplicar promoción",
+    "placeholder": "Selecciona una promoción..."
+  },
+  "belowCostOverride": {
+    "message": "Este descuento vendería por debajo del costo. Se requiere el PIN de un gerente para continuar."
+  },
+  "idleLock": {
+    "title": "Pantalla bloqueada",
+    "description": "Ingresa el PIN de cualquier empleado para desbloquear.",
+    "incorrectPin": "PIN incorrecto. Intenta de nuevo.",
+    "lockedOut": "Demasiados intentos. Intenta de nuevo en {{seconds}} s.",
+    "offlineOnlySameUser": "Sin conexión: solo puede desbloquear quien inició sesión."
+  },
+  "printPrecheque": {
+    "barFallback": "Barra",
+    "staffFallback": "Personal",
+    "itemFallback": "Artículo"
+  },
+  "registerCajaEntry": {
+    "noOpenCaja": "No hay sesión de caja abierta",
+    "amountPositive": "El monto debe ser mayor a 0",
+    "conceptRequired": "El concepto es obligatorio",
+    "conceptMaxLength": "El concepto debe tener 200 caracteres o menos",
+    "noActiveStaff": "No hay sesión de personal activa.",
+    "expenseRecorded": "Gasto registrado: {{amount}}",
+    "incomeRecorded": "Ingreso registrado: {{amount}}",
+    "title": "Registrar gasto / ingreso",
+    "typeLabel": "Tipo",
+    "expense": "Gasto",
+    "income": "Ingreso",
+    "amountLabel": "Monto",
+    "conceptLabel": "Concepto",
+    "conceptPlaceholder": "Describe este registro…",
+    "saveEntry": "Guardar registro",
+    "genericError": "No se pudo guardar el registro. Verifica tu conexión e inténtalo de nuevo."
+  },
+  "reopenTab": {
+    "title": "Reabrir cuenta",
+    "description": "Reabre esta cuenta cerrada o pagada. El pago original quedará anulado y la cuenta volverá a estar abierta.",
+    "summary": "Reabrir la cuenta de {{name}} anulará el pago original y la reabrirá para su edición.",
+    "reasonLabel": "Motivo",
+    "reasonPlaceholder": "Describe el motivo para reabrir...",
+    "cancel": "Cancelar",
+    "requestApproval": "Solicitar aprobación",
+    "reopenSuccess": "Cuenta reabierta correctamente.",
+    "capExceeded": "Esta cuenta ya se reabrió el número máximo de veces permitido.",
+    "windowExpired": "El plazo para reabrir esta cuenta ha expirado.",
+    "noOpenCaja": "No hay una sesión de caja abierta — se requiere una caja abierta para reabrir esta cuenta.",
+    "authForbidden": "Se requiere la aprobación de un gerente para reabrir una cuenta.",
+    "notReopenable": "Esta cuenta no se puede reabrir.",
+    "genericError": "No se pudo reabrir la cuenta. Verifica tu conexión e intenta de nuevo."
+  },
+  "printer": {
+    "retryingPrint": "Reintentando impresión ({{attempt}}/{{max}})…",
+    "printSucceededAfterRetry": "Recibo impreso",
+    "printFailedAfterRetries": "Impresión fallida después de {{max}} intentos — revisa la impresora e intenta de nuevo."
+  },
+  "confirmDisputeTransfer": {
+    "confirmTitle": "Confirmar transferencia bancaria",
+    "confirmDescription": "Ingresa el código de referencia de 7 dígitos que {{name}} te indicó de su comprobante de transferencia.",
+    "confirmButton": "Confirmar transferencia",
+    "codeLabel": "Código de referencia",
+    "codePlaceholder": "0000000",
+    "codeInvalid": "Ese código no es válido — revisa si hay un error de captura.",
+    "confirmSuccess": "Transferencia bancaria de {{amount}} confirmada.",
+    "disputeTitle": "Disputar transferencia bancaria",
+    "disputeDescription": "Describe por qué no se pudo confirmar la transferencia bancaria de {{name}}.",
+    "disputeButton": "Disputar transferencia",
+    "reasonLabel": "Motivo",
+    "reasonPlaceholder": "Ej. El código no coincide con ninguna transferencia recibida…",
+    "reasonRequired": "Se requiere un motivo para disputar esta transferencia.",
+    "disputeSuccess": "Transferencia bancaria disputada.",
+    "authForbidden": "Se requiere la aprobación de un gerente para confirmar o disputar una transferencia bancaria.",
+    "alreadyProcessed": "Esta transferencia bancaria ya fue resuelta.",
+    "genericError": "No se pudo procesar esta transferencia bancaria. Verifica tu conexión e intenta de nuevo."
+  }
+}

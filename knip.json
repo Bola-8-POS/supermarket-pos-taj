@@ -1,0 +1,11 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "ignore": [
+    "src/shared/lib/supabase.types.ts",
+    "src-tauri/**",
+    "dist/**",
+    "storybook-static/**",
+    "graphify-out/**",
+    "src/graphify-out/**"
+  ]
+}

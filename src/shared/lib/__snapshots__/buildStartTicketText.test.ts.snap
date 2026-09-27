@@ -1,0 +1,14 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`buildStartTicketText > snapshot: known input produces expected formatted string 1`] = `
+"             Bola 8             
+         TICKET INICIO          
+          START TICKET          
+--------------------------------
+Mesa                  Main Table
+Inicio     4/21/2026, 4:00:00 AM
+Tarifa                  $15.00/h
+--------------------------------
+
+"
+`;

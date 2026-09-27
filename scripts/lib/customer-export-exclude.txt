@@ -1,0 +1,45 @@
+# Customer export exclude list. One path per line, matched by whole path
+# segment (a directory entry excludes that directory and everything under it; a
+# file entry excludes just that file). No globs. `#` starts a comment.
+# Read by scripts/export-customer-tree.mjs via `git archive ... ':(exclude)<path>'`.
+
+.planning                        # vendor planning history, never shipped to a customer
+.planning-STALE                  # superseded vendor planning history
+.agents                          # vendor agent configuration
+.gsd                             # vendor GSD workflow state
+.github                          # vendor CI/release workflows, not build inputs
+.husky                           # vendor git hooks
+.storybook                       # vendor component-catalog tooling
+customers                        # every other customer's manifest entry, override and icons
+docs/superpowers                 # vendor planning/research documents
+docs/onboarding-new-customer.md  # names the manifest slug convention and internal runbook steps
+docs/online-demo.md              # names the demo project and hosting site
+HANDOFF.md                       # vendor hand-off notes, demo accounts documented by design
+CLAUDE.md                        # vendor agent conventions
+AGENTS.md                        # vendor agent conventions
+scratchpad                       # vendor scratch files
+e2e                               # vendor end-to-end suite (local- and remote-backend specs/fixtures)
+e2e-blob-reports                 # vendor test-run artifacts
+playwright.remote.config.ts      # points at e2e/remote-smoke
+playwright.training.config.ts    # points at e2e/training
+playwright.tutorial.config.ts    # points at e2e/tutorials
+playwright.visual.config.ts      # points at e2e/visual
+playwright.license-live.config.ts # points at e2e/
+scripts/onboard-customer.ps1     # vendor customer-onboarding runbook
+scripts/lib/customer-manifest.ps1 # reads customers/customers.json, a vendor-only file
+scripts/test-customer-manifest-filter.ps1 # self-test for the manifest helper above
+scripts/seed-demo.ts             # demo-project seed script
+scripts/seed-remote-e2e-admin.ts # remote-smoke fixture admin seed script
+scripts/purge-customer-repo-refs.ps1 # owner-run history-purge tool, never a build input
+scripts/tutorial-videos-convert.ts # tutorial-video pipeline, not a build input
+scripts/tutorial-videos-convert.test.ts # self-test for the script above
+scripts/verify-installer-integrity.ps1 # names one customer and its project ref
+scripts/deploy-remote-backend.ps1 # names one customer's project ref, deploy runbook only
+supabase/seed.sql                # dev/demo seed data
+tutorial-videos                  # generated tutorial video output
+.firebaserc                      # vendor Firebase hosting project id
+firebase.json                    # vendor Firebase hosting project id
+scratchpad-smoke.mjs             # vendor dev smoke script
+playwright.config.ts             # points at e2e/
+playwright.csp.config.ts         # points at e2e/
+playwright.license.config.ts     # points at e2e/

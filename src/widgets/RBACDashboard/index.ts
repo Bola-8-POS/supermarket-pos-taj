@@ -1,0 +1,1 @@
+export { RBACDashboard } from './RBACDashboard';

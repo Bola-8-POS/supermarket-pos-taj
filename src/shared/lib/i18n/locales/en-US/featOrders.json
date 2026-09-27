@@ -1,0 +1,224 @@
+{
+  "shared": {
+    "addToOrder": "Add to Order"
+  },
+  "addItem": {
+    "customize": "Customize {{name}}",
+    "sheetDescription": "Select any modifiers for this item",
+    "itemTotal": "Item total",
+    "noModifiers": "No modifiers available for this product",
+    "free": "Free"
+  },
+  "closeTab": {
+    "success": "Tab closed successfully."
+  },
+  "scanBarcodeToCart": {
+    "productNotFound": "Product not found"
+  },
+  "checkoutSale": {
+    "defaultCustomerName": "Walk-in",
+    "paymentIncomplete": "Payment could not be completed.",
+    "bankTransferMethodLabel": "Bank Transfer",
+    "bankTransferUnavailable": "Bank transfer is not available here",
+    "customerNameLabel": "Customer Name (optional)",
+    "customerPhoneLabel": "Customer Phone",
+    "customerPhonePlaceholder": "10-digit phone number",
+    "referenceCodeHeading": "Reference Code",
+    "referenceCodeInstructions": "Have the customer enter this code in their bank transfer's numeric reference field (referencia numérica). If their bank doesn't offer that field, they can enter it in the concepto field instead — digits only, never a phrase.",
+    "copyCode": "Copy code",
+    "codeCopied": "Code copied"
+  },
+  "weightEntry": {
+    "title": "Enter weight",
+    "fieldLabel": "Weight (kg)",
+    "kilograms": "kg",
+    "helperText": "Weight × price = {{total}}",
+    "confirm": "Add to cart",
+    "edit": "Save weight"
+  },
+  "processPayment": {
+    "invalidEmail": "Invalid email",
+    "receiptSent": "Receipt sent.",
+    "emailReceiptTitle": "Email receipt",
+    "emailReceiptDescription": "Send a copy to the customer's email.",
+    "emailLabel": "Email",
+    "emailPlaceholder": "name@example.com",
+    "sending": "Sending…",
+    "sendReceipt": "Send Receipt",
+    "receiptTitle": "Receipt",
+    "printing": "Printing…",
+    "printReceipt": "Print receipt",
+    "emailReceiptButton": "Email receipt",
+    "done": "Done",
+    "downloadPdfButton": "Download PDF",
+    "generatingPdf": "Generating…",
+    "pdfGenerationFailed": "Couldn't generate the PDF — try again.",
+    "receiptSentNoPdf": "Receipt sent (without PDF attachment)"
+  },
+  "processRefund": {
+    "invalidPayload": "This refund can't be submitted — check the selected items and amounts.",
+    "exceedsOriginal": "Refund amount exceeds the remaining refundable balance.",
+    "itemNotInOriginalOrder": "One or more items were not part of the original order.",
+    "authForbidden": "Manager approval is required to process a refund.",
+    "cajaNotOpen": "The cash register for this refund is closed. Open a register and try again.",
+    "genericError": "Could not process refund. Check your connection and try again.",
+    "refundProcessed": "Refund of {{amount}} processed.",
+    "title": "Process refund",
+    "description": "Select items to refund, set quantities, and request manager approval.",
+    "loadingItems": "Loading items...",
+    "noRefundableItems": "No refundable items found.",
+    "fullyRefunded": "Fully refunded",
+    "selectForRefund": "Select {{name}} for refund",
+    "qty": "Qty:",
+    "restockAria": "Restock {{name}}",
+    "restock": "Restock",
+    "reason": "Reason",
+    "reasonLabels": {
+      "wrong_order": "Wrong order",
+      "quality_issue": "Quality issue",
+      "customer_complaint": "Customer complaint",
+      "billing_error": "Billing error",
+      "other": "Other"
+    },
+    "selectReasonPlaceholder": "Select a reason...",
+    "refundTotal": "Refund total",
+    "closeRefund": "Close refund",
+    "requestApproval": "Request approval"
+  },
+  "removeTabItem": {
+    "unknownItem": "Unknown item",
+    "removedFromOrder": "{{name}} removed from order.",
+    "title": "Remove item?",
+    "description": "This item will be permanently removed from the order. This cannot be undone.",
+    "confirmLabel": "Remove item",
+    "reasonLabel": "Reason",
+    "reasonPlaceholder": "E.g. Wrong item, customer changed their mind…",
+    "reasonRequired": "Reason is required",
+    "genericError": "Could not remove the item. Check your connection and try again."
+  },
+  "editReopenedItems": {
+    "title": "Edit items on reopened ticket",
+    "description": "Add or remove items on this reopened sale. Every change requires manager approval.",
+    "addItem": "Add item",
+    "saveChanges": "Save changes",
+    "cancel": "Cancel",
+    "qty": "Qty:",
+    "unitPriceLabel": "Unit price",
+    "itemAdded": "Item added to ticket.",
+    "addItemError": "Could not add the item. Check your connection and try again.",
+    "removeItem": "Remove"
+  },
+  "editPaidTab": {
+    "title": "Edit paid ticket",
+    "description": "Correct items, quantities, or notes on this paid tab. Changes are recorded with your reason.",
+    "reason": "Reason",
+    "reasonPlaceholder": "Describe the correction...",
+    "saveCorrection": "Save correction",
+    "cancel": "Cancel",
+    "loadingItems": "Loading items...",
+    "noItems": "No items found on this tab.",
+    "unknownItem": "Unknown item",
+    "editedBadge": "Edited",
+    "addItem": "Add item",
+    "removeItem": "Remove",
+    "removeItemConfirmTitle": "Remove item?",
+    "removeItemConfirmDescription": "This item will be removed from the correction. This does not affect the original paid record until you save.",
+    "removeItemConfirmLabel": "Remove item",
+    "ticketNotesLabel": "Ticket notes",
+    "qty": "Qty:",
+    "unitPriceLabel": "Unit price",
+    "itemNotesLabel": "Notes",
+    "newTotal": "New total",
+    "totalDeltaHint": "Total changes by {{amount}} — recorded as a caja adjustment.",
+    "noOpenCaja": "No caja session is open — notes-only edits can proceed, but price/quantity changes need an open caja.",
+    "genericError": "Could not save the correction. Check your connection and try again.",
+    "editSaved": "Ticket correction saved.",
+    "authForbidden": "Manager approval is required to edit a paid ticket.",
+    "notEditable": "This tab can no longer be edited."
+  },
+  "managerPinGate": {
+    "incorrectPin": "Incorrect PIN. Ask a manager to enter their PIN.",
+    "title": "Manager Access Required",
+    "description": "A manager or admin PIN is required to access this section.",
+    "pinLabel": "Enter manager PIN",
+    "lockedOut": "Too many attempts. Try again in {{seconds}} s.",
+    "needsConnection": "Cannot check the PIN without a connection. Try again."
+  },
+  "applyPromotion": {
+    "label": "Apply Promotion",
+    "placeholder": "Select a promotion..."
+  },
+  "belowCostOverride": {
+    "message": "This discount would sell below cost. Manager PIN required to continue."
+  },
+  "idleLock": {
+    "title": "Screen Locked",
+    "description": "Enter any staff member's PIN to unlock.",
+    "incorrectPin": "Incorrect PIN. Try again.",
+    "lockedOut": "Too many attempts. Try again in {{seconds}} s.",
+    "offlineOnlySameUser": "No connection: only the signed-in staff member can unlock."
+  },
+  "printPrecheque": {
+    "barFallback": "Bar",
+    "staffFallback": "Staff",
+    "itemFallback": "Item"
+  },
+  "registerCajaEntry": {
+    "noOpenCaja": "No open caja session",
+    "amountPositive": "Amount must be greater than 0",
+    "conceptRequired": "Concept is required",
+    "conceptMaxLength": "Concept must be 200 characters or less",
+    "noActiveStaff": "No active staff session.",
+    "expenseRecorded": "Expense recorded: {{amount}}",
+    "incomeRecorded": "Income recorded: {{amount}}",
+    "title": "Register Expense / Income",
+    "typeLabel": "Type",
+    "expense": "Expense",
+    "income": "Income",
+    "amountLabel": "Amount",
+    "conceptLabel": "Concept",
+    "conceptPlaceholder": "Describe this entry…",
+    "saveEntry": "Save Entry",
+    "genericError": "Could not save the entry. Check your connection and try again."
+  },
+  "reopenTab": {
+    "title": "Reopen ticket",
+    "description": "Reopen this closed or paid ticket. The original payment will be voided and the ticket will become open again.",
+    "summary": "Reopening {{name}}'s ticket will void the original payment and reopen it for editing.",
+    "reasonLabel": "Reason",
+    "reasonPlaceholder": "Describe the reason for reopening...",
+    "cancel": "Cancel",
+    "requestApproval": "Request approval",
+    "reopenSuccess": "Ticket reopened successfully.",
+    "capExceeded": "This ticket has already been reopened the maximum number of times allowed.",
+    "windowExpired": "The window to reopen this ticket has expired.",
+    "noOpenCaja": "No caja session is open — an open caja is required to reopen this ticket.",
+    "authForbidden": "Manager approval is required to reopen a ticket.",
+    "notReopenable": "This ticket cannot be reopened.",
+    "genericError": "Could not reopen the ticket. Check your connection and try again."
+  },
+  "printer": {
+    "retryingPrint": "Retrying print ({{attempt}}/{{max}})…",
+    "printSucceededAfterRetry": "Receipt printed",
+    "printFailedAfterRetries": "Print failed after {{max}} attempts — check the printer and try again."
+  },
+  "confirmDisputeTransfer": {
+    "confirmTitle": "Confirm bank transfer",
+    "confirmDescription": "Enter the 7-digit reference code {{name}} read you from their bank transfer confirmation.",
+    "confirmButton": "Confirm transfer",
+    "codeLabel": "Reference code",
+    "codePlaceholder": "0000000",
+    "codeInvalid": "That code isn't valid — check for a typo.",
+    "confirmSuccess": "Bank transfer of {{amount}} confirmed.",
+    "disputeTitle": "Dispute bank transfer",
+    "disputeDescription": "Describe why {{name}}'s bank transfer could not be confirmed.",
+    "disputeButton": "Dispute transfer",
+    "reasonLabel": "Reason",
+    "reasonPlaceholder": "E.g. Code doesn't match any transfer we received…",
+    "reasonRequired": "A reason is required to dispute this transfer.",
+    "disputeSuccess": "Bank transfer disputed.",
+    "authForbidden": "Manager approval is required to confirm or dispute a bank transfer.",
+    "alreadyProcessed": "This bank transfer has already been resolved.",
+    "genericError": "Could not process this bank transfer. Check your connection and try again."
+  }
+}

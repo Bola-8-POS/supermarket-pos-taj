@@ -1,0 +1,144 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Local Supabase/E2E credentials — never commit (self-hosted stack URL + keys, T-01-02)
+.env
+.env.local
+
+# Phase 20 (DEP-04): remote production secrets — never commit (public repo)
+.env.production
+supabase/.env.secrets.production
+
+# Phase 20-03: remote E2E smoke-test credentials (service_role key + fixture admin PIN) — never commit
+.env.remote-e2e
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Tauri signing keys — NEVER commit private keys
+*.key
+*.key.pub
+*.pem
+
+# Phase 20 (DEP-01): build-regenerated self-signed code-signing cert resource —
+# fresh thumbprint every build, so this is an artifact, not a source input; never commit
+src-tauri/cert/
+
+*storybook.log
+storybook-static
+
+# Test / CI outputs (keep clones lean)
+coverage/
+artifacts/
+e2e-results/
+e2e-results-visual/
+e2e-results-remote-smoke/
+e2e-results-training/
+e2e-results-tutorials/
+tutorial-videos/
+e2e-results-license/
+e2e-results-license-live/
+e2e-blob-reports/
+playwright-report/
+playwright-report-visual/
+playwright-report-remote-smoke/
+playwright-report-license/
+playwright-report-license-live/
+verification-artifacts/
+e2e/visual/**/*-snapshots/
+
+# Local lint/type dumps (regenerate anytime)
+eslint-report.json
+lint-results*.json
+lint_report*.json
+lint-results-clean*.json
+lint_output*.txt
+tsc_errors.txt
+
+# AI / IDE tool configs
+.claude/
+.storybook/*
+!.storybook/main.ts
+!.storybook/preview.ts
+.husky/
+.vscode/*
+!.vscode/extensions.json
+
+# Dev scratch / one-off files
+fix_lint.cjs
+docs/*
+tickets/
+.audit-tmp/
+
+# OPS-02: local pg_dump output from scripts/backup-db.sh — never commit DB dumps (PII/payments/audit data)
+backups/
+
+# Markdown docs (CLAUDE.md is the exception — it's project instructions)
+*.md
+!CLAUDE.md
+# .planning/ is GSD's tracked planning-doc tree — not scratch, not excluded from *.md above
+!.planning/**
+# OPS-02 deliverable: tracked DR doc, not scratch — exception to docs/ and *.md above
+!docs/database-backup-and-disaster-recovery.md
+# UI design-system reference (referenced by eslint-rules/no-ui-drift.js messages) — tracked, not scratch
+!DESIGN-TOKENS.md
+# Phase 26 D-09 deliverable: tracked onboarding runbook, not scratch — exception to docs/ and *.md above
+!docs/onboarding-new-customer.md
+# Demo Edition Task 13 deliverable: tracked online-demo runbook, not scratch — exception to docs/ and *.md above
+!docs/online-demo.md
+
+# impeccable-live-ignore-start
+.impeccable/hook.cache.json
+.impeccable/hook.pending.json
+.impeccable/config.local.json
+.impeccable/live/server.json
+.impeccable/live/roots.json
+.impeccable/live/app-root.json
+.impeccable/live/inject-journal.json
+.impeccable/live/sessions/
+.impeccable/live/previews/
+.impeccable/live/annotations/
+.impeccable/live/artifacts/
+.impeccable/live/accept-receipts/
+.impeccable/live/locks/
+.impeccable/live/cache/
+.impeccable/live/manual-edit-apply-transaction.json
+.impeccable/live/manual-edit-events.jsonl
+.impeccable/live/manual-edit-evidence/
+.impeccable/live/pending-manual-edits.json
+.impeccable/live/deferred-svelte-component-accepts.json
+.impeccable-live.json
+.impeccable-live/
+app/.impeccable-live/
+src/.impeccable-live/
+node_modules/.impeccable-live/
+src/lib/impeccable/ImpeccableLiveRoot.svelte
+src/lib/impeccable/__runtime.js
+src/lib/impeccable/[0-9a-f]*/
+plugins/impeccable-live.client.ts
+app/plugins/impeccable-live.client.ts
+src/plugins/impeccable-live.client.ts
+# impeccable-live-ignore-end
+
+# graphify tool output (regenerate with `/graphify . --update`)
+graphify-out/
+src/graphify-out/

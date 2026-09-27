@@ -1,0 +1,73 @@
+{
+  "common": {
+    "unknownError": "Unknown error",
+    "unknownProduct": "Unknown",
+    "unknownStaff": "Unknown"
+  },
+  "caja": {
+    "closeFailed": "Failed to close caja.",
+    "alreadyOpenOnTerminal": "Terminal {{terminal}} already has an open caja"
+  },
+  "reports": {
+    "uncategorized": "Uncategorized",
+    "unknownProduct": "Unknown Product",
+    "dateRangeExceeded": "Date range exceeds 365 days. Please select a shorter range."
+  },
+  "staff": {
+    "unsupportedLocale": "Unsupported locale"
+  },
+  "tab": {
+    "cajaNotOpen": "No caja is open. Ask a manager to open the caja first.",
+    "alreadyExistsInStore": "Tab already exists in store.",
+    "notFoundInStore": "Tab not found."
+  },
+  "cartItem": {
+    "weight": "Weight: {{weight}} kg",
+    "editWeight": "Edit",
+    "remove": "Remove {{name}}",
+    "promotionApplied": "Promotion applied",
+    "discountBadge": "{{percent}}% off",
+    "notesPlaceholder": "Note (e.g. no celery)",
+    "notesFor": "Note for {{name}}"
+    ,"nearExpiry": "Expires in {{days}} days"
+    ,"priceConflict": "Price changed — tap to review"
+    ,"comboApplied": "Combo: {{name}}"
+  },
+  "categoryTabs": {
+    "showAll": "Show all categories",
+    "all": "All",
+    "filterBy": "Filter by {{category}}"
+  },
+  "inventoryRow": {
+    "low": "Low",
+    "columns": {
+      "product": "Product",
+      "category": "Category",
+      "price": "Price",
+      "status": "Status",
+      "onHand": "On hand",
+      "unit": "Unit",
+      "threshold": "Threshold"
+    }
+  },
+  "lowStockBadge": {
+    "count": "{{count}} low stock"
+  },
+  "nearExpiryBadge": {
+    "count": "{{count}} expiring soon"
+  },
+  "productCard": {
+    "selectRegularPrice": "Select {{name}}, Regular price",
+    "outOfStock": "Out of stock",
+    "barcodeLabel": "Barcode: {{code}}"
+  },
+  "productRiskConfirm": {
+    "zeroPriceTitle": "{{name}} is priced at $0",
+    "zeroPriceBody": "Add it to the cart at $0?",
+    "lowStockTitle_one": "Only 1 left of {{name}}",
+    "lowStockTitle_other": "Only {{count}} left of {{name}}",
+    "lowStockBody": "Add it to the cart anyway?",
+    "confirm": "Add anyway",
+    "cancel": "Cancel"
+  }
+}

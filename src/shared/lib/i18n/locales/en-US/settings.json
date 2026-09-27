@@ -1,0 +1,103 @@
+{
+  "tabs": {
+    "language": "Language",
+    "general": "General",
+    "hardware": "Hardware",
+    "email": "Email Receipts",
+    "backup": "Backup",
+    "billing": "Billing",
+    "nearExpiry": "Near Expiry",
+    "lockTimeout": "Auto-Lock Timeout",
+    "license": "License"
+  },
+  "noPermission": "You do not have permission to view settings.",
+  "navLabel": "Settings sections",
+  "groups": {
+    "personal": "Personal",
+    "store": "Store",
+    "receipts": "Receipts & hardware",
+    "stock": "Stock rules",
+    "security": "Security & data"
+  },
+  "descriptions": {
+    "language": "Which language your account uses",
+    "general": "Store name, address, timezone, currency",
+    "billing": "Tax, payment methods, button labels",
+    "hardware": "Receipt printer, paper width, cash drawer",
+    "email": "Sender address and test emails",
+    "nearExpiry": "Alert window and automatic discount",
+    "lockTimeout": "Idle time before the screen locks",
+    "backup": "Manual snapshots and restore",
+    "license": "Plan, validity and terminal"
+  },
+  "language": {
+    "heading": "Language",
+    "fieldLabel": "Interface language",
+    "option": {
+      "esMX": "Español (México)",
+      "enUS": "English (US)"
+    },
+    "helper": "Applies only to your account and persists across devices.",
+    "save": "Save Language",
+    "saving": "Saving…",
+    "saveSuccess": "Language updated.",
+    "saveError": "Couldn't update language. Try again."
+  },
+  "license": {
+    "heading": "License",
+    "status": {
+      "active": "Active",
+      "warning": "Expiring soon",
+      "grace": "In grace period",
+      "locked": "Locked",
+      "disabled": "License enforcement off (development mode)"
+    },
+    "tenant": "Store",
+    "plan": "Plan",
+    "planName": {
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "lifetime": "Lifetime",
+      "demo": "Demo (14 days)"
+    },
+    "getFull": "Get the full version",
+    "demoEnds": "Demo ends",
+    "periodEnd": "Valid through",
+    "lifetimeNoExpiry": "Never expires",
+    "updatesUntil": "Updates until",
+    "updatesExpired": "Regular updates have ended — contact your vendor to renew them.",
+    "leaseUntil": "Renew before",
+    "leaseHint": "The terminal renews its license automatically when online. Without a connection it locks on the “Renew before” date.",
+    "lastHeartbeat": "Last check",
+    "never": "Never",
+    "terminalId": "Terminal ID",
+    "maxTerminals": "Terminals allowed",
+    "refresh": "Check now",
+    "refreshing": "Checking…",
+    "refreshed": "License verified",
+    "refreshFailed": "Could not verify the license",
+    "changeKey": "Change key / import token",
+    "checkUpdates": "Check for updates",
+    "checkingUpdates": "Checking for updates…",
+    "upToDate": "You are on the latest version",
+    "updateCheckFailed": "Could not check for updates. Try again later.",
+    "unlicensed": "This terminal is not licensed."
+  },
+  "hardware": {
+    "terminal": {
+      "title": "Terminal",
+      "label": "Terminal ID",
+      "help": "Identifies this checkout station. Used to key this terminal's cash register (caja) and audit trail. Letters, digits, - and _ only.",
+      "save": "Save",
+      "saved": "Terminal ID saved",
+      "invalid": "Use 1-32 characters: letters, digits, - or _"
+    }
+  },
+  "unsavedChanges": {
+    "title": "Save changes?",
+    "description": "You have unsaved changes on this tab. Save them before leaving?",
+    "save": "Save",
+    "discard": "Discard",
+    "cancel": "Cancel"
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "common": {
+    "logoAlt": "Supermarket POS logo"
+  },
+  "audit": {
+    "title": "Audit Log",
+    "tabs": {
+      "auditLog": "Audit Log",
+      "printJobs": "Print Jobs"
+    }
+  },
+  "editHistory": {
+    "title": "Edit History"
+  },
+  "home": {},
+  "pos": {
+    "title": "Checkout"
+  },
+  "inventory": {
+    "title": "Inventory",
+    "physicalCount": "Physical Count",
+    "lowStockToast": "Low stock: {{productName}} — {{currentStock}} remaining (threshold: {{threshold}})",
+    "nearExpiryToast": "Expiring soon: {{productName}} — {{days}} days remaining"
+  },
+  "payments": {
+    "title": "Payments",
+    "tabs": {
+      "payments": "Payments",
+      "refunds": "Refunds",
+      "bankTransfers": "Bank Transfers"
+    },
+    "descriptions": {
+      "payments": "Charge waiting tickets and review every completed payment",
+      "refunds": "Every refund processed on this terminal",
+      "bankTransfers": "Confirm or dispute pending bank transfers"
+    }
+  },
+  "rbac": {
+    "title": "Roles & Permissions"
+  },
+  "reports": {
+    "title": "Reports",
+    "navLabel": "Report sections",
+    "groups": {
+      "sales": "Sales",
+      "inventoryAnalytics": "Inventory Analytics",
+      "staffTips": "Staff",
+      "operations": "Operations"
+    },
+    "tabs": {
+      "session": "Session View",
+      "products": "Product Sales",
+      "hourly": "Hourly Breakdown",
+      "inventoryAnalytics": "Inventory Analytics",
+      "voids": "Voids & Refunds",
+      "deletionsPre": "Deletions",
+      "deletionsPost": "Corrections",
+      "categories": "Revenue by Category",
+      "staff": "Staff Performance",
+      "paymentMethods": "Payment Methods",
+      "refundsReg": "Refunds Register"
+    },
+    "descriptions": {
+      "session": "Cash reconciliation, totals and top products for one register session",
+      "products": "Units, revenue and margin per product",
+      "hourly": "Sales volume by hour of day",
+      "categories": "Revenue split by category",
+      "paymentMethods": "Cash, card and transfer totals",
+      "inventoryAnalytics": "Valuation, shrinkage, expiry loss and turnover",
+      "staff": "Sales and transactions per staff member",
+      "voids": "Refunded and voided sales",
+      "deletionsPre": "Lines removed from carts before payment",
+      "deletionsPost": "Edits made to paid tickets",
+      "refundsReg": "Every refund with reason and approver"
+    }
+  },
+  "settings": {
+    "title": "Settings"
+  },
+  "suppliers": {
+    "title": "Suppliers",
+    "receive": "Receive Shipment"
+  },
+  "staff": {
+    "title": "Staff"
+  },
+  "purchaseOrders": {
+    "title": "Purchase Orders"
+  },
+  "promotions": {
+    "title": "Promotions",
+    "newPromotion": "New Promotion"
+  },
+  "login": {
+    "brand": "Supermarket POS",
+    "terminal": "Terminal {{id}}",
+    "tagline": "Sign in with your PIN to open the register. Every sale, refund and stock movement is recorded under your name.",
+    "logoAlt": "Logo of {{name}}",
+    "demoHint": {
+      "title": "Demo accounts",
+      "pin": "PIN {{pin}}",
+      "role": {
+        "admin": "Admin",
+        "manager": "Manager",
+        "cashier": "Cashier"
+      }
+    }
+  }
+}

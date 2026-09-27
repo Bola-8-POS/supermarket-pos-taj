@@ -1,0 +1,124 @@
+{
+  "receipt": {
+    "date": "Fecha",
+    "cashier": "Cajero",
+    "customer": "Cliente",
+    "subtotal": "Subtotal",
+    "promotion": "Promoción",
+    "discount": "Descuento",
+    "tax": "Impuesto",
+    "total": "Total",
+    "payment": "Pago",
+    "tendered": "Entregado",
+    "change": "Cambio",
+    "ref": "Ref",
+    "demoWatermark": "*** DEMO — NO VÁLIDO COMO COMPROBANTE ***",
+    "method": {
+      "cash": "Efectivo",
+      "card": "Tarjeta (Terminal BBVA)",
+      "rappi": "Rappi",
+      "uberEats": "Uber Eats",
+      "bankTransfer": "Transferencia bancaria"
+    },
+    "category": {
+      "other": "Otros"
+    }
+  },
+  "precheque": {
+    "title": "CUENTA PREVIA",
+    "subtitle": "PRE-CUENTA",
+    "date": "Fecha",
+    "cashier": "Cajero",
+    "customer": "Cliente",
+    "table": "Mesa",
+    "happyHour": "★ HORA FELIZ ACTIVA ★",
+    "subtotal": "SUBTOTAL",
+    "pending": "** PENDIENTE DE PAGO **",
+    "pool": "Billar",
+    "note": "Nota"
+  },
+  "pdf": {
+    "appTitle": "Supermarket POS",
+    "caja": {
+      "title": "Reporte diario de caja",
+      "summary": "Resumen",
+      "metric": "Métrica",
+      "value": "Valor",
+      "totalRevenue": "Ingresos totales",
+      "cashSales": "Ventas en efectivo",
+      "cardSales": "Ventas con tarjeta",
+      "rappiSales": "Ventas Rappi",
+      "uberEatsSales": "Ventas Uber Eats",
+      "bankTransferSales": "Ventas por transferencia",
+      "bankTransferPending": "Transferencias pendientes",
+      "orderCount": "Número de pedidos",
+      "tabCount": "Número de cuentas",
+      "cashReconciliation": "Conciliación de efectivo",
+      "item": "Concepto",
+      "amount": "Monto",
+      "openingCash": "Efectivo de apertura",
+      "cashIn": "Entradas",
+      "cashOut": "Salidas",
+      "expectedCash": "Efectivo esperado",
+      "closingCash": "Efectivo de cierre",
+      "variance": "Varianza",
+      "topProducts": "Productos principales",
+      "product": "Producto",
+      "qty": "Cant.",
+      "revenue": "Ingresos",
+      "staffPerformance": "Desempeño del personal",
+      "staff": "Personal",
+      "orders": "Pedidos",
+      "salesTotal": "Total de ventas",
+      "categoryOther": "Otros"
+    },
+    "productSales": {
+      "title": "Reporte de ventas de productos",
+      "product": "Producto",
+      "category": "Categoría",
+      "units": "Unidades",
+      "revenue": "Ingresos",
+      "margin": "Margen"
+    },
+    "hourlySales": {
+      "title": "Reporte de ventas por hora",
+      "hour": "Hora",
+      "dayOfWeek": "Día de la semana",
+      "orders": "Pedidos",
+      "revenue": "Ingresos",
+      "busiest": "Más concurrida",
+      "busiestMarker": "Sí"
+    },
+    "voidRefund": {
+      "title": "Reporte de anulaciones y reembolsos",
+      "timestamp": "Fecha y hora",
+      "staff": "Personal",
+      "amount": "Monto",
+      "reason": "Motivo"
+    },
+    "categoryRevenue": {
+      "title": "Ingresos por categoría",
+      "category": "Categoría",
+      "units": "Unidades",
+      "orders": "Pedidos",
+      "revenue": "Ingresos",
+      "pctTotal": "% del total"
+    },
+    "staffMetrics": {
+      "title": "Reporte de desempeño del personal",
+      "staffMember": "Miembro del personal",
+      "revenue": "Ingresos",
+      "transactions": "Transacciones",
+      "avgCheck": "Cuenta promedio",
+      "voids": "Anulaciones"
+    },
+    "refundsRegister": {
+      "title": "Registro de reembolsos",
+      "date": "Fecha",
+      "operator": "Operador",
+      "amount": "Monto",
+      "reason": "Motivo",
+      "restock": "Reposición"
+    }
+  }
+}

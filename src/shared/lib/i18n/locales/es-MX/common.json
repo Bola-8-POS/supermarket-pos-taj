@@ -1,0 +1,216 @@
+{
+  "actions": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "saving": "Guardando…",
+    "confirm": "Confirmar",
+    "close": "Cerrar",
+    "tryAgain": "Reintentar"
+  },
+  "loading": {
+    "generic": "Cargando...",
+    "simple": "Cargando",
+    "products": "Cargando productos...",
+    "poolTables": "Cargando mesas de billar...",
+    "tabs": "Cargando cuentas...",
+    "tabDetails": "Cargando detalle de la cuenta...",
+    "downloading": "Descargando {{percent}}%"
+  },
+  "chefHatBadge": {
+    "label": "Prep"
+  },
+  "clockDriftBanner": {
+    "message": "Reloj desincronizado — revisa la fecha/hora de la PC"
+  },
+  "copyId": "Copiar ID",
+  "copyIdFailed": "No se pudo copiar el ID",
+  "dataTable": {
+    "noDataTitle": "Sin datos",
+    "noDataDescription": "No se encontraron registros.",
+    "noResultsTitle": "Sin resultados",
+    "noResultsDescription": "Ningún registro coincide con tu búsqueda.",
+    "pager": {
+      "pageInfo": "Página {{page}} de {{totalPages}}",
+      "previous": "Página anterior",
+      "next": "Página siguiente"
+    }
+  },
+  "dateRangePicker": {
+    "from": "Desde:",
+    "to": "Hasta:",
+    "today": "Hoy",
+    "yesterday": "Ayer",
+    "last7Days": "Últimos 7 días",
+    "thisMonth": "Este mes",
+    "todayOnward": "Desde hoy",
+    "next7Days": "Próximos 7 días",
+    "next30Days": "Próximos 30 días"
+  },
+  "edgeErrors": {
+    "generic": "Algo salió mal en el servidor. Intenta de nuevo.",
+    "rateLimited": "Demasiadas solicitudes. Intenta de nuevo en {{seconds}}s.",
+    "forbidden": "No tienes permiso para hacer eso.",
+    "modelNotAllowed": "Este modelo de IA no está permitido."
+  },
+  "errorBoundary": {
+    "title": "Algo salió mal"
+  },
+  "idCopied": "ID copiado al portapapeles",
+  "jsonDiffViewer": {
+    "noPayload": "No hay datos registrados para este evento.",
+    "truncated": "Datos truncados a 64 KB. No hay captura completa disponible.",
+    "before": "Antes",
+    "after": "Después",
+    "collapse": "Contraer",
+    "expand": "Expandir",
+    "collapseAll": "Contraer todo",
+    "expandAll": "Expandir todo",
+    "noChanges": "No se detectaron cambios."
+  },
+  "moneyDisplay": {
+    "negativePrefix": "Negativo "
+  },
+  "moneyInput": {
+    "amountAria": "Monto en dinero"
+  },
+  "offlineBanner": {
+    "offline": "Sin conexión — usando datos locales",
+    "done": "Todas las acciones sincronizadas"
+  },
+  "pinKeypad": {
+    "display": "Pantalla de PIN",
+    "keypad": "Teclado numérico",
+    "key0": "Tecla 0",
+    "backspace": "Borrar"
+  },
+  "printJobConfirm": {
+    "title": "¿Esto se imprimió?",
+    "description": "No pudimos confirmar que este trabajo llegó a la impresora. Revisa el recibo físico o el papel antes de responder.",
+    "yes": "Sí, se imprimió",
+    "no": "No, imprimir de nuevo"
+  },
+  "printJobError": {
+    "brokerUnreachable": "Servicio de impresión no disponible — verifica que el broker de impresión esté ejecutándose.",
+    "rejected": "La impresora rechazó este trabajo. Verifica el nombre de la impresora en Configuración e intenta de nuevo.",
+    "failed": "No se pudo imprimir después de varios intentos. Intenta de nuevo o revisa la impresora."
+  },
+  "printJobStatus": {
+    "accepted": "En cola",
+    "submittedToOs": "Enviado a la impresora",
+    "completed": "Impreso",
+    "failed": "Fallido",
+    "unknown": "Necesita confirmación",
+    "cancelled": "Cancelado"
+  },
+  "quantityControl": {
+    "group": "Control de cantidad",
+    "decrease": "Disminuir cantidad",
+    "increase": "Aumentar cantidad"
+  },
+  "routingBadge": {
+    "kitchen": "Cocina",
+    "bar": "Barra"
+  },
+  "searchInput": {
+    "search": "Buscar",
+    "clear": "Limpiar búsqueda"
+  },
+  "sectionHeader": {
+    "backHome": "Inicio"
+  },
+  "splitLayout": {
+    "products": "Productos",
+    "currentTab": "Cuenta actual"
+  },
+  "statusBadge": {
+    "open": "Abierta",
+    "closed": "Cerrada",
+    "paid": "Pagada",
+    "voided": "Anulada",
+    "available": "Disponible",
+    "occupied": "Ocupada",
+    "reserved": "Reservada",
+    "maintenance": "Mantenimiento",
+    "pending": "Pendiente",
+    "served": "Servido",
+    "tabOpenWarn": "2h+",
+    "tabOpenCritical": "4h+",
+    "inStock": "En existencia",
+    "lowStock": "Existencia baja",
+    "outOfStock": "Agotado",
+    "poDraft": "Borrador",
+    "poReceived": "Recibido",
+    "promoActive": "Activa",
+    "promoScheduled": "Programada",
+    "promoExpired": "Vencida",
+    "promoInactive": "Inactiva",
+    "promoNeedsReview": "Necesita revisión"
+  },
+  "updateAvailableDialog": {
+    "titleAvailable": "Actualización disponible",
+    "titleDownloading": "Descargando actualización",
+    "titleRestartReady": "Listo para reiniciar",
+    "titleError": "Error al actualizar",
+    "descAvailableVersion": "La versión {{version}} está lista para instalar.",
+    "descAvailableGeneric": "Hay una nueva versión disponible.",
+    "descDownloading": "Espera — no cierres la aplicación.",
+    "descRestartReady": "Actualización instalada. Reinicia ahora para aplicar los cambios.",
+    "descError": "No se pudo descargar la actualización. Intenta más tarde.",
+    "whatsNew": "Novedades",
+    "remindLater": "Recordar después",
+    "installNow": "Instalar ahora",
+    "installing": "Instalando...",
+    "later": "Más tarde",
+    "restartNow": "Reiniciar ahora"
+  },
+  "license": {
+    "plan": {
+      "monthly": "Mensual",
+      "yearly": "Anual",
+      "lifetime": "De por vida",
+      "demo": "Demo"
+    },
+    "demo": {
+      "bar_one": "DEMO · {{count}} día restante",
+      "bar_other": "DEMO · {{count}} días restantes",
+      "cta": "Obtener la versión completa"
+    },
+    "banner": {
+      "subscriptionWarning": "Tu suscripción vence en {{days}} días — renueva para evitar interrupciones",
+      "grace": "Suscripción vencida — el sistema se bloqueará en {{days}} días",
+      "leaseWarning": "Sin verificar licencia — conéctate a internet en {{days}} días o el sistema se bloqueará"
+    },
+    "gate": {
+      "title": "Activación de licencia",
+      "reason": {
+        "unlicensed": "Este equipo aún no tiene licencia. Ingresa la clave de licencia de tu tienda.",
+        "invalid": "La licencia guardada no es válida. Ingresa la clave de nuevo.",
+        "suspended": "La licencia de esta tienda está suspendida. Contacta a tu proveedor.",
+        "lease_expired": "Este equipo lleva más de {{days}} días sin verificar su licencia. Conéctate a internet o pega un token fuera de línea.",
+        "subscription_expired": "La suscripción venció. Registra tu pago con el proveedor y vuelve a activar.",
+        "demo_expired": "Tu demo de 14 días terminó. Obtén una licencia para conservar tus datos y desbloquear todo."
+      },
+      "terminalId": "ID de terminal",
+      "support": "Envía este ID a tu proveedor para obtener un token fuera de línea.",
+      "preparingDemo": "Preparando tu demo…"
+    },
+    "features": {
+      "report_export": "Exportar reportes (CSV/PDF)",
+      "ai_assistant": "Asistente con IA",
+      "email_receipts": "Tickets por correo",
+      "settings_backup": "Respaldo y restauración",
+      "audit_log": "Bitácora de auditoría",
+      "edit_history": "Historial de ediciones",
+      "staff_management": "Gestión de personal",
+      "rbac_editing": "Permisos por rol",
+      "promotions": "Promociones",
+      "purchase_orders": "Órdenes de compra"
+    },
+    "locked": {
+      "tooltip": "Disponible en la versión completa",
+      "pageTitle": "{{feature}} está en la versión completa",
+      "pageBody": "Estás usando la versión demo. Obtén una licencia para desbloquear esta función y conservar tus datos.",
+      "cta": "Obtener la versión completa"
+    }
+  }
+}

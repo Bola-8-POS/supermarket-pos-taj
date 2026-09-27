@@ -1,0 +1,1 @@
+export { InventoryAnalyticsPanel } from './InventoryAnalyticsPanel';

@@ -1,0 +1,216 @@
+{
+  "actions": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "saving": "Saving…",
+    "confirm": "Confirm",
+    "close": "Close",
+    "tryAgain": "Try Again"
+  },
+  "loading": {
+    "generic": "Loading...",
+    "simple": "Loading",
+    "products": "Loading products...",
+    "poolTables": "Loading pool tables...",
+    "tabs": "Loading tabs...",
+    "tabDetails": "Loading tab details...",
+    "downloading": "Downloading {{percent}}%"
+  },
+  "chefHatBadge": {
+    "label": "Prep"
+  },
+  "clockDriftBanner": {
+    "message": "Clock out of sync — check your PC date/time settings"
+  },
+  "copyId": "Copy ID",
+  "copyIdFailed": "Could not copy ID",
+  "dataTable": {
+    "noDataTitle": "No data",
+    "noDataDescription": "No records found.",
+    "noResultsTitle": "No results",
+    "noResultsDescription": "No records match your search.",
+    "pager": {
+      "pageInfo": "Page {{page}} of {{totalPages}}",
+      "previous": "Previous page",
+      "next": "Next page"
+    }
+  },
+  "dateRangePicker": {
+    "from": "From:",
+    "to": "To:",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "last7Days": "Last 7 Days",
+    "thisMonth": "This Month",
+    "todayOnward": "Today onward",
+    "next7Days": "Next 7 Days",
+    "next30Days": "Next 30 Days"
+  },
+  "edgeErrors": {
+    "generic": "Something went wrong on the server. Please try again.",
+    "rateLimited": "Too many requests. Try again in {{seconds}}s.",
+    "forbidden": "You don't have permission to do that.",
+    "modelNotAllowed": "This AI model is not allowed."
+  },
+  "errorBoundary": {
+    "title": "Something went wrong"
+  },
+  "idCopied": "ID copied to clipboard",
+  "jsonDiffViewer": {
+    "noPayload": "No payload recorded for this entry.",
+    "truncated": "Payload truncated at 64 KB. Full snapshot not available.",
+    "before": "Before",
+    "after": "After",
+    "collapse": "Collapse",
+    "expand": "Expand",
+    "collapseAll": "Collapse all",
+    "expandAll": "Expand all",
+    "noChanges": "No changes detected."
+  },
+  "moneyDisplay": {
+    "negativePrefix": "Negative "
+  },
+  "moneyInput": {
+    "amountAria": "Money amount"
+  },
+  "offlineBanner": {
+    "offline": "Offline — running on cached data",
+    "done": "All actions synced"
+  },
+  "pinKeypad": {
+    "display": "PIN display",
+    "keypad": "Numeric keypad",
+    "key0": "Key 0",
+    "backspace": "Backspace"
+  },
+  "printJobConfirm": {
+    "title": "Did this print?",
+    "description": "We couldn't confirm this job reached the printer. Check the physical receipt or paper before answering.",
+    "yes": "Yes, it printed",
+    "no": "No, print again"
+  },
+  "printJobError": {
+    "brokerUnreachable": "Print service unavailable — check that the print broker is running.",
+    "rejected": "Printer rejected this job. Check the printer name in Settings and try again.",
+    "failed": "Couldn't print after several attempts. Try again or check the printer."
+  },
+  "printJobStatus": {
+    "accepted": "Queued",
+    "submittedToOs": "Sent to printer",
+    "completed": "Printed",
+    "failed": "Failed",
+    "unknown": "Needs confirmation",
+    "cancelled": "Cancelled"
+  },
+  "quantityControl": {
+    "group": "Quantity control",
+    "decrease": "Decrease quantity",
+    "increase": "Increase quantity"
+  },
+  "routingBadge": {
+    "kitchen": "Kitchen",
+    "bar": "Bar"
+  },
+  "searchInput": {
+    "search": "Search",
+    "clear": "Clear search"
+  },
+  "sectionHeader": {
+    "backHome": "Home"
+  },
+  "splitLayout": {
+    "products": "Products",
+    "currentTab": "Current Tab"
+  },
+  "statusBadge": {
+    "open": "Open",
+    "closed": "Closed",
+    "paid": "Paid",
+    "voided": "Voided",
+    "available": "Available",
+    "occupied": "Occupied",
+    "reserved": "Reserved",
+    "maintenance": "Maintenance",
+    "pending": "Pending",
+    "served": "Served",
+    "tabOpenWarn": "2h+",
+    "tabOpenCritical": "4h+",
+    "inStock": "In stock",
+    "lowStock": "Low stock",
+    "outOfStock": "Out of stock",
+    "poDraft": "Draft",
+    "poReceived": "Received",
+    "promoActive": "Active",
+    "promoScheduled": "Scheduled",
+    "promoExpired": "Expired",
+    "promoInactive": "Inactive",
+    "promoNeedsReview": "Needs review"
+  },
+  "updateAvailableDialog": {
+    "titleAvailable": "Update Available",
+    "titleDownloading": "Downloading Update",
+    "titleRestartReady": "Ready to Restart",
+    "titleError": "Update Failed",
+    "descAvailableVersion": "Version {{version}} is ready to install.",
+    "descAvailableGeneric": "A new version is ready.",
+    "descDownloading": "Please wait — do not close the app.",
+    "descRestartReady": "Update installed. Restart now to apply changes.",
+    "descError": "Could not download the update. Try again later.",
+    "whatsNew": "What's new",
+    "remindLater": "Remind Later",
+    "installNow": "Install Now",
+    "installing": "Installing...",
+    "later": "Later",
+    "restartNow": "Restart Now"
+  },
+  "license": {
+    "plan": {
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "lifetime": "Lifetime",
+      "demo": "Demo"
+    },
+    "demo": {
+      "bar_one": "DEMO · {{count}} day left",
+      "bar_other": "DEMO · {{count}} days left",
+      "cta": "Get the full version"
+    },
+    "banner": {
+      "subscriptionWarning": "Your subscription ends in {{days}} days — renew to avoid interruption",
+      "grace": "Subscription expired — the system locks in {{days}} days",
+      "leaseWarning": "License not verified — connect to the internet within {{days}} days or the system locks"
+    },
+    "gate": {
+      "title": "License activation",
+      "reason": {
+        "unlicensed": "This terminal is not licensed yet. Enter your store’s license key.",
+        "invalid": "The stored license is invalid. Enter the key again.",
+        "suspended": "This store’s license is suspended. Contact your vendor.",
+        "lease_expired": "This terminal has gone more than {{days}} days without verifying its license. Connect to the internet or paste an offline token.",
+        "subscription_expired": "The subscription has expired. Settle the payment with your vendor and activate again.",
+        "demo_expired": "Your 14-day demo has ended. Get a license to keep your data and unlock everything."
+      },
+      "terminalId": "Terminal ID",
+      "support": "Send this ID to your vendor to get an offline token.",
+      "preparingDemo": "Preparing your demo…"
+    },
+    "features": {
+      "report_export": "Report export (CSV/PDF)",
+      "ai_assistant": "AI assistant",
+      "email_receipts": "Email receipts",
+      "settings_backup": "Backup & restore",
+      "audit_log": "Audit log",
+      "edit_history": "Edit history",
+      "staff_management": "Staff management",
+      "rbac_editing": "Role permissions",
+      "promotions": "Promotions",
+      "purchase_orders": "Purchase orders"
+    },
+    "locked": {
+      "tooltip": "Available in the full version",
+      "pageTitle": "{{feature}} is part of the full version",
+      "pageBody": "You are on the demo version. Get a license to unlock this feature and keep your data.",
+      "cta": "Get the full version"
+    }
+  }
+}

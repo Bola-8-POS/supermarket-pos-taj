@@ -1,0 +1,66 @@
+{
+  "table": {
+    "name": "Nombre",
+    "role": "Rol",
+    "locale": "Idioma",
+    "clockIn": "Entrada",
+    "duration": "Duración del turno"
+  },
+  "actions": {
+    "clockIn": "Marcar entrada",
+    "clockOut": "Marcar salida",
+    "forcePinChange": "Forzar cambio de PIN",
+    "resetPin": "Restablecer PIN",
+    "deactivate": "Desactivar"
+  },
+  "section": {
+    "title": "Personal",
+    "description": "Miembros activos del equipo y turnos abiertos."
+  },
+  "search": {
+    "placeholder": "Buscar personal…"
+  },
+  "locale": {
+    "editTrigger": "Cambiar idioma",
+    "updateSuccess": "Idioma de {{name}} actualizado a {{locale}}.",
+    "updateError": "No se pudo actualizar el idioma de {{name}}."
+  },
+  "addStaff": {
+    "trigger": "Agregar personal",
+    "dialogTitle": "Agregar personal",
+    "dialogDescription": "Crea una cuenta de personal nueva con un PIN temporal.",
+    "nameLabel": "Nombre",
+    "pinLabel": "PIN",
+    "confirmPinLabel": "Confirmar PIN",
+    "roleLabel": "Rol",
+    "localeLabel": "Idioma",
+    "pinMismatch": "Los PIN no coinciden",
+    "create": "Crear personal",
+    "creating": "Creando…",
+    "successToast": "{{name}} agregado — se le pedirá establecer un PIN nuevo en su primer inicio de sesión",
+    "genericFailure": "Algo salió mal. Inténtalo de nuevo o pide ayuda a un gerente."
+  },
+  "resetPin": {
+    "dialogTitle": "Restablecer PIN de {{name}}",
+    "dialogDescription": "Establece un PIN nuevo de 6 dígitos para este miembro del personal. Se le pedirá cambiarlo en su próximo inicio de sesión.",
+    "newPinLabel": "PIN nuevo",
+    "confirmPinLabel": "Confirmar PIN nuevo",
+    "submit": "Restablecer PIN",
+    "submitting": "Restableciendo…",
+    "pinMismatch": "Los PIN no coinciden — vuelve a ingresar ambos campos.",
+    "collisionWarning": "Este PIN ya está en uso por {{name}}. Puedes continuar, pero considera elegir un PIN diferente.",
+    "successToast": "PIN restablecido para {{name}}. Se le pedirá establecer un PIN nuevo en su próximo inicio de sesión.",
+    "genericFailure": "No se pudo restablecer el PIN. Inténtalo de nuevo.",
+    "partialFailureToast": "El restablecimiento del PIN falló parcialmente — la credencial cambió pero el registro del personal no se sincronizó. Contacta a soporte antes de que este miembro del personal intente iniciar sesión."
+  },
+  "deactivate": {
+    "dialogTitle": "¿Desactivar a {{name}}?",
+    "dialogDescription": "{{name}} ya no podrá iniciar sesión ni autorizar nada, y desaparecerá de la lista de personal. Sus turnos y ventas anteriores se conservan.",
+    "confirm": "Desactivar",
+    "confirming": "Desactivando…",
+    "successToast": "{{name}} ha sido desactivado.",
+    "genericFailure": "No se pudo desactivar a este miembro del personal. Inténtalo de nuevo.",
+    "lastAdmin": "Es el único administrador activo. Agrega otro administrador antes de desactivar a este.",
+    "partialFailureToast": "La desactivación falló parcialmente — el registro del personal cambió pero el inicio de sesión no se sincronizó. Inténtalo de nuevo y contacta a soporte si vuelve a ocurrir."
+  }
+}

@@ -1,0 +1,293 @@
+{
+  "actions": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "saving": "Guardando…",
+    "confirm": "Confirmar",
+    "close": "Cerrar",
+    "tryAgain": "Reintentar"
+  },
+  "loading": {
+    "generic": "Cargando...",
+    "simple": "Cargando",
+    "products": "Cargando productos...",
+    "poolTables": "Cargando mesas de billar...",
+    "tabs": "Cargando cuentas...",
+    "tabDetails": "Cargando detalle de la cuenta...",
+    "downloading": "Descargando {{percent}}%"
+  },
+  "chefHatBadge": {
+    "label": "Prep"
+  },
+  "clockDriftBanner": {
+    "message": "Reloj desincronizado — revisa la fecha/hora de la PC"
+  },
+  "copyId": "Copiar ID",
+  "copyIdFailed": "No se pudo copiar el ID",
+  "dataTable": {
+    "noDataTitle": "Sin datos",
+    "noDataDescription": "No se encontraron registros.",
+    "noResultsTitle": "Sin resultados",
+    "noResultsDescription": "Ningún registro coincide con tu búsqueda.",
+    "pager": {
+      "navLabel": "Paginación",
+      "pageInfo": "Página {{page}} de {{totalPages}}",
+      "previous": "Página anterior",
+      "next": "Página siguiente"
+    }
+  },
+  "dateRangePicker": {
+    "from": "Desde:",
+    "to": "Hasta:",
+    "today": "Hoy",
+    "yesterday": "Ayer",
+    "last7Days": "Últimos 7 días",
+    "thisMonth": "Este mes",
+    "todayOnward": "Desde hoy",
+    "next7Days": "Próximos 7 días",
+    "next30Days": "Próximos 30 días"
+  },
+  "edgeErrors": {
+    "generic": "Algo salió mal en el servidor. Intenta de nuevo.",
+    "rateLimited": "Demasiadas solicitudes. Intenta de nuevo en {{seconds}}s.",
+    "forbidden": "No tienes permiso para hacer eso.",
+    "modelNotAllowed": "Este modelo de IA no está permitido.",
+    "aiNotConfigured": "El asistente no está configurado en esta tienda. Pide al dueño que guarde la clave en la pantalla de estado.",
+    "aiNeedsInternet": "El asistente necesita conexión a internet para llegar a Anthropic. Revisa la conexión de la tienda e inténtalo de nuevo.",
+    "aiUnavailable": "El asistente no está disponible en este momento. Intenta de nuevo más tarde.",
+    "emailNotConfigured": "El correo no está configurado en esta tienda. Pide al dueño que guarde la clave en la pantalla de estado.",
+    "emailNeedsInternet": "El correo necesita conexión a internet para llegar a Resend. Revisa la conexión de la tienda e inténtalo de nuevo."
+  },
+  "errorBoundary": {
+    "title": "Algo salió mal"
+  },
+  "idCopied": "ID copiado al portapapeles",
+  "jsonDiffViewer": {
+    "noPayload": "No hay datos registrados para este evento.",
+    "truncated": "Datos truncados a 64 KB. No hay captura completa disponible.",
+    "before": "Antes",
+    "after": "Después",
+    "collapse": "Contraer",
+    "expand": "Expandir",
+    "collapseAll": "Contraer todo",
+    "expandAll": "Expandir todo",
+    "noChanges": "No se detectaron cambios."
+  },
+  "moneyDisplay": {
+    "negativePrefix": "Negativo "
+  },
+  "moneyInput": {
+    "amountAria": "Monto en dinero"
+  },
+  "offlineBanner": {
+    "offline": "Sin conexión — usando datos locales",
+    "done": "Todas las acciones sincronizadas"
+  },
+  "cartReprice": {
+    "repriced": "Precios actualizados: {{items}}",
+    "repricedMore": "Precios actualizados: {{items}} (+{{count}} más)"
+  },
+  "offlineQueue": {
+    "deadLettered": "{{count}} acción(es) en cola fallaron repetidamente y se movieron a la cola de acciones fallidas"
+  },
+  "offlineSales": {
+    "blocked": {
+      "closeCaja_one": "No se puede cerrar la caja: {{count}} venta sin conexión aún no está confirmada.",
+      "closeCaja_other": "No se puede cerrar la caja: {{count}} ventas sin conexión aún no están confirmadas.",
+      "clockOut_one": "No se puede terminar el turno: este empleado tiene {{count}} venta sin conexión sin confirmar.",
+      "clockOut_other": "No se puede terminar el turno: este empleado tiene {{count}} ventas sin conexión sin confirmar.",
+      "signOut_one": "No se puede cerrar sesión: tienes {{count}} venta sin conexión sin confirmar.",
+      "signOut_other": "No se puede cerrar sesión: tienes {{count}} ventas sin conexión sin confirmar.",
+      "needsReview_one": "{{count}} de ellas requiere revisión de un gerente.",
+      "needsReview_other": "{{count}} de ellas requieren revisión de un gerente."
+    }
+  },
+  "pinKeypad": {
+    "display": "Pantalla de PIN",
+    "keypad": "Teclado numérico",
+    "key0": "Tecla 0",
+    "backspace": "Borrar"
+  },
+  "printJobConfirm": {
+    "title": "¿Esto se imprimió?",
+    "description": "No pudimos confirmar que este trabajo llegó a la impresora. Revisa el recibo físico o el papel antes de responder.",
+    "yes": "Sí, se imprimió",
+    "no": "No, imprimir de nuevo"
+  },
+  "printJobError": {
+    "brokerUnreachable": "Servicio de impresión no disponible — verifica que el broker de impresión esté ejecutándose.",
+    "rejected": "La impresora rechazó este trabajo. Verifica el nombre de la impresora en Configuración e intenta de nuevo.",
+    "failed": "No se pudo imprimir después de varios intentos. Intenta de nuevo o revisa la impresora."
+  },
+  "printJobStatus": {
+    "accepted": "En cola",
+    "submittedToOs": "Enviado a la impresora",
+    "completed": "Impreso",
+    "failed": "Fallido",
+    "unknown": "Necesita confirmación",
+    "cancelled": "Cancelado"
+  },
+  "quantityControl": {
+    "group": "Control de cantidad",
+    "decrease": "Disminuir cantidad",
+    "increase": "Aumentar cantidad"
+  },
+  "routingBadge": {
+    "kitchen": "Cocina",
+    "bar": "Barra"
+  },
+  "searchInput": {
+    "search": "Buscar",
+    "clear": "Limpiar búsqueda"
+  },
+  "sectionHeader": {
+    "backHome": "Inicio"
+  },
+  "splitLayout": {
+    "products": "Productos",
+    "currentTab": "Cuenta actual"
+  },
+  "statusBadge": {
+    "open": "Abierta",
+    "closed": "Cerrada",
+    "paid": "Pagada",
+    "voided": "Anulada",
+    "available": "Disponible",
+    "occupied": "Ocupada",
+    "reserved": "Reservada",
+    "maintenance": "Mantenimiento",
+    "pending": "Pendiente",
+    "served": "Servido",
+    "tabOpenWarn": "2h+",
+    "tabOpenCritical": "4h+",
+    "inStock": "En existencia",
+    "lowStock": "Existencia baja",
+    "outOfStock": "Agotado",
+    "poDraft": "Borrador",
+    "poReceived": "Recibido",
+    "promoActive": "Activa",
+    "promoScheduled": "Programada",
+    "promoExpired": "Vencida",
+    "promoInactive": "Inactiva",
+    "promoNeedsReview": "Necesita revisión"
+  },
+  "updateAvailableDialog": {
+    "titleAvailable": "Actualización disponible",
+    "titleDownloading": "Descargando actualización",
+    "titleRestartReady": "Listo para reiniciar",
+    "titleError": "Error al actualizar",
+    "descAvailableVersion": "La versión {{version}} está lista para instalar.",
+    "descAvailableGeneric": "Hay una nueva versión disponible.",
+    "descDownloading": "Espera — no cierres la aplicación.",
+    "descRestartReady": "Actualización instalada. Reinicia ahora para aplicar los cambios.",
+    "descError": "No se pudo descargar la actualización. Intenta más tarde.",
+    "whatsNew": "Novedades",
+    "remindLater": "Recordar después",
+    "installNow": "Instalar ahora",
+    "installing": "Instalando...",
+    "later": "Más tarde",
+    "restartNow": "Reiniciar ahora"
+  },
+  "license": {
+    "plan": {
+      "monthly": "Mensual",
+      "yearly": "Anual",
+      "lifetime": "De por vida",
+      "demo": "Demo"
+    },
+    "demo": {
+      "bar_one": "DEMO · {{count}} día restante",
+      "bar_other": "DEMO · {{count}} días restantes",
+      "cta": "Obtener la versión completa"
+    },
+    "banner": {
+      "subscriptionWarning": "Tu suscripción vence en {{days}} días — renueva para evitar interrupciones",
+      "grace": "Suscripción vencida — las ventas se detendrán en {{days}} días",
+      "leaseWarning": "Sin verificar licencia — conéctate a internet en {{days}} días o las ventas se detendrán",
+      "offlineBudgetWarning": "Licencia sin verificar desde hace mucho — quedan unos {{days}} días de uso sin conexión. Al volver la conexión, las ventas se pausan hasta verificar la licencia",
+      "restricted": {
+        "lease_expired": "Licencia sin verificar por demasiado tiempo — ventas, reembolsos y recepción están en pausa. Aún puedes iniciar sesión y cerrar la caja. Conéctate a internet o pega un nuevo token fuera de línea para reanudar",
+        "subscription_expired": "Suscripción vencida — ventas, reembolsos y recepción están en pausa. Aún puedes iniciar sesión y cerrar la caja. Registra tu pago con el proveedor para reanudar",
+        "offline_budget_spent": "Este equipo lleva demasiado tiempo sin conexión — ventas, reembolsos y recepción están en pausa. Aún puedes iniciar sesión y cerrar la caja. Conéctate a internet o pega un nuevo token fuera de línea para reanudar"
+      }
+    },
+    "gate": {
+      "title": "Activación de licencia",
+      "reason": {
+        "unlicensed": "Este equipo aún no tiene licencia. Ingresa la clave de licencia de tu tienda.",
+        "invalid": "La licencia guardada no es válida. Ingresa la clave de nuevo.",
+        "suspended": "La licencia de esta tienda está suspendida. Contacta a tu proveedor.",
+        "lease_expired": "Este equipo lleva más de {{days}} días sin verificar su licencia. Conéctate a internet o pega un token fuera de línea.",
+        "subscription_expired": "La suscripción venció. Registra tu pago con el proveedor y vuelve a activar.",
+        "demo_expired": "Tu demo de 14 días terminó. Obtén una licencia para conservar tus datos y desbloquear todo.",
+        "offline_budget_spent": "Este equipo ha funcionado demasiado tiempo sin verificar su licencia. Conéctate a internet o pega un token fuera de línea."
+      },
+      "terminalId": "ID de terminal",
+      "support": "Envía este ID a tu proveedor para obtener un token fuera de línea.",
+      "preparingDemo": "Preparando tu demo…"
+    },
+    "features": {
+      "report_export": "Exportar reportes (CSV/PDF)",
+      "ai_assistant": "Asistente con IA",
+      "email_receipts": "Tickets por correo",
+      "settings_backup": "Respaldo y restauración",
+      "audit_log": "Bitácora de auditoría",
+      "edit_history": "Historial de ediciones",
+      "staff_management": "Gestión de personal",
+      "rbac_editing": "Permisos por rol",
+      "promotions": "Promociones",
+      "purchase_orders": "Órdenes de compra"
+    },
+    "locked": {
+      "tooltip": "Disponible en la versión completa",
+      "pageTitle": "{{feature}} está en la versión completa",
+      "pageBody": "Estás usando la versión demo. Obtén una licencia para desbloquear esta función y conservar tus datos.",
+      "cta": "Obtener la versión completa"
+    },
+    "restricted": {
+      "refused": "La licencia de este equipo debe verificarse antes de hacer esto. Conéctate a internet e inténtalo de nuevo."
+    }
+  },
+  "storeConfig": {
+    "banner": "store.env no es válido ({{code}}): {{reason}}. Corrige o elimina C:\\ProgramData\\SupermarketPOS\\client\\store.env y reinicia.",
+    "reason": {
+      "STORE_MODE_UNKNOWN": "la línea VITE_STORE_MODE falta, está vacía o está mal escrita",
+      "STORE_URL_REJECTED": "la dirección de la tienda falta o no está permitida",
+      "STORE_KEY_MISSING": "falta la clave de la tienda",
+      "STORE_CA_MISSING": "la huella del certificado de la tienda falta o es incorrecta",
+      "STORE_FILE_UNREADABLE": "no se puede leer el archivo (guárdalo como texto UTF-8)",
+      "OTHER": "el archivo fue rechazado"
+    }
+  },
+  "storeBackup": {
+    "banner": {
+      "BACKUP_STALE_24H": "Hace más de un día que no hay un respaldo fuera de la PC del servidor. Conecta la unidad USB de respaldo.",
+      "BACKUP_STALE_72H": "ATENCIÓN: hace más de 3 días que no hay un respaldo fuera de la PC del servidor. Si la PC del servidor falla, perderías tus datos. Conecta la unidad USB de respaldo ahora mismo.",
+      "BACKUP_DEST_DOWN_one": "No se encuentra la unidad de respaldo ({{names}}). Conéctala para que los respaldos continúen.",
+      "BACKUP_DEST_DOWN_other": "No se encuentran las unidades de respaldo ({{names}}). Conéctalas para que los respaldos continúen.",
+      "BACKUP_DEST_DOWN_unnamed": "No se encuentra una unidad de respaldo. Conéctala para que los respaldos continúen.",
+      "BACKUP_KEY_NOT_EXPORTED": "Falta guardar tu clave de recuperación. Sin ella, los respaldos no se pueden abrir si se pierde la PC del servidor. Genérala en la pantalla de estado del servidor.",
+      "BACKUP_VERIFY_FAILED": "La última verificación de los respaldos falló. Llama a soporte antes de hacer cambios.",
+      "BACKUP_VERIFY_OVERDUE": "Los respaldos llevan más de 10 días sin verificarse. Deja la PC del servidor encendida durante la noche para que se haga la revisión diaria.",
+      "BACKUP_OTHER": "Los respaldos necesitan atención. Revisa la pantalla de estado del servidor.",
+      "BACKUP_STALE_24H_noDest": "Hace más de un día que no hay un respaldo fuera de la PC del servidor. Conecta una unidad USB y configúrala como unidad de respaldo.",
+      "BACKUP_STALE_72H_noDest": "ATENCIÓN: hace más de 3 días que no hay un respaldo fuera de la PC del servidor. Si la PC del servidor falla, perderías tus datos. Conecta una unidad USB y configúrala como unidad de respaldo ahora mismo."
+    }
+  },
+  "storeSchema": {
+    "title": "La tienda y esta caja no están en la misma versión",
+    "clientOutdated": "El servidor de la tienda es más nuevo que esta caja. Actualiza la aplicación de esta caja.",
+    "serverOutdated": "El servidor de la tienda aún no tiene la actualización. Espera a que se actualice el servidor; no se puede vender mientras tanto.",
+    "inconsistent": "El servidor de la tienda está a medio actualizar. Espera unos minutos o llama a soporte.",
+    "missing": "No se pudo leer la versión del servidor de la tienda. Llama a soporte.",
+    "serverLevel": "Servidor: {{level}}",
+    "clientLevel": "Esta caja: {{level}}",
+    "retry": "Reintentar",
+    "updating": "La tienda se está actualizando. Las ventas se guardan y se enviarán en unos minutos.",
+    "updateNow": "Actualizar ahora",
+    "updateNone": "Aún no hay una actualización disponible.",
+    "updateWaiting": "Esperando a que se actualice el servidor de la tienda.",
+    "updateError": "No se pudo buscar la actualización. Inténtalo de nuevo.",
+    "updateSkipped": "El periodo de actualizaciones de la licencia terminó."
+  }
+}

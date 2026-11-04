@@ -1,0 +1,62 @@
+
+# ---------------------------------------------------------------------------------------------------------------
+# INTERNAL listener: the functions program (SUPABASE_URL) and service-role tooling on this PC only. No CORS, no apikey rule.
+# ---------------------------------------------------------------------------------------------------------------
+http://127.0.0.1:@@INT_PORT@@ {
+	bind 127.0.0.1
+
+	log {
+		output file "@@LOG_DIR@@/caddy-internal-access.log" {
+			roll_size 10MiB
+			roll_keep 3
+		}
+		import log_filter
+	}
+
+	@tunnel expression `{http.request.header.Cdn-Loop} != "" || {http.request.header.Cf-Ray} != "" || {http.request.header.Cf-Connecting-Ip} != ""`
+
+	route {
+		handle @tunnel {
+			respond 403
+		}
+		# No X-Forwarded-For: GoTrue then applies no per-address limiter, so pin_attempts and the lockout hook are the
+		# only PIN limiters (every till's sign-in would otherwise share the one 127.0.0.1 bucket).
+		handle /auth/v1/* {
+			uri strip_prefix /auth/v1
+			reverse_proxy 127.0.0.1:@@GOTRUE@@ {
+				import upstream_transport
+				header_up -X-Forwarded-For
+			}
+		}
+		handle /rest/v1/* {
+			uri strip_prefix /rest/v1
+			reverse_proxy 127.0.0.1:@@POSTGREST@@ {
+				import upstream_transport
+				# a dead pooled connection answers 400 with an EMPTY PostgREST error (Proxy-Status exactly `PostgREST; error=`); a real 400 carries a code and passes
+				@rest_conn_dead {
+					status 400
+					header Proxy-Status "PostgREST; error="
+				}
+				@rest_db_down status 502 503 504
+				handle_response @rest_conn_dead {
+					header Retry-After 5
+					header Content-Type application/json
+					respond `{"code":"UPSTREAM_UNAVAILABLE","message":"The store server is not ready. Try again in a moment."}` 503
+				}
+				handle_response @rest_db_down {
+					header Retry-After 5
+					header Content-Type application/json
+					respond `{"code":"UPSTREAM_UNAVAILABLE","message":"The store server is not ready. Try again in a moment."}` 503
+				}
+			}
+		}
+		handle /storage/v1/* {
+			reverse_proxy 127.0.0.1:@@FUNCTIONS@@ {
+				import upstream_transport
+			}
+		}
+		handle {
+			respond `{"message":"not found"}` 404
+		}
+	}
+}

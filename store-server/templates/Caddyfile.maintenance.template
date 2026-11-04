@@ -1,0 +1,69 @@
+
+# Maintenance responder: the LAN listener while an update, switch or restore runs. The same certificates (same storage),
+# so a till's trust does not change. Every request is a 503 STORE_UPDATING (the request never ran), except preflights
+# and the status file.
+@@EXT_ADDRESSES@@ {
+	bind @@EXT_BIND@@
+@@EXT_TLS@@
+	@origin_ok header_regexp Origin ^(http://tauri\.localhost|tauri://localhost|http://(localhost|127\.0\.0\.1)(:[0-9]+)?)$
+	@preflight_ok {
+		method OPTIONS
+		header_regexp Origin ^(http://tauri\.localhost|tauri://localhost|http://(localhost|127\.0\.0\.1)(:[0-9]+)?)$
+	}
+	@preflight_bad method OPTIONS
+	@status_key expression `{http.request.header.Apikey} == "@@ANON@@"`
+
+	import cors_headers
+	header -Server
+
+	route {
+		handle @preflight_ok {
+			header Access-Control-Allow-Methods "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+			header Access-Control-Allow-Headers "authorization, apikey, x-client-info, content-type, prefer, range, range-unit, x-upsert, accept, accept-profile, content-profile, if-match, if-none-match, cache-control, x-supabase-api-version, x-region"
+			header Access-Control-Max-Age "86400"
+			respond 204
+		}
+		handle @preflight_bad {
+			header Content-Type application/json
+			respond `{"message":"origin not allowed"}` 403
+		}
+		# GET/HEAD of the status file only: every other method is the 503 below (contract A).
+		@status_read {
+			method GET HEAD
+			path /_store/status
+		}
+		handle @status_read {
+			handle @status_key {
+				header Cache-Control no-store
+				header Content-Type application/json
+				root * "@@STATE_DIR@@"
+				rewrite * /status.json
+				file_server
+			}
+			handle {
+				header Content-Type application/json
+				respond `{"message":"Invalid API key"}` 401
+			}
+		}
+		handle {
+			header Retry-After 30
+			header Content-Type application/json
+			respond `{"code":"STORE_UPDATING","message":"The store is updating. Try again in a few minutes."}` 503
+		}
+	}
+}
+
+# Mode probe for the updater: loopback, plain HTTP, only while the maintenance responder runs. The live gateway does not
+# listen here, so `GET /_mode` answering `maintenance` proves which file is running.
+http://127.0.0.1:@@MODE_PORT@@ {
+	bind 127.0.0.1
+	route {
+		handle /_mode {
+			header Content-Type text/plain
+			respond "maintenance" 200
+		}
+		handle {
+			respond `{"message":"not found"}` 404
+		}
+	}
+}

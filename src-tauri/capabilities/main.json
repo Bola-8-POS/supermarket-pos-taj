@@ -1,0 +1,32 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "main",
+  "description": "Capability for the main window: printing, print-job audit reads, exports, dialogs, the updater and runtime config/logging. File writes are limited to paths chosen through the save dialog — tauri-plugin-dialog's save command adds the chosen path to the fs scope at runtime, so no static fs:allow-write-file scope is declared here.",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    "core:webview:allow-create-webview-window",
+    "core:window:allow-close",
+    "core:window:allow-hide",
+    "core:window:allow-show",
+    "core:window:allow-set-focus",
+    {
+      "identifier": "opener:allow-open-url",
+      "allow": [{ "url": "https://*" }, { "url": "mailto:*" }]
+    },
+    "dialog:allow-save",
+    "fs:allow-write-file",
+    "notification:default",
+    "updater:default",
+    "process:allow-restart",
+    "allow-print-receipt",
+    "allow-print-raw-text",
+    "allow-open-cash-drawer",
+    "allow-test-print",
+    "allow-get-print-jobs",
+    "allow-get-print-job",
+    "allow-list-printers",
+    "allow-get-runtime-config",
+    "allow-write-log"
+  ]
+}

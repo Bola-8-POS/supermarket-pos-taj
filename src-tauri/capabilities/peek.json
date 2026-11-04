@@ -1,0 +1,15 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "peek",
+  "description": "Capability for the peek window: window management plus the two application commands PeekApp needs (runtime config, log writes). No print, drawer, print-job, file, dialog, opener, updater or process permission, and no ability to create a further webview window.",
+  "windows": ["peek"],
+  "permissions": [
+    "core:default",
+    "core:window:allow-close",
+    "core:window:allow-hide",
+    "core:window:allow-show",
+    "core:window:allow-set-focus",
+    "allow-get-runtime-config",
+    "allow-write-log"
+  ]
+}

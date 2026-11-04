@@ -1,0 +1,293 @@
+{
+  "actions": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "saving": "Saving…",
+    "confirm": "Confirm",
+    "close": "Close",
+    "tryAgain": "Try Again"
+  },
+  "loading": {
+    "generic": "Loading...",
+    "simple": "Loading",
+    "products": "Loading products...",
+    "poolTables": "Loading pool tables...",
+    "tabs": "Loading tabs...",
+    "tabDetails": "Loading tab details...",
+    "downloading": "Downloading {{percent}}%"
+  },
+  "chefHatBadge": {
+    "label": "Prep"
+  },
+  "clockDriftBanner": {
+    "message": "Clock out of sync — check your PC date/time settings"
+  },
+  "copyId": "Copy ID",
+  "copyIdFailed": "Could not copy ID",
+  "dataTable": {
+    "noDataTitle": "No data",
+    "noDataDescription": "No records found.",
+    "noResultsTitle": "No results",
+    "noResultsDescription": "No records match your search.",
+    "pager": {
+      "navLabel": "Pagination",
+      "pageInfo": "Page {{page}} of {{totalPages}}",
+      "previous": "Previous page",
+      "next": "Next page"
+    }
+  },
+  "dateRangePicker": {
+    "from": "From:",
+    "to": "To:",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "last7Days": "Last 7 Days",
+    "thisMonth": "This Month",
+    "todayOnward": "Today onward",
+    "next7Days": "Next 7 Days",
+    "next30Days": "Next 30 Days"
+  },
+  "edgeErrors": {
+    "generic": "Something went wrong on the server. Please try again.",
+    "rateLimited": "Too many requests. Try again in {{seconds}}s.",
+    "forbidden": "You don't have permission to do that.",
+    "modelNotAllowed": "This AI model is not allowed.",
+    "aiNotConfigured": "The assistant is not set up on this store. Ask the owner to save the key in the status screen.",
+    "aiNeedsInternet": "The assistant needs an internet connection to reach Anthropic. Check the store's connection and try again.",
+    "aiUnavailable": "The assistant is currently unavailable. Please try again later.",
+    "emailNotConfigured": "Email is not set up on this store. Ask the owner to save the key in the status screen.",
+    "emailNeedsInternet": "Email needs an internet connection to reach Resend. Check the store's connection and try again."
+  },
+  "errorBoundary": {
+    "title": "Something went wrong"
+  },
+  "idCopied": "ID copied to clipboard",
+  "jsonDiffViewer": {
+    "noPayload": "No payload recorded for this entry.",
+    "truncated": "Payload truncated at 64 KB. Full snapshot not available.",
+    "before": "Before",
+    "after": "After",
+    "collapse": "Collapse",
+    "expand": "Expand",
+    "collapseAll": "Collapse all",
+    "expandAll": "Expand all",
+    "noChanges": "No changes detected."
+  },
+  "moneyDisplay": {
+    "negativePrefix": "Negative "
+  },
+  "moneyInput": {
+    "amountAria": "Money amount"
+  },
+  "offlineBanner": {
+    "offline": "Offline — running on cached data",
+    "done": "All actions synced"
+  },
+  "cartReprice": {
+    "repriced": "Prices updated: {{items}}",
+    "repricedMore": "Prices updated: {{items}} (+{{count}} more)"
+  },
+  "offlineQueue": {
+    "deadLettered": "{{count}} queued action(s) failed repeatedly and were moved to the dead-letter queue"
+  },
+  "offlineSales": {
+    "blocked": {
+      "closeCaja_one": "Can't close the caja: {{count}} offline sale is not confirmed yet.",
+      "closeCaja_other": "Can't close the caja: {{count}} offline sales are not confirmed yet.",
+      "clockOut_one": "Can't clock out: this staff member has {{count}} offline sale not confirmed yet.",
+      "clockOut_other": "Can't clock out: this staff member has {{count}} offline sales not confirmed yet.",
+      "signOut_one": "Can't sign out: you have {{count}} offline sale not confirmed yet.",
+      "signOut_other": "Can't sign out: you have {{count}} offline sales not confirmed yet.",
+      "needsReview_one": "{{count}} of them needs a manager's review.",
+      "needsReview_other": "{{count}} of them need a manager's review."
+    }
+  },
+  "pinKeypad": {
+    "display": "PIN display",
+    "keypad": "Numeric keypad",
+    "key0": "Key 0",
+    "backspace": "Backspace"
+  },
+  "printJobConfirm": {
+    "title": "Did this print?",
+    "description": "We couldn't confirm this job reached the printer. Check the physical receipt or paper before answering.",
+    "yes": "Yes, it printed",
+    "no": "No, print again"
+  },
+  "printJobError": {
+    "brokerUnreachable": "Print service unavailable — check that the print broker is running.",
+    "rejected": "Printer rejected this job. Check the printer name in Settings and try again.",
+    "failed": "Couldn't print after several attempts. Try again or check the printer."
+  },
+  "printJobStatus": {
+    "accepted": "Queued",
+    "submittedToOs": "Sent to printer",
+    "completed": "Printed",
+    "failed": "Failed",
+    "unknown": "Needs confirmation",
+    "cancelled": "Cancelled"
+  },
+  "quantityControl": {
+    "group": "Quantity control",
+    "decrease": "Decrease quantity",
+    "increase": "Increase quantity"
+  },
+  "routingBadge": {
+    "kitchen": "Kitchen",
+    "bar": "Bar"
+  },
+  "searchInput": {
+    "search": "Search",
+    "clear": "Clear search"
+  },
+  "sectionHeader": {
+    "backHome": "Home"
+  },
+  "splitLayout": {
+    "products": "Products",
+    "currentTab": "Current Tab"
+  },
+  "statusBadge": {
+    "open": "Open",
+    "closed": "Closed",
+    "paid": "Paid",
+    "voided": "Voided",
+    "available": "Available",
+    "occupied": "Occupied",
+    "reserved": "Reserved",
+    "maintenance": "Maintenance",
+    "pending": "Pending",
+    "served": "Served",
+    "tabOpenWarn": "2h+",
+    "tabOpenCritical": "4h+",
+    "inStock": "In stock",
+    "lowStock": "Low stock",
+    "outOfStock": "Out of stock",
+    "poDraft": "Draft",
+    "poReceived": "Received",
+    "promoActive": "Active",
+    "promoScheduled": "Scheduled",
+    "promoExpired": "Expired",
+    "promoInactive": "Inactive",
+    "promoNeedsReview": "Needs review"
+  },
+  "updateAvailableDialog": {
+    "titleAvailable": "Update Available",
+    "titleDownloading": "Downloading Update",
+    "titleRestartReady": "Ready to Restart",
+    "titleError": "Update Failed",
+    "descAvailableVersion": "Version {{version}} is ready to install.",
+    "descAvailableGeneric": "A new version is ready.",
+    "descDownloading": "Please wait — do not close the app.",
+    "descRestartReady": "Update installed. Restart now to apply changes.",
+    "descError": "Could not download the update. Try again later.",
+    "whatsNew": "What's new",
+    "remindLater": "Remind Later",
+    "installNow": "Install Now",
+    "installing": "Installing...",
+    "later": "Later",
+    "restartNow": "Restart Now"
+  },
+  "license": {
+    "plan": {
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "lifetime": "Lifetime",
+      "demo": "Demo"
+    },
+    "demo": {
+      "bar_one": "DEMO · {{count}} day left",
+      "bar_other": "DEMO · {{count}} days left",
+      "cta": "Get the full version"
+    },
+    "banner": {
+      "subscriptionWarning": "Your subscription ends in {{days}} days — renew to avoid interruption",
+      "grace": "Subscription expired — sales stop in {{days}} days",
+      "leaseWarning": "License not verified — connect to the internet within {{days}} days or sales stop",
+      "offlineBudgetWarning": "License not verified in a long time — about {{days}} days of offline use left. When the connection returns, sales pause until the license is verified",
+      "restricted": {
+        "lease_expired": "License not verified for too long — sales, refunds and receiving are paused. You can still sign in and close the register. Connect to the internet or paste a new offline token to resume",
+        "subscription_expired": "Subscription expired — sales, refunds and receiving are paused. You can still sign in and close the register. Settle the payment with your vendor to resume",
+        "offline_budget_spent": "This terminal has run offline too long — sales, refunds and receiving are paused. You can still sign in and close the register. Connect to the internet or paste a new offline token to resume"
+      }
+    },
+    "gate": {
+      "title": "License activation",
+      "reason": {
+        "unlicensed": "This terminal is not licensed yet. Enter your store’s license key.",
+        "invalid": "The stored license is invalid. Enter the key again.",
+        "suspended": "This store’s license is suspended. Contact your vendor.",
+        "lease_expired": "This terminal has gone more than {{days}} days without verifying its license. Connect to the internet or paste an offline token.",
+        "subscription_expired": "The subscription has expired. Settle the payment with your vendor and activate again.",
+        "demo_expired": "Your 14-day demo has ended. Get a license to keep your data and unlock everything.",
+        "offline_budget_spent": "This terminal has run too long without verifying its license. Connect to the internet or paste an offline token."
+      },
+      "terminalId": "Terminal ID",
+      "support": "Send this ID to your vendor to get an offline token.",
+      "preparingDemo": "Preparing your demo…"
+    },
+    "features": {
+      "report_export": "Report export (CSV/PDF)",
+      "ai_assistant": "AI assistant",
+      "email_receipts": "Email receipts",
+      "settings_backup": "Backup & restore",
+      "audit_log": "Audit log",
+      "edit_history": "Edit history",
+      "staff_management": "Staff management",
+      "rbac_editing": "Role permissions",
+      "promotions": "Promotions",
+      "purchase_orders": "Purchase orders"
+    },
+    "locked": {
+      "tooltip": "Available in the full version",
+      "pageTitle": "{{feature}} is part of the full version",
+      "pageBody": "You are on the demo version. Get a license to unlock this feature and keep your data.",
+      "cta": "Get the full version"
+    },
+    "restricted": {
+      "refused": "This terminal's license must be verified before it can do this. Connect to the internet and try again."
+    }
+  },
+  "storeConfig": {
+    "banner": "store.env is invalid ({{code}}): {{reason}}. Fix or remove C:\\ProgramData\\SupermarketPOS\\client\\store.env, then restart.",
+    "reason": {
+      "STORE_MODE_UNKNOWN": "the VITE_STORE_MODE line is missing, blank or misspelled",
+      "STORE_URL_REJECTED": "the store address is missing or not allowed",
+      "STORE_KEY_MISSING": "the store key is missing",
+      "STORE_CA_MISSING": "the store certificate fingerprint is missing or malformed",
+      "STORE_FILE_UNREADABLE": "the file cannot be read (save it as UTF-8 text)",
+      "OTHER": "the file was refused"
+    }
+  },
+  "storeBackup": {
+    "banner": {
+      "BACKUP_STALE_24H": "There has been no backup outside the server PC for more than a day. Connect the backup USB drive.",
+      "BACKUP_STALE_72H": "WARNING: there has been no backup outside the server PC for more than 3 days. If the server PC fails, you would lose your data. Connect the backup USB drive now.",
+      "BACKUP_DEST_DOWN_one": "The backup drive ({{names}}) cannot be found. Connect it so backups can continue.",
+      "BACKUP_DEST_DOWN_other": "The backup drives ({{names}}) cannot be found. Connect them so backups can continue.",
+      "BACKUP_DEST_DOWN_unnamed": "A backup drive cannot be found. Connect it so backups can continue.",
+      "BACKUP_KEY_NOT_EXPORTED": "Your recovery key has not been saved. Without it the backups cannot be opened if the server PC is lost. Create it on the server status screen.",
+      "BACKUP_VERIFY_FAILED": "The last check of the backups failed. Call support before making changes.",
+      "BACKUP_VERIFY_OVERDUE": "The backups have not been checked for more than 10 days. Leave the server PC on overnight so the daily check can run.",
+      "BACKUP_OTHER": "Backups need attention. Check the server status screen.",
+      "BACKUP_STALE_24H_noDest": "There has been no backup outside the server PC for more than a day. Connect a USB drive and set it up as a backup drive.",
+      "BACKUP_STALE_72H_noDest": "WARNING: there has been no backup outside the server PC for more than 3 days. If the server PC fails, you would lose your data. Connect a USB drive and set it up as a backup drive now."
+    }
+  },
+  "storeSchema": {
+    "title": "The store and this till are not on the same version",
+    "clientOutdated": "The store server is newer than this till. Update the app on this till.",
+    "serverOutdated": "The store server does not have the update yet. Wait for the server to update; selling is paused until then.",
+    "inconsistent": "The store server is half-updated. Wait a few minutes or call support.",
+    "missing": "The store server's version could not be read. Call support.",
+    "serverLevel": "Server: {{level}}",
+    "clientLevel": "This till: {{level}}",
+    "retry": "Retry",
+    "updating": "The store is updating. Sales are saved and will be sent in a few minutes.",
+    "updateNow": "Update now",
+    "updateNone": "No update is available yet.",
+    "updateWaiting": "Waiting for the store server to update.",
+    "updateError": "Could not check for the update. Try again.",
+    "updateSkipped": "The license update window has ended."
+  }
+}

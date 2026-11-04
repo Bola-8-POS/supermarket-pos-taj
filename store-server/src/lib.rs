@@ -1,0 +1,49 @@
+//! posctl: the store-server control binary (two-mode Plan 05). The binary in `main.rs` is a
+//! thin shell over this library so every module is unit-testable.
+//! It must never gain a module that writes outside the data root, the program root or the log folder.
+
+pub mod acl;
+pub mod awake;
+pub mod backup;
+pub mod canary;
+pub mod cli;
+pub mod cli_ops;
+pub mod commands;
+pub mod conf;
+pub mod config;
+pub mod dev;
+pub mod envelope;
+pub mod exec;
+pub mod firstadmin;
+pub mod gateway;
+pub mod http;
+pub mod pack;
+pub mod packcmd;
+pub mod paircmd;
+pub mod pairing;
+pub mod paths;
+pub mod pg;
+pub mod pki;
+pub mod pkicmd;
+pub mod provision;
+pub mod journal;
+pub mod jwt;
+pub mod layout;
+pub mod lifecycle;
+pub mod net;
+pub mod ops;
+pub mod ports;
+pub mod probe;
+pub mod render;
+pub mod runorder;
+pub mod runtime;
+pub mod secrets;
+pub mod services;
+pub mod status;
+pub mod staff_password;
+pub mod sys;
+pub mod tasks;
+pub mod unprovision;
+pub mod update_tasks;
+pub mod update;
+pub mod util;

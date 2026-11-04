@@ -1,0 +1,65 @@
+[package]
+name = "posctl"
+version = "0.1.0"
+description = "Store-server control binary: provisions and operates the Offline-only backend (two-mode Plan 05)"
+edition = "2021"
+rust-version = "1.89"
+publish = false
+
+# Standalone crate, intentionally NOT a Cargo workspace member of src-tauri (same
+# reasoning as broker/Cargo.toml): keeps the Tauri/WebView dependency graph out of
+# a binary that runs elevated and under the Task Scheduler.
+
+[lib]
+name = "posctl"
+path = "src/lib.rs"
+
+[features]
+# Test-only hooks (conventions 17.G). A release build never enables it and contains none of its strings (tests/release-clean.test.ps1).
+test-hooks = []
+
+[[bin]]
+name = "posctl"
+path = "src/main.rs"
+
+[dependencies]
+minisign-verify = "0.3"
+zip = { version = "8", default-features = false, features = ["deflate"] }
+base64 = "0.23"
+clap = { version = "4", features = ["derive"] }
+getrandom = "0.4"
+hmac = "0.13"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha1 = "0.11"
+sha2 = "0.11"
+ureq = { version = "2", features = ["json"] }
+x509-parser = "0.18"
+time = { version = "0.3", features = ["parsing", "formatting"] }
+# Task 4b vendor escrow: X25519 recipients only (no ssh/plugin/armor/async features). Mandatory transitive deps include i18n-embed and futures.
+age = { version = "0.11", default-features = false }
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.61", features = [
+  "Win32_Foundation",
+  "Win32_NetworkManagement_IpHelper",
+  "Win32_Security",
+  "Win32_Security_Authorization",
+  "Win32_Storage_FileSystem",
+  "Win32_System_Com",
+  "Win32_System_JobObjects",
+  "Win32_System_Power",
+  "Win32_System_Registry",
+  "Win32_System_Services",
+  "Win32_System_SystemInformation",
+  "Win32_System_Threading",
+  "Win32_UI_Shell",
+] }
+# review fix: Win32_System_Services (QueryServiceStatus, no parsing of localized `sc` text), Win32_UI_Shell + Win32_System_Com (SHGetKnownFolderPath)
+winreg = "0.56"
+
+[build-dependencies]
+serde_json = "1"
+
+[dev-dependencies]
+tempfile = "3"

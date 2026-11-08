@@ -1,0 +1,14 @@
+<Configuration>
+  <VGpu>Disable</VGpu>
+  <Networking>Disable</Networking>
+  <MemoryInMB>4096</MemoryInMB>
+  <MappedFolders>
+    <MappedFolder><HostFolder>@@PAYLOAD@@</HostFolder><SandboxFolder>C:\payload</SandboxFolder><ReadOnly>true</ReadOnly></MappedFolder>
+    <MappedFolder><HostFolder>@@SCENARIOS@@</HostFolder><SandboxFolder>C:\scenarios</SandboxFolder><ReadOnly>true</ReadOnly></MappedFolder>
+    <MappedFolder><HostFolder>@@PWSH@@</HostFolder><SandboxFolder>C:\pwsh7</SandboxFolder><ReadOnly>true</ReadOnly></MappedFolder>
+    <MappedFolder><HostFolder>@@OUT@@</HostFolder><SandboxFolder>C:\out</SandboxFolder><ReadOnly>false</ReadOnly></MappedFolder>
+  </MappedFolders>
+  <LogonCommand>
+    <Command>C:\pwsh7\pwsh.exe -NoProfile -ExecutionPolicy Bypass -File C:\scenarios\agent.ps1</Command>
+  </LogonCommand>
+</Configuration>

@@ -1,0 +1,93 @@
+{
+  "alerts": [
+    {
+      "code": "NETWORK_PROFILE_PUBLIC",
+      "level": "warn",
+      "since": "2026-10-02T12:00:00Z"
+    },
+    {
+      "code": "DISK_LOW",
+      "level": "warn",
+      "since": "2026-10-02T12:00:00Z"
+    }
+  ],
+  "backup": {
+    "alert": "none",
+    "configured": false,
+    "destinations": []
+  },
+  "database": {
+    "applied": 2,
+    "expected": {
+      "applied": 2,
+      "maxVersion": "20260101000002"
+    },
+    "maxVersion": "20260101000002"
+  },
+  "disk": {
+    "dataBytes": 1000,
+    "freeBytes": 2147483648
+  },
+  "generatedAt": "2026-10-02T12:00:00Z",
+  "lockoutHook": {
+    "canaryAt": "2026-10-02T03:00:00Z",
+    "canaryOk": true,
+    "envOk": true
+  },
+  "mode": "offline-only",
+  "network": {
+    "firewallRule": true,
+    "profile": "Private"
+  },
+  "packVersion": "1.0.0-r1",
+  "pki": {
+    "daysLeft": null,
+    "driftedHosts": null,
+    "hosts": [],
+    "leafNotAfter": null,
+    "rootSha256": null
+  },
+  "posctlVersion": "0.1.0",
+  "schema": 1,
+  "services": {
+    "Auth": {
+      "healthy": true,
+      "state": "running"
+    },
+    "Functions": {
+      "healthy": true,
+      "state": "running"
+    },
+    "Gateway": {
+      "healthy": true,
+      "state": "running"
+    },
+    "Postgres": {
+      "healthy": true,
+      "state": "running"
+    },
+    "Rest": {
+      "healthy": true,
+      "state": "running"
+    }
+  },
+  "state": "running",
+  "tasks": {
+    "Canary": true,
+    "Health": true
+  },
+  "tasksCurrent": true,
+  "update": {
+    "lastAt": null,
+    "lastCode": null,
+    "lastReason": null,
+    "lastResult": null,
+    "pending": null,
+    "recoverAttempts": {
+      "count": 0,
+      "lastAt": null,
+      "unattended": 0
+    },
+    "rolledBackVersion": null
+  }
+}

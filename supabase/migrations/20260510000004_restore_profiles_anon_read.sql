@@ -1,0 +1,1 @@
+BEGIN; CREATE POLICY "profiles_select_anon" ON profiles FOR SELECT TO anon USING (is_active = true); COMMIT;

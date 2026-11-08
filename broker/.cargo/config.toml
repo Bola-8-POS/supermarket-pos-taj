@@ -1,0 +1,4 @@
+# static CRT: broker.exe is registered by the installer before any vc_redist runs, and a clean Windows has no
+# VCRUNTIME140.dll (0xC0000135). Same setting as store-server/.cargo/config.toml.
+[target.x86_64-pc-windows-msvc]
+rustflags = ["-C", "target-feature=+crt-static"]

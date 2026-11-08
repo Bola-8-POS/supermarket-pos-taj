@@ -1,0 +1,23 @@
+# Shell scripts must always be checked out with LF endings — a CRLF shebang
+# (e.g. "#!/bin/sh\r") breaks the interpreter on Linux and macOS.
+*.sh text eol=lf
+/store-server/pack/patches/*.patch -text
+/store-server/pack/stub-extensions/** text eol=lf
+/store-server/pack/sql/** text eol=lf
+/store-server/pack/test/fixtures/** -text
+/store-server/templates/* text eol=lf
+
+# Rust sources and fixtures embed text that tests compare byte-for-byte (a PEM const, store.env.sample); keep LF on every checkout.
+store-server/src/**/*.rs text eol=lf
+store-server/tests/fixtures/** text eol=lf
+
+# The bundled Supabase root CA is pinned by a SHA-256 test: committed bytes must equal the original file on every checkout.
+store-server/resources/*.crt -text
+
+# Migrations feed signed packs byte-for-byte; keep LF on every checkout (CRLF worktrees built byte-different packs).
+/supabase/migrations/*.sql text eol=lf
+
+# A CRLF shebang line ("#!/usr/bin/env node\r") is a SyntaxError in vite/vitest on the Windows runners (scripts/gate.test.mjs).
+/scripts/gate.mjs text eol=lf
+/scripts/check-functions-config.mjs text eol=lf
+/scripts/remote-signin-smoke.mjs text eol=lf

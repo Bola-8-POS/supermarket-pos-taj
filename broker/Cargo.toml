@@ -1,0 +1,28 @@
+[package]
+name = "broker"
+version = "0.1.0"
+description = "Store-local durable print broker (Phase 19: Store-Local Durable Printing Service)"
+edition = "2021"
+
+# Standalone crate, intentionally NOT a Cargo workspace member of src-tauri —
+# keeps the Tauri/WebView dependency graph out of a service binary. See
+# 19-RESEARCH.md "Alternatives Considered" and the spike's own layout
+# (.planning/spikes/001-windows-print-broker/broker/Cargo.toml).
+
+[dependencies]
+rusqlite = { version = "0.40", features = ["bundled"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tiny_http = "0.12"
+uuid = { version = "1", features = ["v4"] }
+base64 = "0.23"
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.61", features = [
+  "Win32_Foundation",
+  "Win32_Graphics_Printing",
+  "Win32_Graphics_Gdi",
+  "Win32_System_EventLog",
+  "Win32_Security",
+] }
+windows-service = "0.8.1"

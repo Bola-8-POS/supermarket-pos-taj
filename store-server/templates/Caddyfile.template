@@ -1,0 +1,243 @@
+
+# Plan 10 owns this file's content: two snippets, storage_pre_apikey and storage_routes (see the stub posctl writes).
+import "@@STORAGE_ROUTES@@"
+
+# Plan 12 owns this file (comment-only stub created by write_conf). Live template only, never the maintenance one.
+import "@@REMOTE_CADDY@@"
+
+# ---------------------------------------------------------------------------------------------------------------
+# LAN listener: what tills use.
+# ---------------------------------------------------------------------------------------------------------------
+@@EXT_ADDRESSES@@ {
+	bind @@EXT_BIND@@
+@@EXT_TLS@@
+	log {
+		output file "@@LOG_DIR@@/caddy-external-access.log" {
+			roll_size 10MiB
+			roll_keep 3
+		}
+		import log_filter
+	}
+
+	@origin_ok header_regexp Origin ^(http://tauri\.localhost|tauri://localhost|http://(localhost|127\.0\.0\.1)(:[0-9]+)?)$
+	@preflight_ok {
+		method OPTIONS
+		header_regexp Origin ^(http://tauri\.localhost|tauri://localhost|http://(localhost|127\.0\.0\.1)(:[0-9]+)?)$
+	}
+	@preflight_bad method OPTIONS
+	@noapikey not header Apikey *
+	@wrongapikey not expression `{http.request.header.Apikey} == "@@ANON@@"`
+	@svcbearer header_regexp svc Authorization (?i)^bearer\s+[A-Za-z0-9_-]+\.@@SVC_PAYLOAD@@\.
+	@bad_profile {
+		path /rest/v1/*
+		expression `({http.request.header.Accept-Profile} != "" && {http.request.header.Accept-Profile} != "public") || ({http.request.header.Content-Profile} != "" && {http.request.header.Content-Profile} != "public")`
+	}
+	@token_not_json {
+		path /auth/v1/token
+		expression `!{http.request.header.Content-Type}.matches("^application/json(\\s*;[^,]*)?$")`
+	}
+	@auth_allowed expression `({http.request.method} == "POST" && {http.request.uri.path} == "/auth/v1/token" && {http.request.uri.query} == "grant_type=refresh_token") || ({http.request.method} == "GET" && {http.request.uri.path} == "/auth/v1/user") || ({http.request.method} == "POST" && {http.request.uri.path} == "/auth/v1/logout") || ({http.request.method} == "GET" && {http.request.uri.path} == "/auth/v1/health")`
+	@store_read method GET HEAD
+	@status_key expression `{http.request.header.Apikey} == "@@ANON@@"`
+	@pair_offer path_regexp pair ^/_store/pair/([A-Z2-7]{8})$
+
+	import cors_headers
+	header -Server
+
+	# a tunnel (Plan 12's cloudflared) must never reach the LAN listener: any tunnel-added header is a flat 403
+	@tunnel expression `{http.request.header.Cdn-Loop} != "" || {http.request.header.Cf-Ray} != "" || {http.request.header.Cf-Connecting-Ip} != ""`
+
+	route {
+		handle @tunnel {
+			header Content-Type application/json
+			respond `{"message":"Not available through a tunnel"}` 403
+		}
+		# 0. a service-role bearer never belongs on the store network: refused before EVERY route below (preflights carry no
+		# Authorization), including the routes and the Plan 10 slot that are exempt from the apikey rule
+		handle @svcbearer {
+			header Content-Type application/json
+			respond `{"message":"Invalid API key"}` 401
+		}
+		# 1. preflights are answered here and need no apikey (a browser never sends one on a preflight)
+		handle @preflight_ok {
+			header Access-Control-Allow-Methods "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+			header Access-Control-Allow-Headers "authorization, apikey, x-client-info, content-type, prefer, range, range-unit, x-upsert, accept, accept-profile, content-profile, if-match, if-none-match, cache-control, x-supabase-api-version, x-region"
+			header Access-Control-Max-Age "86400"
+			respond 204
+		}
+		handle @preflight_bad {
+			header Content-Type application/json
+			respond `{"message":"origin not allowed"}` 403
+		}
+
+		# 2. the gateway's own routes, before the apikey rule
+		handle /_store/health {
+			handle @store_read {
+				rewrite * /functions/v1/_health
+				reverse_proxy 127.0.0.1:@@FUNCTIONS@@ {
+					import upstream_transport
+					import lan_proxy_headers
+					import strip_tx_preference
+					import strip_profile_headers
+					import strip_backend_cors
+				}
+			}
+			handle {
+				header Content-Type application/json
+				respond `{"message":"method not allowed"}` 405
+			}
+		}
+		handle /_store/status {
+			handle @store_read {
+				handle @status_key {
+					header Cache-Control no-store
+					header Content-Type application/json
+					root * "@@STATE_DIR@@"
+					rewrite * /status.json
+					file_server
+				}
+				handle {
+					header Content-Type application/json
+					respond `{"message":"Invalid API key"}` 401
+				}
+			}
+			handle {
+				header Content-Type application/json
+				respond `{"message":"method not allowed"}` 405
+			}
+		}
+		handle @pair_offer {
+			handle @store_read {
+				header Cache-Control no-store
+				header Content-Type application/json
+				root * "@@OFFERS_DIR@@"
+				rewrite * /{re.pair.1}.pospair
+				# a missing (expired, swept or never issued) offer is a clean JSON 404, not Caddy's empty one
+				route {
+					file_server {
+						pass_thru
+					}
+					header Content-Type application/json
+					respond `{"message":"no such pairing offer"}` 404
+				}
+			}
+			handle {
+				header Content-Type application/json
+				respond `{"message":"method not allowed"}` 405
+			}
+		}
+
+		# 3. Plan 10 slot: storage routes that are exempt from the apikey rule (a signed-URL GET). Empty until Plan 10.
+		import storage_pre_apikey 127.0.0.1:@@FUNCTIONS@@
+
+		# 4. every other request needs this store's own anon key, exactly
+		handle @noapikey {
+			header Content-Type application/json
+			respond `{"message":"No API key found in request"}` 401
+		}
+		handle @wrongapikey {
+			header Content-Type application/json
+			respond `{"message":"Invalid API key"}` 401
+		}
+
+		# 5. /auth/v1 is an ALLOW-LIST: refresh grant, GET /user, POST /logout, GET /health. Everything else is 403.
+		handle /auth/v1/* {
+			request_body {
+				max_size 64KB
+			}
+			handle @token_not_json {
+				header Content-Type application/json
+				respond `{"message":"Content-Type must be application/json"}` 415
+			}
+			handle @auth_allowed {
+				uri strip_prefix /auth/v1
+				reverse_proxy 127.0.0.1:@@GOTRUE@@ {
+					import upstream_transport
+					import lan_proxy_headers
+					import strip_backend_cors
+					@upstream_failed status 500 502 504
+					handle_response @upstream_failed {
+						header Retry-After 5
+						header Content-Type application/json
+						respond `{"code":"UPSTREAM_UNAVAILABLE","message":"The store server is not ready. Try again in a moment."}` 503
+					}
+				}
+			}
+			handle {
+				header Content-Type application/json
+				respond `{"message":"This auth route is not available on the store network"}` 403
+			}
+		}
+
+		# 6. a Postgres schema other than `public` is never reachable from a till
+		handle @bad_profile {
+			header Content-Type application/json
+			respond `{"message":"schema not available on the store network"}` 403
+		}
+		handle /rest/v1/* {
+			request_body {
+				max_size @@MAX_BODY@@
+			}
+			uri strip_prefix /rest/v1
+			reverse_proxy 127.0.0.1:@@POSTGREST@@ {
+				import upstream_transport
+				import lan_proxy_headers
+				import strip_tx_preference
+				import strip_profile_headers
+				import strip_backend_cors
+				# a dead pooled connection answers 400 with an EMPTY PostgREST error (Proxy-Status exactly `PostgREST; error=`); a real 400 carries a code and passes
+				@rest_conn_dead {
+					status 400
+					header Proxy-Status "PostgREST; error="
+				}
+				@rest_db_down status 502 503 504
+				handle_response @rest_conn_dead {
+					header Retry-After 5
+					header Content-Type application/json
+					respond `{"code":"UPSTREAM_UNAVAILABLE","message":"The store server is not ready. Try again in a moment."}` 503
+				}
+				handle_response @rest_db_down {
+					header Retry-After 5
+					header Content-Type application/json
+					respond `{"code":"UPSTREAM_UNAVAILABLE","message":"The store server is not ready. Try again in a moment."}` 503
+				}
+			}
+		}
+
+		# 7. Plan 10 slot: authenticated storage routes. Answers 501 until Plan 10.
+		import storage_routes 127.0.0.1:@@FUNCTIONS@@
+
+		handle /functions/v1/* {
+			request_body {
+				max_size @@MAX_BODY@@
+			}
+			reverse_proxy 127.0.0.1:@@FUNCTIONS@@ {
+				import upstream_transport
+				import lan_proxy_headers
+				import strip_tx_preference
+				import strip_profile_headers
+				import strip_backend_cors
+			}
+		}
+
+		handle {
+			header Content-Type application/json
+			respond `{"message":"not found"}` 404
+		}
+	}
+
+	# A failure Caddy generates itself (connection refused, timeout, body too large) never reaches a handler above.
+	handle_errors {
+		import cors_headers
+		@upstream_error expression `{http.error.status_code} in [502, 503, 504]`
+		handle @upstream_error {
+			header Retry-After 5
+			header Content-Type application/json
+			respond `{"code":"UPSTREAM_UNAVAILABLE","message":"The store server is not ready. Try again in a moment."}` 503
+		}
+		handle {
+			header Content-Type application/json
+			respond `{"code":"GATEWAY_ERROR","message":"{http.error.status_text}"}` {http.error.status_code}
+		}
+	}
+}

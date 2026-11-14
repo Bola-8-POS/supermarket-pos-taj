@@ -1,0 +1,126 @@
+/**
+ * Strict proposal union the local model may emit (AI-SPEC §4b). The model output is untrusted text:
+ * `parseProposal` is the only door, and any failure is null (no repair retry, no partial result).
+ * Pure module: only zod is imported so the Plan 29-07 tsx harness can load it.
+ */
+import { z } from 'zod';
+
+export const AssistantCodeSchema = z.enum([
+  'INVALID_PROPOSAL',
+  'MODEL_REFUSED_UNSUPPORTED',
+  'MODEL_REFUSED_UNSAFE',
+  'MODEL_REFUSED_AMBIGUOUS',
+  'INPUT_TOO_LONG',
+  'PAYMENT_DATA',
+  'RATE_LIMITED',
+  'AUTH_FORBIDDEN',
+  'DATA_UNAVAILABLE',
+  'NOT_FOUND',
+  'NO_CAJA',
+  'AMBIGUOUS_TARGET',
+  'MODEL_UNAVAILABLE',
+  'MODEL_TIMEOUT',
+  // Write approval contract (Plan 29-03). Returned by the assistant_* RPCs; the client classifies by code.
+  'TOO_MANY_ITEMS',
+  'STALE_TARGET',
+  'NOT_OWNER',
+  'ALREADY_USED',
+  'PROPOSAL_EXPIRED',
+  'TERMINAL_MISMATCH',
+  'PAYLOAD_MISMATCH',
+  'ASSISTANT_LOCKED',
+  'INVALID_APPROVAL',
+  'APPROVAL_REQUIRED',
+  'AMBIGUOUS_APPROVAL',
+  'APPROVER_NOT_MANAGER',
+  'STOCK_CHANGED',
+  'EXECUTION_FAILED',
+  // Plan 29-05: prices were sent but the server's verification (assistant_finish) did not come back.
+  'RESULT_UNCONFIRMED',
+  // Percent discount whose new price would be under one cent or equal the current one: nothing to stage.
+  'PRICE_TOO_LOW',
+]);
+export type AssistantCode = z.infer<typeof AssistantCodeSchema>;
+
+/** Typed refusal/failure the client classifies by code, never by message text. */
+export type AssistantError = { code: AssistantCode };
+
+const ProductLookupArgs = z.object({ query: z.string().trim().min(1).max(80) }).strict();
+const StockLowArgs = z.object({ supplierQuery: z.string().trim().min(1).max(80).nullable() }).strict();
+/** Both new reads keep every filter nullable: the query works without it, and a null is the model saying "not asked". */
+export const PRODUCT_LIST_SORTS = ['name', 'stock_low', 'newest', 'price_asc', 'price_desc'] as const;
+export type ProductListSort = (typeof PRODUCT_LIST_SORTS)[number];
+export const PRODUCT_LIST_DEFAULT_LIMIT = 10;
+export const PRODUCT_LIST_MAX_LIMIT = 50;
+export const RECENT_SALES_DEFAULT_LIMIT = 5;
+export const RECENT_SALES_MAX_LIMIT = 20;
+const ProductListArgs = z
+  .object({
+    query: z.string().trim().min(1).max(80).nullable(),
+    limit: z.number().int().min(1).max(PRODUCT_LIST_MAX_LIMIT).nullable(),
+    sort: z.enum(PRODUCT_LIST_SORTS).nullable(),
+  })
+  .strict();
+const RecentSalesArgs = z.object({ limit: z.number().int().min(1).max(RECENT_SALES_MAX_LIMIT).nullable() }).strict();
+const ExpiryListArgs = z.object({ withinDays: z.number().int().min(0).max(60).nullable() }).strict();
+/** Same reasons the server accepts (assistant_stage); stock_movements_reason_check allows all three. */
+export const ADJUST_REASONS = ['waste', 'correction', 'manual_adjustment'] as const;
+/** One item of a stock batch: the product is named, never identified, by the model; the gateway resolves it. */
+const AdjustItem = z
+  .object({
+    query: z.string().trim().min(1).max(80),
+    delta: z.number().int().min(-9999).max(9999).refine(n => n !== 0),
+  })
+  .strict();
+export const MAX_BATCH_ITEMS = 25;
+/** Percent-off bounds (owner default 2026-11-14): a discount is a permanent price change, 1 to 90 percent. */
+export const PERCENT_OFF_MIN = 1;
+export const PERCENT_OFF_MAX = 90;
+/**
+ * One price change: the product is named by the model. Either a new price in whole cents (the server limit is
+ * 100000.00) or a percent off the CURRENT price; the gateway computes the new price from the price it reads at
+ * staging time, so a model-supplied `priceCents` is ignored when `percentOff` is present (grounding drops it).
+ */
+const PriceItem = z
+  .object({
+    query: z.string().trim().min(1).max(80),
+    priceCents: z.number().int().min(1).max(10_000_000).nullable().default(null),
+    percentOff: z.number().int().min(PERCENT_OFF_MIN).max(PERCENT_OFF_MAX).nullable().default(null),
+  })
+  .strict()
+  .refine(i => i.priceCents !== null || i.percentOff !== null);
+const ProductPriceArgs = z.object({ items: z.array(PriceItem).min(1).max(MAX_BATCH_ITEMS) }).strict();
+const InventoryAdjustArgs = z
+  .object({ reason: z.enum(ADJUST_REASONS), items: z.array(AdjustItem).min(1).max(MAX_BATCH_ITEMS) })
+  .strict();
+
+export const Proposal = z.discriminatedUnion('kind', [
+  z.object({ kind: z.literal('refuse'), reason: z.enum(['unsupported', 'unsafe', 'ambiguous']) }).strict(),
+  z.object({ kind: z.literal('product.lookup'), args: ProductLookupArgs }).strict(),
+  z.object({ kind: z.literal('expiry.list'), args: ExpiryListArgs }).strict(),
+  z.object({ kind: z.literal('stock.low'), args: StockLowArgs }).strict(),
+  z.object({ kind: z.literal('product.list'), args: ProductListArgs }).strict(),
+  z.object({ kind: z.literal('sales.recent'), args: RecentSalesArgs }).strict(),
+  z.object({ kind: z.literal('sales.summary'), args: z.object({}).strict() }).strict(),
+  z.object({ kind: z.literal('inventory.adjust'), args: InventoryAdjustArgs }).strict(),
+  z.object({ kind: z.literal('product.price'), args: ProductPriceArgs }).strict(),
+]);
+export type Proposal = z.infer<typeof Proposal>;
+export type ProposalKind = Proposal['kind'];
+
+/** Returns the proposal, or null for anything that is not exactly one valid, registered object. */
+export function parseProposal(text: string): Proposal | null {
+  try {
+    const result = Proposal.safeParse(JSON.parse(text));
+    return result.success ? result.data : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Grammar handed to llama.cpp; `$schema` is dropped, the test pins no $ref/format/pattern (research A6). */
+export const proposalJsonSchema: Record<string, unknown> = (() => {
+  const schema = z.toJSONSchema(Proposal) as Record<string, unknown>;
+  delete schema['$schema'];
+  return schema;
+})();

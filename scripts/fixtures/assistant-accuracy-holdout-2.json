@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "note": "HELD-OUT set 2 for scripts/assistant-accuracy-eval.mts: price sort (cheapest / most expensive) and percent discounts. Written before the code; never edited after its commit; never tuned on. args = expected arguments (subset; null = must be empty).",
+  "cases": [
+    { "id": "h2-ps-en-1", "lang": "en", "text": "show me the 5 cheapest items", "kind": "product.list", "args": { "limit": 5, "sort": "price_asc" } },
+    { "id": "h2-ps-en-2", "lang": "en", "text": "what are the most expensive products", "kind": "product.list", "args": { "limit": null, "sort": "price_desc" } },
+    { "id": "h2-ps-en-3", "lang": "en", "text": "give me the three priciest products", "kind": "product.list", "args": { "limit": 3, "sort": "price_desc" } },
+    { "id": "h2-ps-en-4", "lang": "en", "text": "list 15 products with the lowest price", "kind": "product.list", "args": { "limit": 15, "sort": "price_asc" } },
+    { "id": "h2-ps-es-1", "lang": "es", "text": "muéstrame los 10 productos más baratos", "kind": "product.list", "args": { "limit": 10, "sort": "price_asc" } },
+    { "id": "h2-ps-es-2", "lang": "es", "text": "dame los 5 productos más caros", "kind": "product.list", "args": { "limit": 5, "sort": "price_desc" } },
+    { "id": "h2-ps-es-3", "lang": "es", "text": "lista de productos más económicos", "kind": "product.list", "args": { "limit": null, "sort": "price_asc" } },
+    { "id": "h2-ps-es-4", "lang": "es", "text": "cuáles son los 3 artículos más costosos", "kind": "product.list", "args": { "limit": 3, "sort": "price_desc" } },
+    { "id": "h2-ps-es-5", "lang": "es", "text": "enséñame los 12 productos con menor precio", "kind": "product.list", "args": { "limit": 12, "sort": "price_asc" } },
+    { "id": "h2-dc-en-1", "lang": "en", "text": "take 20% off Maggi noodles", "kind": "product.price", "args": { "items": [{ "query": "maggi", "percentOff": 20 }] } },
+    { "id": "h2-dc-en-2", "lang": "en", "text": "give a 15 percent discount on Sunfeast biscuits", "kind": "product.price", "args": { "items": [{ "query": "sunfeast", "percentOff": 15 }] } },
+    { "id": "h2-dc-en-3", "lang": "en", "text": "reduce the price of Parle-G by 5%", "kind": "product.price", "args": { "items": [{ "query": "parle", "percentOff": 5 }] } },
+    { "id": "h2-dc-es-1", "lang": "es", "text": "ponle 10% de descuento a la leche Lala", "kind": "product.price", "args": { "items": [{ "query": "lala", "percentOff": 10 }] } },
+    { "id": "h2-dc-es-2", "lang": "es", "text": "baja 25% el precio del aceite Capullo", "kind": "product.price", "args": { "items": [{ "query": "capullo", "percentOff": 25 }] } },
+    { "id": "h2-dc-es-3", "lang": "es", "text": "hazle una rebaja de 30 por ciento a la harina", "kind": "product.price", "args": { "items": [{ "query": "harina", "percentOff": 30 }] } },
+    { "id": "h2-dc-es-4", "lang": "es", "text": "descuento del 12% para el café Nescafé", "kind": "product.price", "args": { "items": [{ "query": "nescafe", "percentOff": 12 }] } },
+    { "id": "h2-rf-en-1", "lang": "en", "text": "put 95% discount on Maggi noodles", "kind": "refuse" },
+    { "id": "h2-rf-es-1", "lang": "es", "text": "descuento de 0% al arroz", "kind": "refuse" },
+    { "id": "h2-rf-en-2", "lang": "en", "text": "show me the best selling products", "kind": "refuse" },
+    { "id": "h2-rf-es-2", "lang": "es", "text": "los productos más vendidos", "kind": "refuse" },
+    { "id": "h2-rg-en-1", "lang": "en", "text": "make it cheaper", "kind": "refuse" },
+    { "id": "h2-rg-en-2", "lang": "en", "text": "show products sorted by newest", "kind": "product.list", "args": { "sort": "newest" } },
+    { "id": "h2-rg-en-3", "lang": "en", "text": "got any paneer?", "kind": "product.lookup", "args": { "query": "paneer" } },
+    { "id": "h2-rg-es-1", "lang": "es", "text": "cambia el precio", "kind": "refuse" },
+    { "id": "h2-rg-es-2", "lang": "es", "text": "ensename los productos mas nuevos", "kind": "product.list", "args": { "sort": "newest" } },
+    { "id": "h2-rg-es-3", "lang": "es", "text": "que caduca en 5 dias", "kind": "expiry.list", "args": { "withinDays": 5 } }
+  ]
+}

@@ -1,0 +1,1 @@
+export { CajaReportPanel } from './CajaReportPanel';

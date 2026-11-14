@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-assistant-cancel"
+description = "Enables the assistant_cancel command without any pre-configured scope."
+commands.allow = ["assistant_cancel"]
+
+[[permission]]
+identifier = "deny-assistant-cancel"
+description = "Denies the assistant_cancel command without any pre-configured scope."
+commands.deny = ["assistant_cancel"]

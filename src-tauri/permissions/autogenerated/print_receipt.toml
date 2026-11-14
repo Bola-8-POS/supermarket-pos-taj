@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-print-receipt"
+description = "Enables the print_receipt command without any pre-configured scope."
+commands.allow = ["print_receipt"]
+
+[[permission]]
+identifier = "deny-print-receipt"
+description = "Denies the print_receipt command without any pre-configured scope."
+commands.deny = ["print_receipt"]

@@ -1,0 +1,1 @@
+export { CajaDashboard } from './CajaDashboard';

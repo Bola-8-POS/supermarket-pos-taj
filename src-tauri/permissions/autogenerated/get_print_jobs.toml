@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-get-print-jobs"
+description = "Enables the get_print_jobs command without any pre-configured scope."
+commands.allow = ["get_print_jobs"]
+
+[[permission]]
+identifier = "deny-get-print-jobs"
+description = "Denies the get_print_jobs command without any pre-configured scope."
+commands.deny = ["get_print_jobs"]

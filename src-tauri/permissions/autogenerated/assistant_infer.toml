@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-assistant-infer"
+description = "Enables the assistant_infer command without any pre-configured scope."
+commands.allow = ["assistant_infer"]
+
+[[permission]]
+identifier = "deny-assistant-infer"
+description = "Denies the assistant_infer command without any pre-configured scope."
+commands.deny = ["assistant_infer"]

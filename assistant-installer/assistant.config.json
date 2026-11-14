@@ -1,0 +1,76 @@
+{
+  "status": "approved",
+  "notes": "Pinned by the owner at the Plan 29-07 proof gate (2026-11-08): llama.cpp b12201 + Gemma-3-1B-it Q4_K_M, chosen from a four-candidate bake-off through the Rust spawn path. Flag names were checked against the pinned llama-server --help in Plan 29-04 (scenario 121). The profile numbers are the measured starting values the owner signed.",
+  "version": "0.1.0",
+  "runtime": {
+    "tag": "b12201",
+    "zip": "llama-b12201-bin-win-cpu-x64.zip",
+    "zip_bytes": 24758934,
+    "sha256": "62a504f945ea97c9e1842cc2cb81fc64d86b7a668e29c2386cfd4cfe08ddd87d"
+  },
+  "model": {
+    "id": "gemma-3-1b-it-q4_k_m",
+    "file": "gemma-3-1b-it-Q4_K_M.gguf",
+    "bytes": 806058272,
+    "sha256": "8270790f3ab69fdfe860b7b64008d9a19986d8df7e407bb018184caa08798ebd",
+    "license": "Gemma Terms of Use",
+    "source": "huggingface.co/unsloth/gemma-3-1b-it-GGUF"
+  },
+  "server_args": [
+    "--n-predict",
+    "160",
+    "--prio",
+    "-1",
+    "--no-slots",
+    "--reasoning-budget",
+    "0"
+  ],
+  "request": {
+    "max_tokens": 160,
+    "timeout_ms": 8000,
+    "extra": {
+      "chat_template_kwargs": {
+        "enable_thinking": false
+      }
+    }
+  },
+  "profile": {
+    "threads_max": 4,
+    "ctx_size": 4096,
+    "cpu_rate_percent": 50,
+    "process_memory_limit_bytes": 1400000000,
+    "min_available_memory_bytes": 1500000000,
+    "sleep_idle_seconds": 300
+  },
+  "approval": {
+    "date": "2026-11-08",
+    "plan": "29-07",
+    "option": "other-candidate",
+    "ceilings": {
+      "peak_working_set_bytes": 1200000000,
+      "p95_ms_warm": 8000,
+      "cold_start_ms": 30000,
+      "timeout_rate_max": 0.05,
+      "lag_p95_regression_max": 0.1,
+      "install_bytes_below": 1000000000
+    },
+    "measured_low_end_emulated": {
+      "install_bytes": 870000000,
+      "peak_working_set_mb": 1129,
+      "p95_ms": 1031,
+      "ready_ms": 777,
+      "first_request_ms_after_start": 8011
+    },
+    "waiver": {
+      "fixture": "pair-price-es",
+      "text": "pon el ghee a 89.50",
+      "behaviour": "refused as ambiguous (safe refusal); EN pair-price-en proposes the price change"
+    },
+    "known_risks": [
+      "first request after start or idle-sleep took 8011 ms on the emulated low-end profile (the 8 s request timeout can fire once)",
+      "prompt v3 was tuned on its own fixtures; no held-out set",
+      "real till hardware unverified (manual-only row in 29-VALIDATION.md)",
+      "cold start measured with a warm OS file cache"
+    ]
+  }
+}

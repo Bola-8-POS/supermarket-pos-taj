@@ -1,0 +1,1 @@
+export { PrintJobsTable } from './PrintJobsTable';

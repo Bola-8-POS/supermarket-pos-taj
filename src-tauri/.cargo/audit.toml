@@ -1,0 +1,24 @@
+# cargo-audit local config. Mirrors the `with: ignore:` list on the
+# src-tauri RustSec step in .github/workflows/ci.yml -- keep both lists
+# equal (scripts/release-workflow.test.mjs asserts it). Each id here is
+# upstream-capped: cargo update alone cannot reach the fixed version under
+# the current dependency graph (see research-carried-debt.md §2 / the wave
+# 4c task report for the exact `cargo update -p <crate>` results recorded
+# when this list was built).
+[advisories]
+ignore = [
+  # quick-xml, reached via tauri-plugin-notification -> notify-rust ->
+  # tauri-winrt-notification: pinned at 0.37.5/0.39.2, no update headroom
+  # under current deps; fixed in >=0.41.0.
+  "RUSTSEC-2026-0194",
+  "RUSTSEC-2026-0195",
+  # zip 4.6.1, reached only via tauri-plugin-updater 2.10.1 (latest stable;
+  # v3 is alpha). It is used only for archive extraction (updater.rs
+  # extract_zip), which our signed NSIS .exe updates do not use (extract_exe).
+  # The minisign signature is verified in download() before install() runs.
+  # Remove these four when tauri-plugin-updater 3 is stable.
+  "RUSTSEC-2026-0367",
+  "RUSTSEC-2026-0368",
+  "RUSTSEC-2026-0369",
+  "RUSTSEC-2026-0429",
+]

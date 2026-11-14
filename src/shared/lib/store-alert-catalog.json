@@ -1,0 +1,122 @@
+{
+  "AUTH_HOOK_ERROR": {
+    "severity": "critical",
+    "action": null
+  },
+  "BACKUP_DEST_DOWN": {
+    "severity": "warn",
+    "action": null
+  },
+  "BACKUP_DEST_FAILING": {
+    "severity": "warn",
+    "action": null
+  },
+  "BACKUP_DEST_FOREIGN": {
+    "severity": "warn",
+    "action": null
+  },
+  "BACKUP_DEST_NO_RECOVERY_KEY": {
+    "severity": "warn",
+    "action": "ShowRecoveryKey"
+  },
+  "BACKUP_KEY_NOT_EXPORTED": {
+    "severity": "warn",
+    "action": "ShowRecoveryKey"
+  },
+  "BACKUP_PHOTOS_UNREADABLE": {
+    "severity": "warn",
+    "action": null
+  },
+  "BACKUP_RESTORE_WARNING": {
+    "severity": "warn",
+    "action": null
+  },
+  "BACKUP_STALE_24H": {
+    "severity": "warn",
+    "action": null
+  },
+  "BACKUP_STALE_72H": {
+    "severity": "critical",
+    "action": null
+  },
+  "BACKUP_STATE_UNKNOWN": {
+    "severity": "warn",
+    "action": null
+  },
+  "BACKUP_VERIFY_FAILED": {
+    "severity": "critical",
+    "action": null
+  },
+  "BACKUP_VERIFY_OVERDUE": {
+    "severity": "warn",
+    "action": null
+  },
+  "CANARY_STALE": {
+    "severity": "warn",
+    "action": null
+  },
+  "CERT_EXPIRING": {
+    "severity": "warn",
+    "action": null
+  },
+  "DISK_LOW": {
+    "severity": "critical",
+    "action": null
+  },
+  "LOCKOUT_HOOK_INACTIVE": {
+    "severity": "critical",
+    "action": null
+  },
+  "MAINTENANCE_WINDOW_INVALID": {
+    "severity": "warn",
+    "action": null
+  },
+  "NETWORK_PROFILE_PUBLIC": {
+    "severity": "warn",
+    "action": null
+  },
+  "PACK_INVALID": {
+    "severity": "critical",
+    "action": null
+  },
+  "PACK_UPDATE_AVAILABLE": {
+    "severity": "warn",
+    "action": null
+  },
+  "RECOVERY_NEEDED": {
+    "severity": "critical",
+    "action": "ResumeSetup"
+  },
+  "RECOVERY_SUPPORT_NEEDED": {
+    "severity": "critical",
+    "action": null
+  },
+  "SCHEMA_MISMATCH": {
+    "severity": "critical",
+    "action": null
+  },
+  "STATUS_STALE": {
+    "severity": "critical",
+    "action": null
+  },
+  "TASKS_MISSING": {
+    "severity": "warn",
+    "action": null
+  },
+  "TASKS_STALE": {
+    "severity": "warn",
+    "action": null
+  },
+  "UPDATE_BLOCKED": {
+    "severity": "warn",
+    "action": null
+  },
+  "UPDATE_ROLLED_BACK": {
+    "severity": "warn",
+    "action": null
+  },
+  "UPDATE_STATE_UNKNOWN": {
+    "severity": "warn",
+    "action": null
+  }
+}

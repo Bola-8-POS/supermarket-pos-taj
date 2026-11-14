@@ -1,0 +1,93 @@
+# Store gateway configuration (Plan 06). Rendered by posctl (store-server/src/gateway); never edit the rendered file by hand.
+# gateway-config-version: 1
+# The one place a request secret is removed from every log (access and runtime): headers carrying a key or session,
+# and the query parameters and pairing code that carry one.
+(log_filter) {
+	format filter {
+		wrap json
+		request>headers>Apikey delete
+		request>headers>Authorization delete
+		request>headers>Cookie delete
+		request>headers>Proxy-Authorization delete
+		request>headers>Cf-Access-Jwt-Assertion delete
+		# ONE regexp: Caddy keeps a single filter per field, so the signed-URL token parameters and the pairing code in
+		# /_store/pair/<CODE> (a bearer secret for ten minutes) are masked by the same pattern.
+		request>uri regexp (?i)(/_store/pair/)[A-Z2-7]{8}|([?&](?:token|apikey|access_token)=)[^&#]* ${1}${2}REDACTED
+	}
+}
+
+# Every reverse_proxy imports this: an idle upstream connection is dropped after 10 s, before PostgREST/warp can
+# close it (S10: a POST on a connection the upstream already closed is never retried and becomes a 502).
+# Caddy allows ONE transport block per proxy, so any other transport option belongs here, not in the route.
+(upstream_transport) {
+	transport http {
+		keepalive 10s
+	}
+}
+
+(strip_backend_cors) {
+	header_down -Access-Control-Allow-Origin
+	header_down -Access-Control-Allow-Methods
+	header_down -Access-Control-Allow-Headers
+	header_down -Access-Control-Allow-Credentials
+	header_down -Access-Control-Expose-Headers
+	header_down -Access-Control-Max-Age
+}
+
+(lan_proxy_headers) {
+	header_up X-Forwarded-For {http.request.remote.host}
+	header_up -X-Real-IP
+	header_up -Forwarded
+}
+
+# PostgREST runs with `db-tx-end = "commit-allow-override"` so the functions program can dry-run an insert with
+# `Prefer: tx=rollback`. That path uses the INTERNAL listener only. Every reverse_proxy on the LAN listener that can reach
+# PostgREST (directly or through the functions program) imports this: it deletes every `tx=` token (`tx=rollback`, `tx=commit`,
+# any case, any spacing, in a comma list or a `;` parameter list, in every Prefer header). Without it a till could be told a
+# sale succeeded when PostgREST rolled it back. A test fails the build if one of those proxies lacks the import, or if the
+# internal listener carries it (the dry-run would stop working).
+(strip_tx_preference) {
+	header_up Prefer "(?i)(^|[,;])\s*tx\s*=[^,;]*" ""
+	header_up Prefer "^[\s,;]+" ""
+	header_up Prefer "[\s,;]+$" ""
+}
+
+# PostgREST lists `public,storage` in db-schemas (the functions program writes storage.objects over the INTERNAL listener with
+# Accept-Profile/Content-Profile: storage). A till must only ever reach `public`, which is PostgREST's default when neither header
+# is sent. The /rest/v1 handler REFUSES a non-public profile (@bad_profile in Caddyfile.template, 403); this snippet additionally
+# DELETES both headers (every value, every case) on every LAN proxy that can reach PostgREST, directly or through the functions
+# program, so a gap in the matcher can only ever fall back to `public`. The internal listener does not import it.
+(strip_profile_headers) {
+	header_up -Accept-Profile
+	header_up -Content-Profile
+}
+
+(cors_headers) {
+	header @origin_ok Access-Control-Allow-Origin "{http.request.header.Origin}"
+	header @origin_ok Access-Control-Expose-Headers "Content-Range, Content-Location, Retry-After, Preference-Applied, Date"
+	header @origin_ok Vary Origin
+}
+
+# Global options (after the snippets: the log block below imports one).
+{
+	admin off
+	persist_config off
+	auto_https disable_redirects
+	skip_install_trust
+	storage file_system "@@PKI_DIR@@"
+	servers {
+		protocols h1 h2
+		timeouts {
+			read_header 15s
+			idle 10m
+		}
+	}
+	log {
+		output file "@@LOG_DIR@@/caddy-runtime.log" {
+			roll_size 10MiB
+			roll_keep 3
+		}
+		import log_filter
+		level INFO
+	}
+}
